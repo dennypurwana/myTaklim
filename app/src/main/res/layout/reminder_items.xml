@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <ImageView
+    android:id="@+id/iconNotif"
+        android:layout_marginLeft="10dp"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:src="@drawable/icon_notification"/>
+
+    <TextView
+    android:id="@+id/eventName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Kajian Mingguan Ustadz Adi Hidayat"
+    android:layout_toRightOf="@+id/iconNotif"
+        android:layout_marginLeft="20dp"
+    android:textColor="@color/black"
+        android:textSize="16dp"
+    />
+    <TextView
+        android:id="@+id/eventDateTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selasa, 20 Okt 2018"
+        android:layout_toRightOf="@+id/iconNotif"
+        android:layout_below="@+id/eventLocation"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        />
+
+    <TextView
+        android:id="@+id/eventLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Masjid Alhidayah"
+        android:layout_toRightOf="@+id/iconNotif"
+        android:layout_below="@+id/eventName"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        />
+
+    <RelativeLayout
+        android:id="@+id/historyLayout"
+        android:layout_below="@+id/eventDateTime"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iconHistory"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_history_black_24dp"
+            android:tint="@color/tab_disable"
+            />
+        <TextView
+            android:id="@+id/eventReminderTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iconHistory"
+            android:text="1 Jam Lagi"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/tab_disable"
+            android:textSize="12dp"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/historyLayout"
+        android:background="@color/line"
+        android:layout_marginTop="10dp"
+        ></LinearLayout>
+
+
+
+
+
+</RelativeLayout>

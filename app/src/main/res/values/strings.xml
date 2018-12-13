@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Ayo Taklim</string>
+    <string name="title_event">Event</string>
+    <string name="title_venue">Venue</string>
+    <string name="title_performer">Ustadz</string>
+    <string name="title_reminder">Reminder</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_event">EventActivity</string>
+</resources>
