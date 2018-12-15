@@ -1,6 +1,7 @@
 package mobile.app.ayotaklim.activity.event;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +27,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -36,6 +41,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -49,39 +55,37 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.performer.PerformerListActivity;
 import mobile.app.ayotaklim.activity.reminder.ReminderListActivity;
 import mobile.app.ayotaklim.activity.venue.VenueListActivity;
+import mobile.app.ayotaklim.config.Config;
+import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.models.event.Event;
+import mobile.app.ayotaklim.utils.CheckDistanceLocations;
 
 public class EventActivity extends AppCompatActivity
         implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
-    private Context mContext;
     private SupportMapFragment supportMapFragment;
-    private MarkerOptions currentPositionMarker = null;
-    private Marker currentLocationMarker;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    private Location mLocation;
     private LocationManager mLocationManager;
-    private LocationRequest mLocationRequest;
-    private com.google.android.gms.location.LocationListener listener;
-    private long UPDATE_INTERVAL = 1* 1000;  /* 10 secs */
-    private long FASTEST_INTERVAL = 5000; /* 20 sec */
     private LocationManager locationManager;
-    private LatLng latLng;
+    private LatLng currentLocation, eventLocation;
     private boolean isPermission;
-    private RecyclerView recyclerView;
-    private EventListAdapter adapter;
-    private ArrayList<Event> eventArrayList;
     private FusedLocationProviderClient mFusedLocationClient;
     SliderLayout sliderLayout;
+    CameraPosition cameraPosition;
     LinearLayout menuEvent, menuVenue , menuUstadz, menuReminder ;
+    MarkerOptions markerOptions;
+    SliderView sliderView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +95,10 @@ public class EventActivity extends AppCompatActivity
         menuVenue = findViewById(R.id.menuVenue);
         menuUstadz = findViewById(R.id.menuUstadz);
         menuReminder = findViewById(R.id.menuReminder);
+        markerOptions = new MarkerOptions();
+        sliderView = new SliderView(EventActivity.this);
         loadMaps();
         initSlider();
-
         menuEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,8 +132,6 @@ public class EventActivity extends AppCompatActivity
         });
 
 
-        //addDataEvent();
-        //initEvent();
     }
     void initSlider(){
         sliderLayout = findViewById(R.id.imageSlider);
@@ -178,56 +181,113 @@ public class EventActivity extends AppCompatActivity
         }
 
     }
+    private void addMarker(LatLng latlng, final String title, final Event event) {
+        markerOptions.position(latlng);
+        markerOptions.title(title);
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_masjid));
+        mMap.addMarker(markerOptions);
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.setMinZoomPreference(12.0f);
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent intent=new Intent(EventActivity.this,EventDetailActivity.class);
+                intent.putExtra("Event", event);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void getEvent() {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+        String url=Config.GET_EVENT;
+        Log.d("API : ",url);
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                url, null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.hide();
+                        Log.e("TAG", "produk response: " + response.toString());
+                        try {
+                            JSONArray vResponse=response.getJSONArray("event");
+                            if(vResponse.length()>0) {
+                                for (int i = 0; i < vResponse.length(); i++) {
+                                    try {
+
+                                        JSONObject jsonObject = vResponse.getJSONObject(i);
+                                        Event event = new Event();
+                                        event.setTitle(jsonObject.getString("nama"));
+                                        event.setTopic(jsonObject.getString("topik"));
+                                        event.setPerformer(jsonObject.getString("pemateri"));
+                                        event.setDate(jsonObject.getString("tanggal"));
+                                        event.setStartTime(jsonObject.getString("waktu_mulai"));
+                                        event.setEndTime(jsonObject.getString("waktu_selesai"));
+                                        event.setVenue(jsonObject.getString("venue"));
+                                        event.setVenueAddress(jsonObject.getString("alamat_venue"));
+                                        event.setLongitude(jsonObject.getDouble("longitude"));
+                                        event.setLatitude(jsonObject.getDouble("latitude"));
+                                        event.setImageBase64(jsonObject.getString("imageBase64"));
+                                        event.setDescription(jsonObject.getString("deskripsi"));
+                                        eventLocation = new LatLng(event.getLatitude(), event.getLongitude());
+                                        Log.d("distance loc : ", String.valueOf(CheckDistanceLocations.CalculationByDistance(currentLocation,eventLocation)));
+
+                                       if((CheckDistanceLocations.CalculationByDistance(currentLocation,eventLocation))<10.0){
+                                           addMarker(eventLocation, event.getTitle(), event);
+                                        }
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        progressDialog.dismiss();
+                                    }
+                                }
+
+                            }else{
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            progressDialog.dismiss();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", "Error: " + error.getMessage());
+                progressDialog.dismiss();
+            }
+        });
+
+        MyApplication.getInstance().addToRequestQueue(jsonObjReq);
+
+    }
+
 
     void loadMaps(){
         if (requestSinglePermission()) {
-
             FragmentManager fm = EventActivity.this.getSupportFragmentManager();
             supportMapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
             if (supportMapFragment == null) {
                 supportMapFragment = SupportMapFragment.newInstance();
                 fm.beginTransaction().replace(R.id.map, supportMapFragment).commit();
             }
-
             supportMapFragment.getMapAsync(this);
-
             mGoogleApiClient = new GoogleApiClient.Builder(EventActivity.this)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
-
             mLocationManager = (LocationManager) EventActivity.this.getSystemService(Context.LOCATION_SERVICE);
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(EventActivity.this);
         }
     }
-    /*
-    void initEvent(){
-        recyclerView = (RecyclerView) EventActivity.this.findViewById(R.id.recycler_view_event);
-
-        adapter = new EventListAdapter(eventArrayList, new EventListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Event event) {
-                Intent intent=new Intent(EventActivity.this,EventDetailActivity.class);
-                intent.putExtra("Event", event);
-                startActivity(intent);
-            }
-        });
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EventActivity.this);
-
-        recyclerView.setLayoutManager(layoutManager);
-
-        recyclerView.setAdapter(adapter);
-    }
-    void addDataEvent(){
-        eventArrayList = new ArrayList<>();
-        eventArrayList.add(new Event("Bila Anda Dijauhi Manusia", "Masjid Al-Hidayah", "Alamat: no, Jl. Tomang Tinggi No.3B, RT.13/RW.6, Tomang, Grogol petamburan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11440", "topic 1", "addars", "dasdsa", "20-11-2019", "20.00", "22.00"));
-        eventArrayList.add(new Event("Ghibah yang Dibolehkan", "Masjid Al-Mumin", "Alamat: no, Jl. Tomang Tinggi No.3B, RT.13/RW.6, Tomang, Grogol petamburan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11440", "topic 1", "addars", "dasdsa", "20-11-2019", "20.00", "22.00"));
-        eventArrayList.add(new Event("#2019 Pemilihan Presiden: Dalil Bolehnya Mencoblos dalam Pemilu – DR Firanda Andirja MA", "Masjid Al-Mughni", "Alamat: no, Jl. Tomang Tinggi No.3B, RT.13/RW.6, Tomang, Grogol petamburan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11440", "topic 1", "addars", "dasdsa", "20-11-2019", "20.00", "22.00"));
-        eventArrayList.add(new Event("Maha Benar Netizen dengan Segala Komentarnya”, Ucapan Kufur?", "Jakarta Convention Center", "Alamat: no, Jl. Tomang Tinggi No.3B, RT.13/RW.6, Tomang, Grogol petamburan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11440", "topic 1", "addars", "dasdsa", "20-11-2019", "20.00", "22.00"));
-    }
-    */
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -240,24 +300,6 @@ public class EventActivity extends AppCompatActivity
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         startLocationUpdates();
-        /*if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-
-
-        mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-        if (mLocation == null) {
-            startLocationUpdates();
-        }
-        if (mLocation != null) {
-            // mLatitudeTextView.setText(String.valueOf(mLocation.getLatitude()));
-            //mLongitudeTextView.setText(String.valueOf(mLocation.getLongitude()));
-        } else {
-            Toast.makeText(getActivity(), "Location not Detected", Toast.LENGTH_SHORT).show();
-        }
-        */
     }
 
     @Override
@@ -273,38 +315,9 @@ public class EventActivity extends AppCompatActivity
 
     @Override
     public void onLocationChanged(Location location) {
-
-       /*
-        saat user pindah lokasi
-
-       String msg = "Updated Location: " +
-                Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude());
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-        latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        supportMapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
-        if (supportMapFragment == null) {
-            Toast.makeText(getActivity(), "masuk fragment null", Toast.LENGTH_LONG).show();
-            //Log.d("mas","masuk");
-            supportMapFragment = SupportMapFragment.newInstance();
-            fm.beginTransaction().replace(R.id.map, supportMapFragment).commit();
-        }
-        supportMapFragment.getMapAsync(this);
-        */
     }
 
     protected void startLocationUpdates() {
-/*
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_LOW_POWER)
-                .setInterval(UPDATE_INTERVAL)
-                .setFastestInterval(FASTEST_INTERVAL);
-
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
-                mLocationRequest, this);
-        Log.d("request", "--->>>>");
-                */
         if (ActivityCompat.checkSelfPermission(EventActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(EventActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -314,16 +327,13 @@ public class EventActivity extends AppCompatActivity
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations, this can be null.
                         if (location != null) {
-                            latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                            Toast.makeText(EventActivity.this,"Fused Location enable, Location : "+String.valueOf(location.getLatitude()+ " , "+location.getLongitude()),Toast.LENGTH_LONG).show();
-
+                            currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                            cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(10).build();
+                            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                             mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
                                 @Override
                                 public void onMapLoaded() {
-                                    mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_masjid)).position(latLng).title("Kajian Ustadz Adi Hidayat"));
-                                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                    mMap.getUiSettings().setZoomControlsEnabled(true);
-                                    mMap.setMinZoomPreference(15.0f);
+                                    getEvent();
                                 }
                             });
                         }

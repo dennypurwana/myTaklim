@@ -8,11 +8,14 @@ public class Event implements Serializable {
     private String venue;
     private String venueAddress;
     private String topic;
-    private String category;
-    private String image;
+    private String performer;
+    private String description;
+    private double longitude , latitude;
+    private String imageBase64;
     private String date;
     private String startTime;
     private String endTime;
+
 
     public String getTitle() {
         return title;
@@ -46,20 +49,44 @@ public class Event implements Serializable {
         this.topic = topic;
     }
 
-    public String getCategory() {
-        return category;
+    public String getPerformer() {
+        return performer;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setPerformer(String performer) {
+        this.performer = performer;
     }
 
-    public String getImageE() {
-        return image;
+    public String getDescription() {
+        return description;
     }
 
-    public void setImageE(String image) {
-        this.image = image;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 
     public String getDate() {
@@ -86,16 +113,6 @@ public class Event implements Serializable {
         this.endTime = endTime;
     }
 
-
-    public Event(String title, String venue, String venueAddress, String topic, String category, String image, String date, String startTime, String endTime) {
-        this.title = title;
-        this.venue = venue;
-        this.venueAddress = venueAddress;
-        this.topic = topic;
-        this.category = category;
-        this.image = image;
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
+    public Event() {
     }
 }

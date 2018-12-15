@@ -5,12 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.models.event.Event;
+import mobile.app.ayotaklim.utils.ConvertImageBase64;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventListViewHolder> {
 
@@ -32,11 +34,12 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public void onBindViewHolder(EventListViewHolder holder, final int position) {
-        holder.txtEventTime.setText(dataList.get(position).getStartTime());
+        holder.txtEventTime.setText(dataList.get(position).getStartTime() +"-"+dataList.get(position).getEndTime());
         holder.txtEventTitle.setText(dataList.get(position).getTitle());
         holder.txtEventVenue.setText(dataList.get(position).getVenue());
         holder.txtEventAddress.setText(dataList.get(position).getVenueAddress());
         holder.txtEventDate.setText(dataList.get(position).getDate());
+        ConvertImageBase64.setImageFromBase64(holder.imageUstadz,dataList.get(position).getImageBase64());
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +58,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     public class EventListViewHolder extends RecyclerView.ViewHolder{
         private TextView txtEventTitle, txtEventAddress, txtEventVenue, txtEventDate, txtEventTime;
         private CardView card;
+        private ImageView imageUstadz;
         public EventListViewHolder(View itemView) {
             super(itemView);
             txtEventTitle = (TextView) itemView.findViewById(R.id.titleEvent);
@@ -62,6 +66,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             txtEventVenue = (TextView) itemView.findViewById(R.id.venue);
             txtEventDate = (TextView) itemView.findViewById(R.id.eventDate);
             txtEventTime = (TextView) itemView.findViewById(R.id.eventTime);
+            imageUstadz = (ImageView) itemView.findViewById(R.id.imageUstadz);
             card =(CardView) itemView.findViewById(R.id.card);
         }
     }
