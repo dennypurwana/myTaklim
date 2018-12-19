@@ -34,7 +34,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public void onBindViewHolder(EventListViewHolder holder, final int position) {
-        holder.txtEventTime.setText(dataList.get(position).getStartTime() +"-"+dataList.get(position).getEndTime());
+       /* holder.txtEventTime.setText(dataList.get(position).getStartTime() +"-"+dataList.get(position).getEndTime());
         holder.txtEventTitle.setText(dataList.get(position).getTitle());
         holder.txtEventVenue.setText(dataList.get(position).getVenue());
         holder.txtEventAddress.setText(dataList.get(position).getVenueAddress());
@@ -48,6 +48,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
                 }
             }
         });
+        */
     }
 
     @Override

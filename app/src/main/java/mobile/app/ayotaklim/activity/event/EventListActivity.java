@@ -130,7 +130,7 @@ public class EventListActivity extends AppCompatActivity{
 
                                         JSONObject jsonObject = vResponse.getJSONObject(i);
                                         Event event = new Event();
-                                        event.setTitle(jsonObject.getString("nama"));
+                                       /* event.setTitle(jsonObject.getString("nama"));
                                         event.setTopic(jsonObject.getString("topik"));
                                         event.setPerformer(jsonObject.getString("pemateri"));
                                         event.setDate(jsonObject.getString("tanggal"));
@@ -142,6 +142,7 @@ public class EventListActivity extends AppCompatActivity{
                                         event.setLatitude(jsonObject.getDouble("latitude"));
                                         event.setImageBase64(jsonObject.getString("imageBase64"));
                                         event.setDescription(jsonObject.getString("deskripsi"));
+                                        */
                                         progressDialog.dismiss();
                                         eventArrayList.add(event);
 

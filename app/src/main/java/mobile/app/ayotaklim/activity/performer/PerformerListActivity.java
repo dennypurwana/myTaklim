@@ -16,10 +16,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
 
@@ -28,12 +30,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.venue.VenueDetailActivity;
 import mobile.app.ayotaklim.activity.venue.VenueListAdapter;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
+import mobile.app.ayotaklim.config.SessionManager;
 import mobile.app.ayotaklim.models.performer.Performer;
 import mobile.app.ayotaklim.models.venue.Venue;
 
@@ -44,7 +49,7 @@ public class PerformerListActivity extends AppCompatActivity {
     private PerformerListAdapter adapter;
     private ArrayList<Performer> performerArrayList;
     private Context mContext;
-
+    SessionManager sessionManager;
     SliderLayout sliderLayout;
 
 
@@ -52,6 +57,7 @@ public class PerformerListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_performer_list);
+        sessionManager = new SessionManager(PerformerListActivity.this);
         initSlider();
     }
     void initSlider(){
@@ -64,7 +70,7 @@ public class PerformerListActivity extends AppCompatActivity {
     void initView(){
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_performer);
-        adapter = new PerformerListAdapter(performerArrayList, new PerformerListAdapter.OnItemClickListener() {
+        adapter = new PerformerListAdapter(mContext,performerArrayList, new PerformerListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Performer performer) {
                 Intent intent=new Intent(PerformerListActivity.this,PerformerDetailActivity.class);
@@ -80,7 +86,86 @@ public class PerformerListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+
     private void getData(){
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+        String url=Config.GET_USTADZ;
+        Log.d("API : ",url);
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                progressDialog.dismiss();
+                Log.d("response pemateri : " , response);
+                if (!response.equals(null)) {
+                    progressDialog.hide();
+                    Log.e("TAG", "produk response: " + response.toString());
+                    try {
+                        performerArrayList=new ArrayList<>();
+                        JSONObject jsonResponse = new JSONObject(response);
+                        JSONObject responseObj = jsonResponse.getJSONObject("data");
+                        JSONArray vResponse=responseObj.getJSONArray("items");
+                        if(vResponse.length()>0) {
+                            for (int i = 0; i < vResponse.length(); i++) {
+                                try {
+
+                                    JSONObject jsonObject = vResponse.getJSONObject(i);
+                                    Performer ustadz = new Performer();
+                                    ustadz.setNama(jsonObject.getString("nama"));
+                                    ustadz.setAlamat(jsonObject.getString("alamat"));
+                                    ustadz.setPhone(jsonObject.getString("phone"));
+                                    ustadz.setTglLahir(jsonObject.getString("tgl_lahir"));
+                                    ustadz.setEmail(jsonObject.getString("email"));
+                                    ustadz.setInstagram(jsonObject.getString("instagram"));
+                                    ustadz.setFacebook(jsonObject.getString("facebook"));
+                                    ustadz.setImageUstadz(jsonObject.getString("imagebase64"));
+                                    ustadz.setDeskripsi(jsonObject.getString("deskripsi"));
+                                    ustadz.setYoutube(jsonObject.getString("youtube"));
+                                    ustadz.setPendidikan(jsonObject.getString("pendidikan"));
+
+
+                                    progressDialog.dismiss();
+                                    performerArrayList.add(ustadz);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    progressDialog.dismiss();
+                                }
+                            }
+                            initView();
+                            adapter.notifyDataSetChanged();
+                        }else{
+                            recyclerView.setVisibility(View.GONE);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Log.e("error is ", "" + error);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer "+sessionManager.getAksesToken());
+                return params;
+            }
+
+        };
+        MyApplication.getInstance().addToRequestQueue(request);
+
+    }
+    /*private void getData(){
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
@@ -147,6 +232,7 @@ public class PerformerListActivity extends AppCompatActivity {
         MyApplication.getInstance().addToRequestQueue(jsonObjReq);
 
     }
+    */
     private void setSliderViews() {
 
         for (int i = 0; i <= 3; i++) {

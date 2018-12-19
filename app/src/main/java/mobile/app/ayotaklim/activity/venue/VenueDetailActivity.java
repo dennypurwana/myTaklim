@@ -6,7 +6,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import mobile.app.ayotaklim.R;
+import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.venue.Venue;
 import mobile.app.ayotaklim.utils.ConvertImageBase64;
@@ -41,7 +44,13 @@ public class VenueDetailActivity extends AppCompatActivity {
         dkmPhone.setText(venue.getDkmPhone());
         phone.setText(venue.getNoTlp());
         deskripsi.setText(venue.getDeskripsi());
-        ConvertImageBase64.setImageFromBase64(imageVenue,venue.getImageVenue());
+        Picasso.get()
+                .load(Config.IMAGE_URL+venue.getImageVenue())
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.placeholder_image)
+                .fit()
+                .into(imageVenue);
+        //ConvertImageBase64.setImageFromBase64(imageVenue,venue.getImageVenue());
     }
 
 }

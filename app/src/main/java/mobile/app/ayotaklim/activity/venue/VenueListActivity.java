@@ -11,10 +11,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
 
@@ -23,11 +25,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.event.EventListAdapter;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
+import mobile.app.ayotaklim.config.SessionManager;
 import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.venue.Venue;
 
@@ -36,12 +41,13 @@ public class VenueListActivity  extends AppCompatActivity {
     private VenueListAdapter adapter;
     private ArrayList<Venue> venueArrayList;
     SliderLayout sliderLayout;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venue_list);
-
+        sessionManager = new SessionManager(VenueListActivity.this);
         initSlider();
         getData();
 
@@ -57,7 +63,7 @@ public class VenueListActivity  extends AppCompatActivity {
 
     void initVenue(){
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_venue);
-        adapter = new VenueListAdapter(venueArrayList, new VenueListAdapter.OnItemClickListener() {
+        adapter = new VenueListAdapter(VenueListActivity.this,venueArrayList, new VenueListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Venue venue) {
                 Intent intent=new Intent(VenueListActivity.this,VenueDetailActivity.class);
@@ -122,61 +128,72 @@ public class VenueListActivity  extends AppCompatActivity {
         progressDialog.show();
         String url=Config.GET_VENUE;
         Log.d("API : ",url);
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                url, null,
-                new Response.Listener<JSONObject>() {
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                progressDialog.dismiss();
+                Log.d("response venus : " , response);
+                if (!response.equals(null)) {
+                    progressDialog.hide();
+                    Log.e("TAG", "produk response: " + response.toString());
+                    try {
+                        venueArrayList=new ArrayList<>();
+                        JSONObject jsonResponse = new JSONObject(response);
+                        JSONObject responseObj = jsonResponse.getJSONObject("data");
+                        JSONArray vResponse=responseObj.getJSONArray("items");
+                        if(vResponse.length()>0) {
+                            for (int i = 0; i < vResponse.length(); i++) {
+                                try {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        progressDialog.hide();
-                        Log.e("TAG", "produk response: " + response.toString());
-                        try {
-                            venueArrayList=new ArrayList<>();
-                            JSONArray vResponse=response.getJSONArray("venue");
-                            if(vResponse.length()>0) {
-                                for (int i = 0; i < vResponse.length(); i++) {
-                                    try {
+                                    JSONObject jsonObject = vResponse.getJSONObject(i);
+                                    Venue venue = new Venue();
+                                    venue.setNama(jsonObject.getString("nama"));
+                                    venue.setAlamat(jsonObject.getString("alamat"));
+                                    venue.setNoTlp(jsonObject.getString("venue_phone"));
+                                    venue.setLongitude(jsonObject.getDouble("longitude"));
+                                    venue.setLatitude(jsonObject.getDouble("latitude"));
+                                    venue.setDkm(jsonObject.getString("dkm"));
+                                    venue.setDkmPhone(jsonObject.getString("dkm_phone"));
+                                    venue.setImageVenue(jsonObject.getString("imagebase64"));
+                                    venue.setDeskripsi(jsonObject.getString("deskripsi"));
+                                    progressDialog.dismiss();
+                                    venueArrayList.add(venue);
 
-                                        JSONObject jsonObject = vResponse.getJSONObject(i);
-                                        Venue venue = new Venue();
-                                        venue.setNama(jsonObject.getString("nama"));
-                                        venue.setAlamat(jsonObject.getString("alamat"));
-                                        venue.setNoTlp(jsonObject.getString("phone"));
-                                        venue.setLongitude(jsonObject.getDouble("longitude"));
-                                        venue.setLatitude(jsonObject.getDouble("latitude"));
-                                        venue.setDkm(jsonObject.getString("dkm"));
-                                        venue.setDkmPhone(jsonObject.getString("dkm_phone"));
-                                        venue.setImageVenue(jsonObject.getString("imageBase64"));
-                                        venue.setDeskripsi(jsonObject.getString("deskripsi"));
-                                        progressDialog.dismiss();
-                                        venueArrayList.add(venue);
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        progressDialog.dismiss();
-                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    progressDialog.dismiss();
                                 }
-                                initVenue();
-                                adapter.notifyDataSetChanged();
-                            }else{
-                                recyclerView.setVisibility(View.GONE);
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            initVenue();
+                            adapter.notifyDataSetChanged();
+                        }else{
+                            recyclerView.setVisibility(View.GONE);
                         }
-
-
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
 
+                } else {
+
+                }
+            }
+
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", "Error: " + error.getMessage());
-
+                progressDialog.dismiss();
+                Log.e("error is ", "" + error);
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer "+sessionManager.getAksesToken());
+                return params;
+            }
 
-        MyApplication.getInstance().addToRequestQueue(jsonObjReq);
+        };
+        MyApplication.getInstance().addToRequestQueue(request);
 
     }
 }

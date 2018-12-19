@@ -1,17 +1,21 @@
 package mobile.app.ayotaklim.activity.venue;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.event.EventListAdapter;
+import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.venue.Venue;
 import mobile.app.ayotaklim.utils.ConvertImageBase64;
@@ -21,10 +25,12 @@ public class VenueListAdapter extends RecyclerView.Adapter<VenueListAdapter.Venu
 
     private ArrayList<Venue> dataList;
     private OnItemClickListener listener;
+    Context mContext;
 
-    public VenueListAdapter(ArrayList<Venue> dataList, OnItemClickListener listener) {
+    public VenueListAdapter( Context context,ArrayList<Venue> dataList, OnItemClickListener listener) {
         this.dataList = dataList;
         this.listener=listener;
+        this.mContext = context;
     }
 
     @Override
@@ -38,7 +44,14 @@ public class VenueListAdapter extends RecyclerView.Adapter<VenueListAdapter.Venu
     public void onBindViewHolder(VenueListViewHolder holder, final int position) {
         holder.txtVenueAddress.setText(dataList.get(position).getAlamat());
         holder.txtVenue.setText(dataList.get(position).getNama());
-        ConvertImageBase64.setImageFromBase64(holder.imageView,dataList.get(position).getImageVenue());
+        Log.d("image url : ",Config.IMAGE_URL+dataList.get(position).getImageVenue() );
+        Picasso.get()
+                .load(Config.IMAGE_URL+dataList.get(position).getImageVenue())
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.placeholder_image)
+                .fit()
+                .into(holder.imageView);
+       // ConvertImageBase64.setImageFromBase64(holder.imageView,dataList.get(position).getImageVenue());
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

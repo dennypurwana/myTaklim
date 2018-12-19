@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import mobile.app.ayotaklim.R;
+import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.models.performer.Performer;
 import mobile.app.ayotaklim.models.venue.Venue;
 import mobile.app.ayotaklim.utils.ConvertImageBase64;
@@ -46,7 +49,13 @@ public class PerformerDetailActivity extends AppCompatActivity {
         fb.setText(performer.getFacebook());
         ig.setText(performer.getInstagram());
         youtube.setText(performer.getYoutube());
-        ConvertImageBase64.setImageFromBase64(imageUstadz,performer.getImageUstadz());
+        Picasso.get()
+                .load(Config.IMAGE_URL+performer.getImageUstadz())
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.placeholder_image)
+                .fit()
+                .into(imageUstadz);
+        //ConvertImageBase64.setImageFromBase64(imageUstadz,performer.getImageUstadz());
     }
 
 }

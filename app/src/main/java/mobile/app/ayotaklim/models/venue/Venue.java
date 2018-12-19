@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Venue implements Serializable {
 
+    private int id;
     private String nama;
     private String alamat;
     private String noTlp;
@@ -11,6 +12,15 @@ public class Venue implements Serializable {
     private String dkmPhone;
     private String imageVenue;
     private String deskripsi;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private double longitude;
     private double latitude;
 

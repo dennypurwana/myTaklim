@@ -4,113 +4,60 @@ import java.io.Serializable;
 
 public class Event implements Serializable {
 
-    private String title;
-    private String venue;
-    private String venueAddress;
-    private String topic;
-    private String performer;
-    private String description;
-    private double longitude , latitude;
-    private String imageBase64;
-    private String date;
-    private String startTime;
-    private String endTime;
+    private int id;
+    private int venueId;
+    private int performerId;
+    private String namaEvent;
 
-
-    public String getTitle() {
-        return title;
+    public int getId() {
+        return id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getVenue() {
-        return venue;
+    private String tglMulai;
+    private String tglBerakhir;
+
+    public int getVenueId() {
+        return venueId;
     }
 
-    public void setVenue(String venue) {
-        this.venue = venue;
+    public void setVenueId(int venueId) {
+        this.venueId = venueId;
     }
 
-    public String getVenueAddress() {
-        return venueAddress;
+    public int getPerformerId() {
+        return performerId;
     }
 
-    public void setVenueAddress(String venueAddress) {
-        this.venueAddress = venueAddress;
+    public void setPerformerId(int performerId) {
+        this.performerId = performerId;
     }
 
-    public String getTopic() {
-        return topic;
+    public String getNamaEvent() {
+        return namaEvent;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
+    public void setNamaEvent(String namaEvent) {
+        this.namaEvent = namaEvent;
     }
 
-    public String getPerformer() {
-        return performer;
+    public String getTglMulai() {
+        return tglMulai;
     }
 
-    public void setPerformer(String performer) {
-        this.performer = performer;
+    public void setTglMulai(String tglMulai) {
+        this.tglMulai = tglMulai;
     }
 
-    public String getDescription() {
-        return description;
+    public String getTglBerakhir() {
+        return tglBerakhir;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getImageBase64() {
-        return imageBase64;
-    }
-
-    public void setImageBase64(String imageBase64) {
-        this.imageBase64 = imageBase64;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setTglBerakhir(String tglBerakhir) {
+        this.tglBerakhir = tglBerakhir;
     }
 
     public Event() {
