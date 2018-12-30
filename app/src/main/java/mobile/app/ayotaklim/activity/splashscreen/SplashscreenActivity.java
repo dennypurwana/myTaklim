@@ -36,6 +36,7 @@ import java.util.Map;
 
 import mobile.app.ayotaklim.MainActivity;
 import mobile.app.ayotaklim.R;
+import mobile.app.ayotaklim.activity.MapsActivity;
 import mobile.app.ayotaklim.activity.event.EventActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;

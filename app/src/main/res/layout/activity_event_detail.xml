@@ -71,7 +71,7 @@
                     android:id="@+id/eventVenue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="EVENT"
+                    android:text=""
                     android:textColor="@color/white"
                     android:layout_toRightOf="@+id/iconBack"
                     android:textSize="18dp"
@@ -93,20 +93,79 @@
 
             </RelativeLayout>
 
-
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btnApply"
+            <RelativeLayout
+                android:id="@+id/contentEvent"
+                android:layout_below="@+id/header"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:backgroundTint="@color/colorAccent"
-                android:text="APPLY"
-                android:textColor="@color/white"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_alignParentBottom="true"
-                />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/labelEvent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Acara"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:visibility="gone"
+                    android:layout_below="@+id/labelEvent"
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/recycler_view_event"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </RelativeLayout>
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/contentJadwal"-->
+                <!--android:layout_below="@+id/contentEvent"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/labelJadwal"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Jadwal Kegiatan"-->
+                    <!--android:textSize="24dp"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:layout_marginBottom="10dp"-->
+                    <!--/>-->
+
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:layout_below="@+id/labelJadwal"-->
+                    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+                    <!--android:id="@+id/recycler_view_jadwal"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--/>-->
+
+            <!--</RelativeLayout>-->
+
+
+            <!--<android.support.v7.widget.AppCompatButton-->
+                <!--android:layout_below="@+id/contentJadwal"-->
+                <!--android:id="@+id/btnApply"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:backgroundTint="@color/colorAccent"-->
+                <!--android:text="APPLY"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--/>-->
         </RelativeLayout>
 
 

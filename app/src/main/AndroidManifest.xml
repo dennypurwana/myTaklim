@@ -2,23 +2,37 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mobile.app.ayotaklim">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-sdk
+        android:maxSdkVersion="29"
+        android:targetSdkVersion="28" />
 
     <permission
-        android:name="your.package.name.permission.MAPS_RECEIVE"
+        android:name="mobile.app.ayotaklim.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="your.package.name.permission.MAPS_RECEIVE" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="ANDROID.PERMISSION.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".config.MyApplication"
@@ -44,42 +58,63 @@
         </activity>
         <activity
             android:name=".activity.event.EventDetailActivity"
-            android:label="Event Detail"></activity>
+            android:label="Event Detail" />
+        <activity
+            android:name=".activity.MapsActivity"
+            android:label="Event Detail" />
         <activity
             android:name=".MainActivity"
-            android:label="Event Detail"></activity>
+            android:label="Event Detail" />
         <activity
             android:name=".activity.event.RegisterEventActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:label="Register Event"></activity>
+            android:label="Register Event"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activity.venue.VenueDetailActivity"
-            android:label="Venue Detail"></activity>
+            android:label="Venue Detail" />
         <activity
             android:name=".activity.performer.PerformerDetailActivity"
-            android:label="Venue Detail"></activity>
+            android:label="Venue Detail" />
         <activity
             android:name=".activity.event.EventListActivity"
             android:label="@string/title_activity_event"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.venue.VenueListActivity"
             android:label="@string/title_activity_event"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.performer.PerformerListActivity"
             android:label="@string/title_activity_event"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.reminder.ReminderListActivity"
             android:label="@string/title_activity_event"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.event.EventActivity"
             android:label="@string/title_activity_event"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme"></activity>
-
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activity.event.EventJadwalActivity"
+            android:label="@string/title_activity_event"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activity.event.DonasiActivity"
+            android:label="@string/title_activity_donasi"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.admin.AdminLoginActivity"
+            android:label="@string/title_activity_admin_login"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activity.admin.AddVenueActivity" />
+        <activity android:name=".activity.admin.AddPerformerActivity" />
+        <activity android:name=".activity.admin.AddEventActivity" />
+        <activity android:name=".activity.admin.ListSearchVenueActivity" />
+        <activity android:name=".activity.admin.AddJadwalEventActivity" />
+        <activity android:name=".activity.admin.ListSearchPerformerActivity"></activity>
     </application>
 
 </manifest>

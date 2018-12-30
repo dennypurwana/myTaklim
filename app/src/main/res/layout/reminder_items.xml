@@ -21,17 +21,17 @@
     android:layout_toRightOf="@+id/iconNotif"
         android:layout_marginLeft="20dp"
     android:textColor="@color/black"
-        android:textSize="16dp"
+        android:textSize="18dp"
     />
     <TextView
         android:id="@+id/eventDateTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Selasa, 20 Okt 2018"
+        android:text=""
         android:layout_toRightOf="@+id/iconNotif"
         android:layout_below="@+id/eventLocation"
         android:layout_marginLeft="20dp"
-        android:textColor="@color/black"
+        android:textColor="@color/title_color"
         android:textSize="12dp"
         />
 
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iconHistory"
-            android:text="1 Jam Lagi"
+            android:text=""
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:textColor="@color/tab_disable"

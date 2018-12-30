@@ -6,7 +6,7 @@
     <color name="blue_gray">#ECEFF1</color>
     <color name="tab_disable">#979797</color>
     <color name="tab_enable">#FFFFFF</color>
-    <color name="tab_checked">#F3CD70</color>
+    <color name="tab_checked">#ffa726</color>
     <color name="tab_unchecked">#FFFFFF</color>
     <color name="text_color_title">#FFFFFF</color>
     <color name="text_color_subtitle">#F5F5F5</color>
@@ -16,4 +16,5 @@
     <color name="title_black">#37474F</color>
     <color name="gray">#e0e0e0</color>
     <color name="line">#bdbdbd</color>
+    <color name="title_color">#757575</color>
 </resources>

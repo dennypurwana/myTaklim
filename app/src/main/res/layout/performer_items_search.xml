@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
+    <!--android:id="@+id/card"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--card_view:cardCornerRadius="6dp"-->
+    <!--card_view:cardElevation="3dp"-->
+    <!--card_view:cardUseCompatPadding="true">-->
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:orientation="vertical"
+        android:padding="0dp">
+
+        <RelativeLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imagePerformer"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/image_ustadz"/>
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/performerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ustadz Adi Hidayat"
+                android:layout_toRightOf="@+id/imagePerformer"
+                android:paddingEnd="20dp"
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                />
+
+
+            <TextView
+                android:id="@+id/performerAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#616161"
+                android:text="Jalan kawali panjalu no 9. Gatot subroto DKI JAKARTA"
+                android:layout_toRightOf="@+id/imagePerformer"
+                android:layout_below="@+id/performerName"
+                android:paddingEnd="40dp"
+                android:textSize="16dp"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/footer"
+            android:layout_below="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content">
+
+        </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/footer"
+        android:background="@color/gray"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        ></LinearLayout>
+
+
+    </RelativeLayout>
+
+<!--</android.support.v7.widget.CardView>-->

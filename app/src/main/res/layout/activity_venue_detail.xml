@@ -89,6 +89,19 @@
                     android:textSize="12dp"
                     android:layout_marginLeft="10dp"/>
 
+                <ImageView
+                    android:id="@+id/iconEdit"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:tint="@color/white"
+                    android:visibility="gone"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/icon_edit"/>
+
+
             </RelativeLayout>
 
 
@@ -289,26 +302,29 @@
                     android:tint="@color/colorPrimary"
                     android:layout_margin="20dp"
                     android:src="@drawable/ic_map_black_24dp"/>
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                <fragment
                     android:layout_toRightOf="@+id/iconMaps"
-                    android:src="@drawable/maps_image"/>
-
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginRight="10dp"
+                    />
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:id="@+id/line8"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/contentMaps"
-                android:background="@color/gray"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                ></LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:orientation="horizontal"-->
+                <!--android:id="@+id/line8"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_below="@+id/contentMaps"-->
+                <!--android:background="@color/gray"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--&gt;</LinearLayout>-->
 
 
         </RelativeLayout>

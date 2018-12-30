@@ -6,4 +6,12 @@
     <string name="title_reminder">Reminder</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_event">EventActivity</string>
+    <string name="title_activity_donasi">DonasiActivity</string>
+    <!-- TODO - add your ad unit Ids -->
+    <!-- AdMob ad unit IDs -->
+    <string name="admob_app_id">ca-app-pub-1169088645439225~1936616637</string>
+    <string name="banner_home_footer">ca-app-pub-1169088645439225/5010159075</string>
+    <string name="interstial_fullscreen">ca-app-pub-1169088645439225/3781725930</string>
+    <string name="title_activity_admin_login">AdminLoginActivity</string>
+    <!--<string name="rewarded_video">ca-app-pub-XXXXXXXX~XXXXXXXXXXX</string>-->
 </resources>

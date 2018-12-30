@@ -12,6 +12,15 @@ public class Venue implements Serializable {
     private String dkmPhone;
     private String imageVenue;
     private String deskripsi;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public int getId() {
         return id;

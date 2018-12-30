@@ -6,7 +6,9 @@ public class Reminder implements Serializable {
     private String eventName;
     private String eventLocation;
     private String eventDate;
-    private String eventTime;
+    private String eventAddress;
+    private int eventId;
+    private int memberId;
 
     public String getEventName() {
         return eventName;
@@ -32,18 +34,27 @@ public class Reminder implements Serializable {
         this.eventDate = eventDate;
     }
 
-    public String getEventTime() {
-        return eventTime;
+    public String getEventAddress() {
+        return eventAddress;
     }
 
-    public void setEventTime(String eventTime) {
-        this.eventTime = eventTime;
+    public void setEventAddress(String eventAddress) {
+        this.eventAddress = eventAddress;
     }
 
-    public Reminder(String eventName, String eventLocation, String eventDate, String eventTime) {
-        this.eventName = eventName;
-        this.eventLocation = eventLocation;
-        this.eventDate = eventDate;
-        this.eventTime = eventTime;
+    public int getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
+    }
+
+    public int getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 }

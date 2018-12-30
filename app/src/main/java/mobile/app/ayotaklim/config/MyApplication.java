@@ -6,6 +6,9 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.ads.MobileAds;
+
+import mobile.app.ayotaklim.R;
 
 /**
  * Created by denny_purwana 07/08/18.
@@ -24,6 +27,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
     }
 
     public static synchronized MyApplication getInstance() {

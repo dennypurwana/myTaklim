@@ -115,7 +115,7 @@
                         android:textColor="@color/black"
                         android:textSize="14dp"
                         android:layout_centerHorizontal="true"
-                        android:text="Ustadz"/>
+                        android:text="Pemateri"/>
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -160,33 +160,57 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:id="@+id/menuAbout"
+                android:id="@+id/menuLogin"
                 android:layout_width="0dp"
                 android:layout_weight="0.2"
                 android:layout_height="wrap_content">
                 <RelativeLayout
+                    android:visibility="visible"
+                    android:id="@+id/adminLogin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <ImageView
-                        android:id="@+id/iconAbout"
+                        android:id="@+id/iconLogin"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/event_icon"/>
+                        android:src="@drawable/login_icon"/>
                     <TextView
-                        android:layout_below="@+id/iconAbout"
+                        android:layout_below="@+id/iconLogin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="14dp"
                         android:layout_centerHorizontal="true"
-                        android:text="About"/>
+                        android:text="Admin"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/adminLogout"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/iconLogout"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/logout_icon"/>
+                    <TextView
+                        android:layout_below="@+id/iconLogout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="14dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="Logout"/>
                 </RelativeLayout>
             </LinearLayout>
 
+
             <LinearLayout
                 android:orientation="horizontal"
-                android:id="@+id/menuUstadzz"
+                android:id="@+id/menuLoginn"
                 android:layout_width="0dp"
                 android:layout_weight="0.2"
                 android:layout_height="wrap_content">
@@ -195,18 +219,17 @@
                     android:layout_height="match_parent">
                     <ImageView
                         android:layout_centerHorizontal="true"
-                        android:id="@+id/iconUstadzz"
+                        android:id="@+id/iconUstadzzx"
                         android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/icon_ustadz"/>
+                        android:layout_height="50dp"/>
                     <TextView
-                        android:layout_below="@+id/iconUstadzz"
+                        android:layout_below="@+id/iconUstadzzx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="14dp"
                         android:layout_centerHorizontal="true"
-                        android:text="Settings"/>
+                        android:text=""/>
                 </RelativeLayout>
             </LinearLayout>
             </LinearLayout>

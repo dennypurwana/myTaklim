@@ -1,0 +1,787 @@
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/main_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageVenue"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:src="@drawable/placeholder_image"
+                    android:layout_margin="20dp"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7"
+                    />
+                <Button
+                    android:layout_below="@+id/imageVenue"
+                    android:id="@+id/btnUpload"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/button_secondary_round_corner"
+                    android:text="Upload"
+                    android:textColor="@color/white"
+                    android:padding="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:textSize="14dp"/>
+            </RelativeLayout>
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <RelativeLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary">
+                <ImageView
+                    android:id="@+id/iconBack"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:tint="@color/white"
+                    android:layout_margin="20dp"
+                    android:src="@drawable/ic_chevron_left_black_24dp"/>
+
+                <TextView
+                    android:id="@+id/headerTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Form Venue"
+                    android:textColor="@color/white"
+                    android:layout_toRightOf="@+id/iconBack"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/headerSubTitle"
+                    android:layout_toRightOf="@+id/iconBack"
+                    android:layout_below="@+id/headerTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Input data-data venue pada form."
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="12dp"
+                    android:layout_marginLeft="10dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_below="@+id/header"
+                android:id="@+id/contentInputName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+                <RelativeLayout
+                    android:layout_below="@+id/tvName"
+                    android:id="@+id/card"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextNama"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint="input nama anda disini "
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconNama"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconNama"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputName"
+                android:id="@+id/contentInputDeskripsi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deskripsi (keterangan venue) "
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+
+                <RelativeLayout
+                    android:layout_below="@+id/tvDesc"
+                    android:id="@+id/cardDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp">
+
+                    <EditText
+                        android:id="@+id/edTextDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint="input keterangan"
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconDesc"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconDesc"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputDeskripsi"
+                android:id="@+id/contentInputPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No HP/Telepon "
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+
+                <RelativeLayout
+                    android:layout_below="@+id/tvPhone"
+                    android:id="@+id/cardPhone"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint="input No HP/Telepon anda disini "
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconPhone"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconPhone"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputPhone"
+                android:id="@+id/contentInputEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email "
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+                <RelativeLayout
+                    android:id="@+id/cardEmail"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_below="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint="input Email anda disini "
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconEmail"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconEmail"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputEmail"
+                android:id="@+id/contentInputDKM"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvDKM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DKM (Pengurus Venue) "
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+                <RelativeLayout
+                    android:id="@+id/cardDKM"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_below="@+id/tvDKM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextDKM"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint="input dkm atau pengurus venus "
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutDKM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconDKM"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconDKM"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputDKM"
+                android:id="@+id/contentInputPhoneDKM"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvPhoneDKM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No HP/Tlp DKM atau Pengurus"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+                <RelativeLayout
+                    android:id="@+id/cardPhoneDKM"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_below="@+id/tvPhoneDKM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextPhoneDKM"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint="input no hp dkm/pengurus"
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutPhoneDKM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconPhoneDKM"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconPhoneDKM"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/contentInputPhoneDKM"
+                android:id="@+id/selectMaps"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pilih lokasi pada maps"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"/>
+
+                <ImageView
+                    android:id="@+id/iconMaps"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/icon_maps"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_below="@+id/selectMaps"
+                android:id="@+id/contentInputAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alamat"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+                <RelativeLayout
+                    android:layout_below="@+id/tvAddress"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/cardAddress"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint="input alamat disini"
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconAddress"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconAddress"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputAddress"
+                android:id="@+id/contentInputLongitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvLong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Longitude"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+                <RelativeLayout
+                    android:id="@+id/cardLong"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_below="@+id/tvLong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextLong"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint="input koordinat longitude"
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutLong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconLong"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconLong"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputLongitude"
+                android:id="@+id/contentInputLatitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvLat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Latitude"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+                <RelativeLayout
+                    android:id="@+id/cardLat"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_below="@+id/tvLat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextLat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint="input koordinat latitude"
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutLat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconLat"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconLat"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_below="@+id/contentInputLatitude"
+                android:id="@+id/buttonLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="0.5">
+
+                    <Button
+                        android:id="@+id/btnCancel"
+                        android:background="@drawable/button_secondary_round_corner"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Cancel"
+                        android:textColor="@color/white"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="0.5">
+                    <Button
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/button_primary_round_corner"
+                        android:text="SUBMIT"
+                        android:textColor="@color/white"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

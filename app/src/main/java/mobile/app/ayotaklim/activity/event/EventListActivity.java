@@ -28,13 +28,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -62,10 +67,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import mobile.app.ayotaklim.R;
+import mobile.app.ayotaklim.activity.admin.AddEventActivity;
+import mobile.app.ayotaklim.activity.admin.AddPerformerActivity;
+import mobile.app.ayotaklim.activity.performer.PerformerListActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
+import mobile.app.ayotaklim.config.SessionManager;
 import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.venue.Venue;
 
@@ -73,6 +84,9 @@ public class EventListActivity extends AppCompatActivity{
     private RecyclerView recyclerView;
     private EventListAdapter adapter;
     private ArrayList<Event> eventArrayList;
+    SessionManager sessionManager;
+    ProgressBar progressBar;
+    Button btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,97 +97,108 @@ public class EventListActivity extends AppCompatActivity{
                 .permitDiskWrites()
                 .build());
         StrictMode.setThreadPolicy(old);
-        getData();
+        sessionManager= new SessionManager(EventListActivity.this);
+        progressBar = findViewById(R.id.progressBar);
+        setProgressBarIndeterminateVisibility(true);
+        getDataEvent();
+        if (sessionManager.isAdmin()) {
+
+            btnAdd = findViewById(R.id.btnAdd);
+            btnAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(EventListActivity.this, AddEventActivity.class);
+                    intent.putExtra("flag", "ADD");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            });
+            btnAdd.setVisibility(View.VISIBLE);
+        }
+
     }
 
 
     void initEvent(){
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_event);
-
+        recyclerView.setVisibility(View.VISIBLE);
         adapter = new EventListAdapter(eventArrayList, new EventListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Event event) {
-                Intent intent=new Intent(EventListActivity.this,EventDetailActivity.class);
+                Intent intent=new Intent(EventListActivity.this,EventJadwalActivity.class);
                 intent.putExtra("Event", event);
                 startActivity(intent);
             }
         });
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EventListActivity.this);
-
         recyclerView.setLayoutManager(layoutManager);
-
         recyclerView.setAdapter(adapter);
     }
 
-
-    private void getData(){
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-        String url=Config.GET_EVENT;
+    void getDataEvent(){
+        progressBar.setVisibility(View.VISIBLE);
+        String url=Config.GET_DATA_EVENT_HOME;
         Log.d("API : ",url);
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                url, null,
-                new Response.Listener<JSONObject>() {
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                progressBar.setVisibility(View.GONE);
+                if (!response.equals(null)) {
+                    Log.e("TAG", "produk data: " + response.toString());
+                    try {
+                        eventArrayList=new ArrayList<>();
+                        JSONObject jsonResponse = new JSONObject(response);
+                        JSONObject responseObj = jsonResponse.getJSONObject("data");
+                        JSONArray venueResponse=responseObj.getJSONArray("event");
+                        if(venueResponse.length()>0) {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        progressDialog.hide();
-                        Log.e("TAG", "produk response: " + response.toString());
-                        try {
-                            eventArrayList=new ArrayList<>();
-                            JSONArray vResponse=response.getJSONArray("event");
-                            if(vResponse.length()>0) {
-                                for (int i = 0; i < vResponse.length(); i++) {
-                                    try {
+                            for (int i = 0; i < venueResponse.length(); i++) {
+                                try {
+                                    JSONObject jsonObject = venueResponse.getJSONObject(i);
+                                    Event event = new Event();
+                                    event.setId(jsonObject.getInt("id"));
+                                    event.setNamaEvent(jsonObject.getString("nama_event"));
+                                    event.setAlamatVenue(jsonObject.getString("alamat"));
+                                    event.setNamaVenue(jsonObject.getString("nama"));
+                                    event.setVenueId(jsonObject.getInt("c_venue_id"));
+                                    event.setBannerImage(jsonObject.getString("banner_image"));
+                                    event.setTglMulai(jsonObject.getString("tgl_mulai"));
+                                    event.setTglBerakhir(jsonObject.getString("tgl_berakhir"));
+                                    eventArrayList.add(event);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
 
-                                        JSONObject jsonObject = vResponse.getJSONObject(i);
-                                        Event event = new Event();
-                                       /* event.setTitle(jsonObject.getString("nama"));
-                                        event.setTopic(jsonObject.getString("topik"));
-                                        event.setPerformer(jsonObject.getString("pemateri"));
-                                        event.setDate(jsonObject.getString("tanggal"));
-                                        event.setStartTime(jsonObject.getString("waktu_mulai"));
-                                        event.setEndTime(jsonObject.getString("waktu_selesai"));
-                                        event.setVenue(jsonObject.getString("venue"));
-                                        event.setVenueAddress(jsonObject.getString("alamat_venue"));
-                                        event.setLongitude(jsonObject.getDouble("longitude"));
-                                        event.setLatitude(jsonObject.getDouble("latitude"));
-                                        event.setImageBase64(jsonObject.getString("imageBase64"));
-                                        event.setDescription(jsonObject.getString("deskripsi"));
-                                        */
-                                        progressDialog.dismiss();
-                                        eventArrayList.add(event);
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        progressDialog.dismiss();
-                                    }
                                 }
-                                initEvent();
-                                adapter.notifyDataSetChanged();
-                            }else{
-                                recyclerView.setVisibility(View.GONE);
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            progressDialog.dismiss();
+                            initEvent();
+                        }else{
+
                         }
-
-
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
 
+                } else {
+
+                }
+            }
+
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", "Error: " + error.getMessage());
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
+                Log.e("error is ", "" + error);
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer "+sessionManager.getAksesToken());
+                return params;
+            }
 
-        MyApplication.getInstance().addToRequestQueue(jsonObjReq);
-
+        };
+        MyApplication.getInstance().addToRequestQueue(request);
     }
 
 

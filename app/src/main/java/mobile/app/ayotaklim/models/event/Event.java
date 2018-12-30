@@ -8,6 +8,33 @@ public class Event implements Serializable {
     private int venueId;
     private int performerId;
     private String namaEvent;
+    private String bannerImage;
+    private String namaVenue;
+    private String alamatVenue;
+
+    public String getBannerImage() {
+        return bannerImage;
+    }
+
+    public void setBannerImage(String bannerImage) {
+        this.bannerImage = bannerImage;
+    }
+
+    public String getNamaVenue() {
+        return namaVenue;
+    }
+
+    public void setNamaVenue(String namaVenue) {
+        this.namaVenue = namaVenue;
+    }
+
+    public String getAlamatVenue() {
+        return alamatVenue;
+    }
+
+    public void setAlamatVenue(String alamatVenue) {
+        this.alamatVenue = alamatVenue;
+    }
 
     public int getId() {
         return id;

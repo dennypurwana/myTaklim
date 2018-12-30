@@ -10,7 +10,7 @@
 
     <style name="CustomDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!--buttons color-->
-        <item name="colorAccent">#4CAF50</item>
+        <item name="colorAccent">#fdd835</item>
         <!--title and message color-->
         <item name="android:textColorPrimary">@android:color/white</item>
         <!--dialog background-->

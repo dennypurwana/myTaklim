@@ -2,23 +2,30 @@ package mobile.app.ayotaklim.activity.event;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import mobile.app.ayotaklim.R;
+import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.utils.ConvertImageBase64;
+import mobile.app.ayotaklim.utils.FormatTanggalIDN;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventListViewHolder> {
 
 
     private ArrayList<Event> dataList;
     private OnItemClickListener listener;
+    FormatTanggalIDN formatTanggalIDN;
 
     public EventListAdapter(ArrayList<Event> dataList,OnItemClickListener listener) {
         this.dataList = dataList;
@@ -34,12 +41,17 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public void onBindViewHolder(EventListViewHolder holder, final int position) {
-       /* holder.txtEventTime.setText(dataList.get(position).getStartTime() +"-"+dataList.get(position).getEndTime());
-        holder.txtEventTitle.setText(dataList.get(position).getTitle());
-        holder.txtEventVenue.setText(dataList.get(position).getVenue());
-        holder.txtEventAddress.setText(dataList.get(position).getVenueAddress());
-        holder.txtEventDate.setText(dataList.get(position).getDate());
-        ConvertImageBase64.setImageFromBase64(holder.imageUstadz,dataList.get(position).getImageBase64());
+        formatTanggalIDN=new FormatTanggalIDN();
+        holder.txtEventTitle.setText(dataList.get(position).getNamaEvent());
+        holder.txtEventDate.setText(formatTanggalIDN.formatDate(dataList.get(position).getTglMulai())+" s.d "+formatTanggalIDN.formatDate(dataList.get(position).getTglBerakhir()));
+        holder.txtEventVenue.setText(dataList.get(position).getNamaVenue());
+        holder.txtEventAddress.setText(dataList.get(position).getAlamatVenue());
+        Picasso.get()
+                .load(Config.IMAGE_URL+dataList.get(position).getBannerImage())
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.placeholder_image)
+                .fit()
+                .into(holder.bannerImage);;
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,7 +60,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
                 }
             }
         });
-        */
+
     }
 
     @Override
@@ -58,17 +70,16 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     public class EventListViewHolder extends RecyclerView.ViewHolder{
         private TextView txtEventTitle, txtEventAddress, txtEventVenue, txtEventDate, txtEventTime;
-        private CardView card;
-        private ImageView imageUstadz;
+        private RelativeLayout card;
+        private ImageView bannerImage;
         public EventListViewHolder(View itemView) {
             super(itemView);
             txtEventTitle = (TextView) itemView.findViewById(R.id.titleEvent);
-            txtEventAddress = (TextView) itemView.findViewById(R.id.venueAddress);
-            txtEventVenue = (TextView) itemView.findViewById(R.id.venue);
             txtEventDate = (TextView) itemView.findViewById(R.id.eventDate);
-            txtEventTime = (TextView) itemView.findViewById(R.id.eventTime);
-            imageUstadz = (ImageView) itemView.findViewById(R.id.imageUstadz);
-            card =(CardView) itemView.findViewById(R.id.card);
+            txtEventVenue = (TextView) itemView.findViewById(R.id.venueEvent);
+            txtEventAddress = (TextView) itemView.findViewById(R.id.venueAddress);
+            bannerImage = (ImageView) itemView.findViewById(R.id.bannerImage);
+            card =(RelativeLayout) itemView.findViewById(R.id.card);
         }
     }
 

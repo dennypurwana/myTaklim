@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.event.EventListAdapter;
 import mobile.app.ayotaklim.config.Config;
+import mobile.app.ayotaklim.config.SessionManager;
 import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.venue.Venue;
 import mobile.app.ayotaklim.utils.ConvertImageBase64;
@@ -26,8 +28,9 @@ public class VenueListAdapter extends RecyclerView.Adapter<VenueListAdapter.Venu
     private ArrayList<Venue> dataList;
     private OnItemClickListener listener;
     Context mContext;
+    SessionManager sessionManager;
 
-    public VenueListAdapter( Context context,ArrayList<Venue> dataList, OnItemClickListener listener) {
+    public VenueListAdapter(Context context,ArrayList<Venue> dataList, OnItemClickListener listener) {
         this.dataList = dataList;
         this.listener=listener;
         this.mContext = context;
@@ -42,6 +45,7 @@ public class VenueListAdapter extends RecyclerView.Adapter<VenueListAdapter.Venu
 
     @Override
     public void onBindViewHolder(VenueListViewHolder holder, final int position) {
+        sessionManager = new SessionManager(mContext);
         holder.txtVenueAddress.setText(dataList.get(position).getAlamat());
         holder.txtVenue.setText(dataList.get(position).getNama());
         Log.d("image url : ",Config.IMAGE_URL+dataList.get(position).getImageVenue() );
@@ -60,6 +64,20 @@ public class VenueListAdapter extends RecyclerView.Adapter<VenueListAdapter.Venu
                 }
             }
         });
+
+        if (sessionManager.isAdmin()) {
+            holder.btnDelete.setVisibility(View.VISIBLE);
+            holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onDeleteClick(dataList.get(position));
+                    }
+                }
+            });
+        }
+
+
     }
 
     @Override
@@ -69,18 +87,20 @@ public class VenueListAdapter extends RecyclerView.Adapter<VenueListAdapter.Venu
 
     public class VenueListViewHolder extends RecyclerView.ViewHolder{
         private TextView txtVenue, txtVenueAddress, txtEventVenue, txtEventDate, txtEventTime;
-        private CardView card;
-        private ImageView imageView;
+        private RelativeLayout card;
+        private ImageView imageView , btnDelete;
         public VenueListViewHolder(View itemView) {
             super(itemView);
             txtVenue = (TextView) itemView.findViewById(R.id.venueName);
             txtVenueAddress = (TextView) itemView.findViewById(R.id.venueAddress);
             imageView =itemView.findViewById(R.id.imageVenue);
-            card=(CardView) itemView.findViewById(R.id.card);
+            btnDelete =itemView.findViewById(R.id.iconDelete);
+            card=(RelativeLayout) itemView.findViewById(R.id.card);
         }
     }
 
     public interface OnItemClickListener {
         void onItemClick(Venue venue);
+        void onDeleteClick(Venue venue);
     }
 }

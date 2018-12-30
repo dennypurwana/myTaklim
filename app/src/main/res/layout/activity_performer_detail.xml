@@ -99,6 +99,18 @@
                     android:textSize="12dp"
                     android:layout_marginLeft="10dp"/>
 
+                <ImageView
+                    android:id="@+id/iconEdit"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:tint="@color/white"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone"
+                    android:src="@drawable/icon_edit"/>
+
             </RelativeLayout>
 
 
@@ -302,7 +314,7 @@
                     android:id="@+id/iconFB"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="80dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/fb"/>
@@ -330,7 +342,7 @@
                     android:id="@+id/iconYoutube"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="80dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/youtube_icon"/>
@@ -359,7 +371,7 @@
                     android:id="@+id/iconIG"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="80dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/instagram_icon"/>

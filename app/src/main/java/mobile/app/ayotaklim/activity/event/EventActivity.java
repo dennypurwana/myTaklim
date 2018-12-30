@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +27,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -34,6 +37,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -66,8 +70,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mobile.app.ayotaklim.R;
+import mobile.app.ayotaklim.activity.admin.AdminLoginActivity;
 import mobile.app.ayotaklim.activity.performer.PerformerListActivity;
 import mobile.app.ayotaklim.activity.reminder.ReminderListActivity;
+import mobile.app.ayotaklim.activity.splashscreen.SplashscreenActivity;
 import mobile.app.ayotaklim.activity.venue.VenueListActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
@@ -89,13 +95,15 @@ public class EventActivity extends AppCompatActivity
     private FusedLocationProviderClient mFusedLocationClient;
     SliderLayout sliderLayout;
     CameraPosition cameraPosition;
-    LinearLayout menuEvent, menuVenue , menuUstadz, menuReminder ;
+    LinearLayout menuEvent, menuVenue , menuUstadz, menuReminder, menuAbout, menuLogin ;
+    RelativeLayout adminLogin, adminLogout;
     MarkerOptions markerOptions;
     SliderView sliderView;
     SessionManager sessionManager;
     Marker markers;
    ArrayList<Venue> venueArrayList;
-    Venue venue ;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,11 +112,29 @@ public class EventActivity extends AppCompatActivity
         menuVenue = findViewById(R.id.menuVenue);
         menuUstadz = findViewById(R.id.menuUstadz);
         menuReminder = findViewById(R.id.menuReminder);
+//        menuAbout = findViewById(R.id.menuAbout);
+        menuLogin = findViewById(R.id.menuLogin);
+        adminLogin = findViewById(R.id.adminLogin);
+        adminLogout = findViewById(R.id.adminLogout);
         markerOptions = new MarkerOptions();
-        venue = new Venue();
         sessionManager = new SessionManager(EventActivity.this);
         sliderView = new SliderView(EventActivity.this);
-        loadMaps();
+        int MyVersion = Build.VERSION.SDK_INT;
+        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!checkIfAlreadyhavePermission()) {
+                checkLocationPermission();
+            }else{
+                checkLocation();
+                loadMaps();
+            }
+        }else{
+            if(isGooglePlayServicesAvailable()){
+                loadMaps();
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"google play services is not available",Toast.LENGTH_LONG).show();
+            }
+        }
         initSlider();
         menuEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,21 +163,62 @@ public class EventActivity extends AppCompatActivity
         menuReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(EventActivity.this,ReminderListActivity.class);
-                startActivity(intent);
+                if (!sessionManager.isAdmin()) {
+                    Intent intent = new Intent(EventActivity.this, ReminderListActivity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(),"Menu hanya bisa di akses oleh user.",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
+//        menuAbout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent=new Intent(EventActivity.this,DonasiActivity.class);
+//                startActivity(intent);
+//                     }
+//        });
 
+        if (sessionManager.isAdmin()){
+            adminLogin.setVisibility(View.GONE);
+            adminLogout.setVisibility(View.VISIBLE);
+            adminLogout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sessionManager.logoutAdminSession();
+                    finish();
+                    System.exit(0);
+                }
+            });
+
+        }else{
+            adminLogin.setVisibility(View.VISIBLE);
+            adminLogout.setVisibility(View.GONE);
+            adminLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(EventActivity.this,AdminLoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
+
+    }
+    private boolean checkIfAlreadyhavePermission() {
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void addMarker(LatLng latlng, final String title, final Venue venue ) {
-
-
         markerOptions.position(latlng);
         markerOptions.title(title);
-        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_masjid));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.masjid_ijo));
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setMinZoomPreference(10.0f);
         mMap.getUiSettings().isCompassEnabled();
@@ -171,117 +238,39 @@ public class EventActivity extends AppCompatActivity
         });
     }
 
-    private void getEvent() {
-       /* final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-        String url=Config.GET_EVENT;
-        Log.d("API : ",url);
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                url, null,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        progressDialog.hide();
-                        try {
-                            JSONArray vResponse=response.getJSONArray("event");
-                            if(vResponse.length()>0) {
-                                for (int i = 0; i < vResponse.length(); i++) {
-                                    try {
-
-                                        JSONObject jsonObject = vResponse.getJSONObject(i);
-                                        Event event = new Event();
-                                        event.setTitle(jsonObject.getString("nama"));
-                                        event.setTopic(jsonObject.getString("topik"));
-                                        event.setPerformer(jsonObject.getString("pemateri"));
-                                        event.setDate(jsonObject.getString("tanggal"));
-                                        event.setStartTime(jsonObject.getString("waktu_mulai"));
-                                        event.setEndTime(jsonObject.getString("waktu_selesai"));
-                                        event.setVenue(jsonObject.getString("venue"));
-                                        event.setVenueAddress(jsonObject.getString("alamat_venue"));
-                                        event.setLongitude(jsonObject.getDouble("longitude"));
-                                        event.setLatitude(jsonObject.getDouble("latitude"));
-                                        event.setImageBase64(jsonObject.getString("imageBase64"));
-                                        event.setDescription(jsonObject.getString("deskripsi"));
-                                        eventLocation = new LatLng(event.getLatitude(), event.getLongitude());
-                                       if((CheckDistanceLocations.CalculationByDistance(currentLocation,eventLocation))<30.0){
-                                           addMarker(eventLocation, event.getTitle(), event);
-                                        }
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        progressDialog.dismiss();
-                                    }
-                                }
-
-                            }else{
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            progressDialog.dismiss();
-                        }
-
-
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", "Error: " + error.getMessage());
-                progressDialog.dismiss();
-            }
-        });
-
-        MyApplication.getInstance().addToRequestQueue(jsonObjReq);
-        */
-
-    }
 
     void getDataVenue(){
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
-        String url=Config.GET_VENUE;
+        String url=Config.GET_DATA_EVENT_HOME;
         Log.d("API : ",url);
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 progressDialog.dismiss();
-                Log.d("response venus : " , response);
                 if (!response.equals(null)) {
                     progressDialog.hide();
-                    Log.e("TAG", "produk response: " + response.toString());
+                    Log.e("TAG", "produk data: " + response.toString());
                     try {
                         venueArrayList=new ArrayList<>();
                         JSONObject jsonResponse = new JSONObject(response);
                         JSONObject responseObj = jsonResponse.getJSONObject("data");
-                        JSONArray vResponse=responseObj.getJSONArray("items");
-                        if(vResponse.length()>0) {
+                        JSONArray venueResponse=responseObj.getJSONArray("venue");
+                        if(venueResponse.length()>0) {
 
-                            for (int i = 0; i < vResponse.length(); i++) {
+                            for (int i = 0; i < venueResponse.length(); i++) {
                                 try {
-
-                                    JSONObject jsonObject = vResponse.getJSONObject(i);
-
+                                    JSONObject jsonObject = venueResponse.getJSONObject(i);
+                                    Venue venue = new Venue();
                                     venue.setId(jsonObject.getInt("id"));
                                     venue.setNama(jsonObject.getString("nama"));
                                     venue.setAlamat(jsonObject.getString("alamat"));
-                                    venue.setNoTlp(jsonObject.getString("venue_phone"));
                                     venue.setLongitude(jsonObject.getDouble("longitude"));
                                     venue.setLatitude(jsonObject.getDouble("latitude"));
-                                    venue.setDkm(jsonObject.getString("dkm"));
-                                    venue.setDkmPhone(jsonObject.getString("dkm_phone"));
                                     venue.setImageVenue(jsonObject.getString("imagebase64"));
-                                    venue.setDeskripsi(jsonObject.getString("deskripsi"));
-//                                    eventLocation = new LatLng(venue.getLatitude(), venue.getLongitude());
-//                                    if((CheckDistanceLocations.CalculationByDistance(currentLocation,eventLocation))<100.0){
-//                                        addMarker(eventLocation, venue.getNama(), venue );
-//                                    }
-
                                     progressDialog.dismiss();
                                     venueArrayList.add(venue);
-
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     progressDialog.dismiss();
@@ -327,7 +316,7 @@ public class EventActivity extends AppCompatActivity
             markerOptions.position(new LatLng(venue.getLatitude(),venue.getLongitude()));
             markerOptions.title(venue.getNama());
             markerOptions.snippet(venue.getAlamat());
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_masjid));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.masjid_ijo));
             //mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.setMinZoomPreference(10.0f);
@@ -341,15 +330,14 @@ public class EventActivity extends AppCompatActivity
                 public void onInfoWindowClick(Marker marker) {
                     Venue venueTag = ((Venue) marker.getTag());
                     Intent intent = new Intent(EventActivity.this, EventDetailActivity.class);
-                    intent.putExtra("nama", venue.getNama());
+                    intent.putExtra("Venue", venueTag);
                     startActivity(intent);
 
                 }
             });
         }
     }
-    void loadMaps(){
-        if (requestSinglePermission()) {
+    void  loadMaps(){
             FragmentManager fm = EventActivity.this.getSupportFragmentManager();
             supportMapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
             if (supportMapFragment == null) {
@@ -364,9 +352,69 @@ public class EventActivity extends AppCompatActivity
                     .build();
             mLocationManager = (LocationManager) EventActivity.this.getSystemService(Context.LOCATION_SERVICE);
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(EventActivity.this);
+            startLocationUpdates();
+    }
+
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    private boolean isGooglePlayServicesAvailable() {
+        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (ConnectionResult.SUCCESS == status) {
+            return true;
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(status, this, 0).show();
+            return false;
         }
     }
 
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+                            loadMaps();
+                    }
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+
+                }
+                return;
+            }
+
+        }
+    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -439,6 +487,7 @@ public class EventActivity extends AppCompatActivity
             showAlert();
         return isLocationEnabled();
     }
+
 
     private void showAlert() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(EventActivity.this);
@@ -532,7 +581,6 @@ public class EventActivity extends AppCompatActivity
             sliderView.setOnSliderClickListener(new SliderView.OnSliderClickListener() {
                 @Override
                 public void onSliderClick(SliderView sliderView) {
-                    Toast.makeText(getApplicationContext(), "This is slider " + (finalI + 1), Toast.LENGTH_SHORT).show();
                 }
             });
 
