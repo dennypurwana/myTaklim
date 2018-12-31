@@ -10,13 +10,14 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:background="@color/white"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/colorPrimary"
+            app:contentScrim="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -36,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
@@ -48,13 +50,13 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary">
+                android:background="@color/white">
 
                 <ImageView
                     android:id="@+id/iconBack"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:tint="@color/white"
+                    android:tint="@color/colorPrimary"
                     android:layout_margin="20dp"
                     android:src="@drawable/ic_chevron_left_black_24dp"/>
                 <TextView
@@ -67,7 +69,7 @@
                     android:textSize="20dp"
                     android:paddingEnd="20dp"
                     android:textStyle="bold"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/colorPrimary"/>
 
                 <TextView
                     android:layout_toRightOf="@+id/iconBack"
@@ -77,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textSize="16dp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/colorPrimary"/>
 
                 <TextView
                     android:layout_below="@+id/venueEvent"
@@ -87,7 +89,7 @@
                     android:text=""
                     android:textSize="14dp"
                     android:layout_toRightOf="@+id/iconBack"
-                    android:textColor="@color/white"
+                    android:textColor="@color/title_color"
                     android:paddingEnd="10dp"
                     android:layout_marginBottom="10dp"/>
 

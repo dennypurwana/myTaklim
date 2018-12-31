@@ -10,13 +10,14 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/colorPrimary"
+            app:contentScrim="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
@@ -56,6 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
@@ -68,12 +70,12 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary">
+                android:background="@color/white">
                 <ImageView
                     android:id="@+id/iconBack"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:tint="@color/white"
+                    android:tint="@color/colorPrimary"
                     android:layout_margin="20dp"
                     android:src="@drawable/ic_chevron_left_black_24dp"/>
 
@@ -82,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Form Venue"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorPrimary"
                     android:layout_toRightOf="@+id/iconBack"
                     android:textSize="18dp"
                     android:textStyle="bold"
@@ -98,7 +100,7 @@
                     android:text="Input data-data venue pada form."
                     android:paddingEnd="10dp"
                     android:paddingBottom="10dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/title_color"
                     android:textSize="12dp"
                     android:layout_marginLeft="10dp"/>
 
@@ -135,7 +137,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:hint="input nama anda disini "
+                        android:hint=""
                         android:paddingEnd="40dp"
                         android:background="@drawable/edittext_round_corner"
                         android:inputType="textMultiLine"
@@ -205,7 +207,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:hint="input keterangan"
+                        android:hint=""
                         android:paddingEnd="40dp"
                         android:background="@drawable/edittext_round_corner"
                         android:inputType="textMultiLine"
@@ -273,7 +275,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:hint="input No HP/Telepon anda disini "
+                        android:hint=""
                         android:paddingEnd="40dp"
                         android:background="@drawable/edittext_round_corner"
                         android:inputType="number"
@@ -340,7 +342,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:hint="input Email anda disini "
+                        android:hint=""
                         android:paddingEnd="40dp"
                         android:background="@drawable/edittext_round_corner"
                         android:inputType="textMultiLine"
@@ -406,7 +408,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:hint="input dkm atau pengurus venus "
+                        android:hint=""
                         android:paddingEnd="40dp"
                         android:background="@drawable/edittext_round_corner"
                         android:inputType="textMultiLine"
@@ -472,7 +474,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:hint="input no hp dkm/pengurus"
+                        android:hint=""
                         android:paddingEnd="40dp"
                         android:background="@drawable/edittext_round_corner"
                         android:inputType="number"
@@ -567,7 +569,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:hint="input alamat disini"
+                        android:hint=""
                         android:paddingEnd="40dp"
                         android:background="@drawable/edittext_round_corner"
                         android:inputType="textMultiLine"
@@ -634,7 +636,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:hint="input koordinat longitude"
+                        android:hint=""
                         android:paddingEnd="40dp"
                         android:background="@drawable/edittext_round_corner"
                         android:inputType="text"
@@ -701,7 +703,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:hint="input koordinat latitude"
+                        android:hint=""
                         android:paddingEnd="40dp"
                         android:background="@drawable/edittext_round_corner"
                         android:inputType="text"
