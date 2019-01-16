@@ -33,10 +33,13 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -63,6 +66,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -78,10 +82,12 @@ import mobile.app.ayotaklim.config.SessionManager;
 import mobile.app.ayotaklim.models.performer.Performer;
 import mobile.app.ayotaklim.models.venue.Venue;
 import mobile.app.ayotaklim.utils.ConvertImageBase64;
+import mobile.app.ayotaklim.utils.VolleyMultipartRequest;
 
 public class AddVenueActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     EditText eTextNama, eTextAlamat, eTextPhone,
+            eTextNoRek, eTextNoPam, eTextNoPln, eTextJmlJamaah, eTextImamRutin,
             eTextDesc, eTextEmail, eTextDKM,
             eTextDKMPhone , eTextLongitude, eTextLatitude;
     ImageView imageVenue , iconMaps, iconBack;
@@ -97,6 +103,8 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
     JSONObject inputJson  = new JSONObject();
     String url;
     String imageBase64;
+    String fileName;
+    String fileUrl;
     Bitmap bitmapImage;
     private int PLACE_PICKER_REQUEST = 1;
     private GoogleApiClient mGoogleApiClient;
@@ -146,12 +154,17 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
 
     private void initView(){
         eTextNama = findViewById(R.id.edTextNama);
+        eTextImamRutin = findViewById(R.id.edTextNamaImamRutin);
         eTextAlamat = findViewById(R.id.edTextAddress);
         eTextDesc = findViewById(R.id.edTextDesc);
         eTextPhone = findViewById(R.id.edTextPhone);
         eTextEmail = findViewById(R.id.edTextEmail);
         eTextDKM = findViewById(R.id.edTextDKM);
         eTextDKMPhone = findViewById(R.id.edTextPhoneDKM);
+        eTextNoRek = findViewById(R.id.edTextNoRek);
+        eTextNoPln = findViewById(R.id.edTextNoPLN);
+        eTextNoPam = findViewById(R.id.edTextNoPAM);
+        eTextJmlJamaah  = findViewById(R.id.edTextJmlJamaah);
         eTextLongitude = findViewById(R.id.edTextLong);
         eTextLatitude = findViewById(R.id.edTextLat);
         eTextLongitude.setEnabled(false);
@@ -194,6 +207,7 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
 
 
     private void initViewEdit(){
+
         eTextNama.setText(venue.getNama());
         eTextAlamat.setText(venue.getAlamat());
         eTextDesc.setText(venue.getDeskripsi());
@@ -203,6 +217,12 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
         eTextDKMPhone.setText(venue.getDkmPhone());
         eTextLongitude.setText(String.valueOf(venue.getLongitude()));
         eTextLatitude.setText(String.valueOf(venue.getLatitude()));
+        eTextImamRutin.setText(venue.getNamaImamRutin());
+        eTextNoRek.setText(venue.getNoRek());
+        eTextNoPln.setText(venue.getNoPln());
+        eTextNoPam.setText(venue.getNoPam());
+        eTextJmlJamaah.setText(venue.getJmlJamaah());
+
     }
 
 
@@ -256,7 +276,7 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
                     String path = saveImage(bitmapImage);
                     Toast.makeText(AddVenueActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                     imageVenue.setImageBitmap(bitmapImage);
-                   // imageBase64 = ConvertImageBase64.convertToBase64(bitmap);
+                    uploadBitmap(ConvertImageBase64.getResizedBitmap(bitmapImage,1000,1000));
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(AddVenueActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
@@ -267,7 +287,7 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
             bitmapImage= (Bitmap) data.getExtras().get("data");
             imageVenue.setImageBitmap(bitmapImage);
             saveImage(bitmapImage);
-           // imageBase64 = ConvertImageBase64.convertToBase64(thumbnail);
+            uploadBitmap(ConvertImageBase64.getResizedBitmap(bitmapImage,1000,1000));
             Toast.makeText(AddVenueActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         }
         else if (requestCode == PLACE_PICKER_REQUEST) {
@@ -338,10 +358,15 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
             inputJson.put("phone", eTextPhone.getText().toString());
             inputJson.put("email", eTextEmail.getText().toString());
             inputJson.put("dkm", eTextDKM.getText().toString());
+            inputJson.put("jumlah_jamaah_subuh", eTextJmlJamaah.getText().toString());
+            inputJson.put("no_rek_bank", eTextNoRek.getText().toString());
+            inputJson.put("no_rek_pln", eTextNoPln.getText().toString());
+            inputJson.put("no_rek_pam", eTextNoPam.getText().toString());
+            inputJson.put("nama_imam_rutin", eTextImamRutin.getText().toString());
             inputJson.put("dkm_phone", eTextDKMPhone.getText().toString());
             inputJson.put("longitude", eTextLongitude.getText().toString());
             inputJson.put("latitude", eTextLatitude.getText().toString());
-            inputJson.put("imagebase64", "test");
+            inputJson.put("imagebase64", fileName);
             dataJson.put("data", inputJson);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -392,61 +417,80 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
     }
 
 
-    private void uploadImage(int record_id){
+    public  byte[] getFileDataFromDrawable(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-        Log.d("encode image : ",encodedImage);
-            url = Config.EDIT_VENUE;
-            try {
-                inputJson.put("record_id", record_id);
-                inputJson.put("imagebase64","tstasd");
-            } catch (JSONException e) {
-                e.printStackTrace();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
+
+
+
+
+
+    private void uploadBitmap(final Bitmap bitmap) {
+        progressDialog.setMessage("Uploading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, Config.UPLOAD_FILE,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        progressDialog.dismiss();
+                        try {
+                            JSONObject obj = new JSONObject(new String(response.data));
+                            Log.d("response ", obj.toString());
+                            JSONObject dataObj = obj.getJSONObject("data");
+                            fileName = dataObj.getString("file_name");
+                            fileUrl = dataObj.getString("file_url");
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Upload Gagal, Silahkan upload ulang.", Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
             }
 
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, dataJson, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                progressDialog.dismiss();
-                Log.d("TAG",response.toString());
-                Log.d("TAG","====================== SUCCESS ========================");
-                try {
-                    Boolean success  = response.getBoolean("success");
-                    String message   = response.getString("message");
-                    JSONObject data  = response.getJSONObject("data");
-                    if (success){
-                        Intent intent = new Intent(AddVenueActivity.this, VenueListActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        finish();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
-                error.printStackTrace();
-            }
-        }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", "bearer "+sessionManager.getAksesToken());
+                headers.put("Authorization", "bearer "+sessionManager.getTokenUpload());
                 return headers;
+            }
+
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                long imagename = System.currentTimeMillis();
+                params.put("file", new DataPart(imagename + ".png", getFileDataFromDrawable(bitmap)));
+                Log.d("data part : ",getFileDataFromDrawable(bitmap).toString());
+                Log.d("data : ","bitmap");
+                return params;
             }
         };
 
-        jsonRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Volley.newRequestQueue(this).add(jsonRequest);
-        //MyApplication.getInstance().addToRequestQueue(jsonRequest);
-
+        Volley.newRequestQueue(this).add(volleyMultipartRequest);
     }
 
     @Override

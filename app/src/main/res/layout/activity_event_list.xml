@@ -5,31 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="@color/white"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:background="@color/white"
+        android:layout_marginTop="20dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
@@ -41,6 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white">
+
                 <ImageView
                     android:id="@+id/iconBack"
                     android:layout_width="30dp"
@@ -53,7 +36,7 @@
                     android:id="@+id/headerTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="List Event"
+                    android:text="Daftar Kajian"
                     android:textColor="@color/colorPrimary"
                     android:layout_toRightOf="@+id/iconBack"
                     android:textSize="18dp"
@@ -67,7 +50,7 @@
                     android:layout_below="@+id/headerTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Event yang tersedia."
+                    android:text="Kajian yang tersedia."
                     android:paddingEnd="10dp"
                     android:paddingBottom="10dp"
                     android:textColor="@color/title_color"
@@ -90,18 +73,31 @@
                 android:layout_margin="20dp"
                 android:textSize="14dp"/>
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/btnAdd"
+                android:background="@color/gray"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                ></LinearLayout>
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="50dp"
                 android:minWidth="50dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
+
             <android.support.v7.widget.RecyclerView
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_below="@+id/btnAdd"
+                android:layout_below="@+id/line1"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="20dp"

@@ -83,7 +83,7 @@
                     android:id="@+id/headerTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Form Event"
+                    android:text="Form Kajian"
                     android:textColor="@color/colorPrimary"
                     android:layout_toRightOf="@+id/iconBack"
                     android:textSize="18dp"
@@ -97,7 +97,7 @@
                     android:layout_below="@+id/headerTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Input data-data event pada form dibawah."
+                    android:text="Input data-data kajian pada form dibawah."
                     android:paddingEnd="10dp"
                     android:paddingBottom="10dp"
                     android:textColor="@color/title_color"
@@ -116,7 +116,7 @@
                     android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nama Event"
+                    android:text="Nama Kajian"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/title_color"
@@ -185,7 +185,7 @@
                     android:id="@+id/tvDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Topik (tema event) "
+                    android:text="Tema Kajian "
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/title_color"
@@ -396,8 +396,167 @@
             </RelativeLayout>
 
 
+
+
+
             <RelativeLayout
                 android:layout_below="@+id/contentInputEndDate"
+                android:id="@+id/contentInputStartTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvStartTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Waktu Mulai"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+
+                <RelativeLayout
+                    android:layout_below="@+id/tvStartTime"
+                    android:id="@+id/cardStartTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp">
+
+                    <EditText
+                        android:id="@+id/edTextStartTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint=""
+                        android:paddingEnd="50dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iconStartTime"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/calender_iconn"
+                        android:padding="10dp"/>
+
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutStartTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconStartTime"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconStartTime"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputStartTime"
+                android:id="@+id/contentInputEndTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvEndTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Waktu Selesai"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+
+                <RelativeLayout
+                    android:layout_below="@+id/tvEndTime"
+                    android:id="@+id/cardEndTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp">
+
+                    <EditText
+                        android:id="@+id/edTextEndTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint=""
+                        android:paddingEnd="50dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iconEndTime"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/calender_iconn"
+                        android:padding="10dp"/>
+
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutEndTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconEndTime"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconEndTime"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputEndTime"
                 android:id="@+id/contentInputSearchLokasi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -406,7 +565,7 @@
                     android:id="@+id/tvEndLokasi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Venue Event"
+                    android:text="Pilih Masjid"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/title_color"
@@ -471,6 +630,80 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_below="@+id/contentInputSearchLokasi"
+                android:id="@+id/contentInputUstadz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvEndUstadz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pilih Ustadz"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+
+                <RelativeLayout
+                    android:layout_below="@+id/tvEndUstadz"
+                    android:id="@+id/cardUstadz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp">
+
+                    <EditText
+                        android:id="@+id/edTextPemateri"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint=""
+                        android:paddingEnd="50dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iconUstadz"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/icon_ustadz_"
+                        android:padding="10dp"/>
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutUstadz"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconUstadz"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconUstadz"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+            </RelativeLayout>
 
 
 
@@ -478,7 +711,7 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_below="@+id/contentInputSearchLokasi"
+                android:layout_below="@+id/contentInputUstadz"
                 android:id="@+id/buttonLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

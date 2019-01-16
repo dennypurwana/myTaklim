@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mobile.app.ayotaklim">
 
+
+
+
     <uses-sdk
         android:maxSdkVersion="29"
         android:targetSdkVersion="28" />
@@ -33,6 +36,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="ANDROID.PERMISSION.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".config.MyApplication"
@@ -115,6 +119,15 @@
         <activity android:name=".activity.admin.ListSearchVenueActivity" />
         <activity android:name=".activity.admin.AddJadwalEventActivity" />
         <activity android:name=".activity.admin.ListSearchPerformerActivity"></activity>
+
+        <!--  Declare  Alarm Broadcast receiver here  -->
+        <receiver android:name=".services.reminder.AlarmReceiver" />
+
+        <!--  Declare  Alarm Notification Service here  -->
+        <service android:name=".services.reminder.AlarmNotificationService" />
+
+        <!--  Declare  Alarm Sound Service here  -->
+        <service android:name=".services.reminder.AlarmSoundService" />
     </application>
 
 </manifest>

@@ -13,6 +13,51 @@ public class Venue implements Serializable {
     private String imageVenue;
     private String deskripsi;
     private String email;
+    private String namaImamRutin;
+    private String noRek;
+    private String noPam;
+    private String noPln;
+    private String jmlJamaah;
+
+    public String getNamaImamRutin() {
+        return namaImamRutin;
+    }
+
+    public void setNamaImamRutin(String namaImamRutin) {
+        this.namaImamRutin = namaImamRutin;
+    }
+
+    public String getNoRek() {
+        return noRek;
+    }
+
+    public void setNoRek(String noRek) {
+        this.noRek = noRek;
+    }
+
+    public String getNoPam() {
+        return noPam;
+    }
+
+    public void setNoPam(String noPam) {
+        this.noPam = noPam;
+    }
+
+    public String getNoPln() {
+        return noPln;
+    }
+
+    public void setNoPln(String noPln) {
+        this.noPln = noPln;
+    }
+
+    public String getJmlJamaah() {
+        return jmlJamaah;
+    }
+
+    public void setJmlJamaah(String jmlJamaah) {
+        this.jmlJamaah = jmlJamaah;
+    }
 
     public String getEmail() {
         return email;

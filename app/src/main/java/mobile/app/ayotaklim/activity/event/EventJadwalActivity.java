@@ -247,13 +247,13 @@ public class EventJadwalActivity extends AppCompatActivity {
                             }
                             if (!sessionManager.isAdmin()) {
                                 if (flagEvent == event.getId()) {
-                                    // Toast.makeText(getApplicationContext(),"Masuk Kondisi ",Toast.LENGTH_LONG).show();
                                     btnApply.setVisibility(View.GONE);
                                 } else {
                                     btnApply.setVisibility(View.VISIBLE);
                                 }
                             }else {
                                 btnAdd.setVisibility(View.VISIBLE);
+                                btnApply.setVisibility(View.GONE);
                             }
                         }else{
 
@@ -261,10 +261,23 @@ public class EventJadwalActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         progressDialog.dismiss();
                         e.printStackTrace();
+                        if (!sessionManager.isAdmin()){
+                        btnApply.setVisibility(View.VISIBLE);
+                        btnAdd.setVisibility(View.GONE);
+                        }else {
+                         btnAdd.setVisibility(View.VISIBLE);
+                         btnApply.setVisibility(View.GONE);
+                        }
                     }
 
                 } else {
-
+                    if (!sessionManager.isAdmin()){
+                        btnApply.setVisibility(View.VISIBLE);
+                        btnAdd.setVisibility(View.GONE);
+                    }else {
+                        btnAdd.setVisibility(View.VISIBLE);
+                        btnApply.setVisibility(View.GONE);
+                    }
                 }
             }
 
@@ -272,7 +285,14 @@ public class EventJadwalActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
-                Log.e("error is ", "" + error);
+                if (!sessionManager.isAdmin()){
+                    btnApply.setVisibility(View.VISIBLE);
+                    btnAdd.setVisibility(View.GONE);
+                }else {
+                    btnAdd.setVisibility(View.VISIBLE);
+                    btnApply.setVisibility(View.GONE);
+                }
+
             }
         }) {
             @Override

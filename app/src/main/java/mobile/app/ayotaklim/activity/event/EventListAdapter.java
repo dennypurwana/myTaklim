@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -42,21 +43,57 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     @Override
     public void onBindViewHolder(EventListViewHolder holder, final int position) {
         formatTanggalIDN=new FormatTanggalIDN();
+        String eventDate;
         holder.txtEventTitle.setText(dataList.get(position).getNamaEvent());
-        holder.txtEventDate.setText(formatTanggalIDN.formatDate(dataList.get(position).getTglMulai())+" s.d "+formatTanggalIDN.formatDate(dataList.get(position).getTglBerakhir()));
-        holder.txtEventVenue.setText(dataList.get(position).getNamaVenue());
-        holder.txtEventAddress.setText(dataList.get(position).getAlamatVenue());
+        if (dataList.get(position).getTglMulai().equalsIgnoreCase(dataList.get(position).getTglBerakhir())){
+            eventDate = formatTanggalIDN.formatDate(dataList.get(position).getTglMulai());
+        }else{
+            eventDate = formatTanggalIDN.formatDate(dataList.get(position).getTglMulai())+" s.d "+formatTanggalIDN.formatDate(dataList.get(position).getTglBerakhir());
+        }
+        holder.txtEventDate.setText(eventDate);
+        holder.txtNamaUstadz.setText(dataList.get(position).getNamaUstadz());
+        holder.txtVenue.setText(dataList.get(position).getNamaVenue());
+        holder.txtVenueAddress.setText(dataList.get(position).getAlamatVenue());
+        holder.txtEventTime.setText(dataList.get(position).getJamMulai().replace(":",".")+" - "+dataList.get(position).getJamSelesai().replace(":","."));
         Picasso.get()
-                .load(Config.IMAGE_URL+dataList.get(position).getBannerImage())
+                .load(Config.IMAGE_URL+dataList.get(position).getImageUstadz())
                 .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.placeholder_image)
                 .fit()
                 .into(holder.bannerImage);;
-        holder.card.setOnClickListener(new View.OnClickListener() {
+        holder.iconView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onItemClick(dataList.get(position));
+                    listener.onItemClick(dataList.get(position),"eventDetail");
+                }
+            }
+        });
+
+        holder.txtNamaUstadz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(dataList.get(position),"performerDetail");
+                }
+            }
+        });
+
+        holder.txtVenue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(dataList.get(position),"venueDetail");
+                }
+            }
+        });
+
+
+        holder.txtVenueAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(dataList.get(position),"venueDetail");
                 }
             }
         });
@@ -69,21 +106,24 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     }
 
     public class EventListViewHolder extends RecyclerView.ViewHolder{
-        private TextView txtEventTitle, txtEventAddress, txtEventVenue, txtEventDate, txtEventTime;
+        private TextView txtEventTitle, txtVenue,txtVenueAddress, txtNamaUstadz, txtEventDate, txtEventTime;
         private RelativeLayout card;
-        private ImageView bannerImage;
+        private ImageView bannerImage,iconView;
         public EventListViewHolder(View itemView) {
             super(itemView);
             txtEventTitle = (TextView) itemView.findViewById(R.id.titleEvent);
             txtEventDate = (TextView) itemView.findViewById(R.id.eventDate);
-            txtEventVenue = (TextView) itemView.findViewById(R.id.venueEvent);
-            txtEventAddress = (TextView) itemView.findViewById(R.id.venueAddress);
+            txtNamaUstadz = (TextView) itemView.findViewById(R.id.namaUstadz);
+            txtVenue = (TextView) itemView.findViewById(R.id.venue);
+            txtVenueAddress = (TextView) itemView.findViewById(R.id.venueAddress);
+            txtEventTime =(TextView) itemView.findViewById(R.id.waktuEvent);
+            iconView = itemView.findViewById(R.id.iconView);
             bannerImage = (ImageView) itemView.findViewById(R.id.bannerImage);
             card =(RelativeLayout) itemView.findViewById(R.id.card);
         }
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Event event);
+        void onItemClick(Event event,String toPage);
     }
 }

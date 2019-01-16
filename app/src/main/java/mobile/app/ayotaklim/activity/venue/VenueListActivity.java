@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -47,12 +48,14 @@ public class VenueListActivity  extends AppCompatActivity {
     SliderLayout sliderLayout;
     SessionManager sessionManager;
     Button btnAdd;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venue_list);
         sessionManager = new SessionManager(VenueListActivity.this);
-
+        progressBar = findViewById(R.id.progressBar);
+        setProgressBarIndeterminateVisibility(true);
         if (sessionManager.isAdmin()) {
             btnAdd = findViewById(R.id.btnAdd);
             btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -146,18 +149,15 @@ public class VenueListActivity  extends AppCompatActivity {
 
 
     private void getData(){
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
+       progressBar.setVisibility(View.VISIBLE);
         String url=Config.GET_VENUE;
         Log.d("API : ",url);
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                progressDialog.dismiss();
+               progressBar.setVisibility(View.GONE);
                 Log.d("response venus : " , response);
                 if (!response.equals(null)) {
-                    progressDialog.hide();
                     Log.e("TAG", "produk response: " + response.toString());
                     try {
                         venueArrayList=new ArrayList<>();
@@ -176,17 +176,20 @@ public class VenueListActivity  extends AppCompatActivity {
                                     venue.setNoTlp(jsonObject.getString("no_tlp"));
                                     venue.setLongitude(jsonObject.getDouble("longitude"));
                                     venue.setLatitude(jsonObject.getDouble("latitude"));
+                                    venue.setNamaImamRutin(jsonObject.getString("nama_imam_rutin"));
+                                    venue.setJmlJamaah(jsonObject.getString("jumlah_jamaah_subuh"));
+                                    venue.setNoRek(jsonObject.getString("no_rek_bank"));
+                                    venue.setNoPln(jsonObject.getString("no_rek_pln"));
+                                    venue.setNoPam(jsonObject.getString("no_rek_pam"));
                                     venue.setDkm(jsonObject.getString("dkm"));
                                     venue.setEmail(jsonObject.getString("email"));
                                     venue.setDkmPhone(jsonObject.getString("dkm_phone"));
                                     venue.setImageVenue(jsonObject.getString("imagebase64"));
                                     venue.setDeskripsi(jsonObject.getString("deskripsi"));
-                                    progressDialog.dismiss();
                                     venueArrayList.add(venue);
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    progressDialog.dismiss();
                                 }
                             }
                             initVenue();
@@ -206,7 +209,7 @@ public class VenueListActivity  extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 Log.e("error is ", "" + error);
             }
         }) {

@@ -79,6 +79,7 @@ import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;
 import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.venue.Venue;
+import mobile.app.ayotaklim.utils.FormatTanggalIDN;
 
 public class EventListActivity extends AppCompatActivity{
     private RecyclerView recyclerView;
@@ -124,10 +125,22 @@ public class EventListActivity extends AppCompatActivity{
         recyclerView.setVisibility(View.VISIBLE);
         adapter = new EventListAdapter(eventArrayList, new EventListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(Event event) {
-                Intent intent=new Intent(EventListActivity.this,EventJadwalActivity.class);
-                intent.putExtra("Event", event);
-                startActivity(intent);
+            public void onItemClick(Event event, String toPage) {
+
+                if (toPage.equalsIgnoreCase("eventDetail")) {
+                    Intent intent = new Intent(EventListActivity.this, EventJadwalActivity.class);
+                    intent.putExtra("Event", event);
+                    startActivity(intent);
+                }
+                else if (toPage.equalsIgnoreCase("performerDetail")){
+                    Toast.makeText(getApplicationContext(),"ustadz klik",Toast.LENGTH_LONG).show();
+                }
+
+                else if (toPage.equalsIgnoreCase("venueDetail")){
+                    Toast.makeText(getApplicationContext(),"venue klik",Toast.LENGTH_LONG).show();
+                }
+
+
             }
         });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EventListActivity.this);
@@ -138,13 +151,12 @@ public class EventListActivity extends AppCompatActivity{
     void getDataEvent(){
         progressBar.setVisibility(View.VISIBLE);
         String url=Config.GET_DATA_EVENT_HOME;
-        Log.d("API : ",url);
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 progressBar.setVisibility(View.GONE);
                 if (!response.equals(null)) {
-                    Log.e("TAG", "produk data: " + response.toString());
+
                     try {
                         eventArrayList=new ArrayList<>();
                         JSONObject jsonResponse = new JSONObject(response);
@@ -155,16 +167,29 @@ public class EventListActivity extends AppCompatActivity{
                             for (int i = 0; i < venueResponse.length(); i++) {
                                 try {
                                     JSONObject jsonObject = venueResponse.getJSONObject(i);
+
                                     Event event = new Event();
                                     event.setId(jsonObject.getInt("id"));
                                     event.setNamaEvent(jsonObject.getString("nama_event"));
                                     event.setAlamatVenue(jsonObject.getString("alamat"));
                                     event.setNamaVenue(jsonObject.getString("nama"));
                                     event.setVenueId(jsonObject.getInt("c_venue_id"));
+                                    event.setPerformerId(jsonObject.getInt("c_pemateri_id"));
                                     event.setBannerImage(jsonObject.getString("banner_image"));
                                     event.setTglMulai(jsonObject.getString("tgl_mulai"));
                                     event.setTglBerakhir(jsonObject.getString("tgl_berakhir"));
-                                    eventArrayList.add(event);
+                                    event.setJamMulai(jsonObject.getString("jam_mulai"));
+                                    event.setJamSelesai(jsonObject.getString("jam_selesai"));
+                                    event.setNamaUstadz(jsonObject.getString("nama_ustadz"));
+                                    event.setImageUstadz(jsonObject.getString("image_ustadz"));
+                                    FormatTanggalIDN formatTanggalIDN = new FormatTanggalIDN();
+
+                                    final long dateDiff =formatTanggalIDN.dateDiff(event.getTglMulai());
+
+                                    if (dateDiff>0){
+                                        eventArrayList.add(event);
+                                    }
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
 
@@ -187,7 +212,6 @@ public class EventListActivity extends AppCompatActivity{
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressBar.setVisibility(View.GONE);
-                Log.e("error is ", "" + error);
             }
         }) {
             @Override

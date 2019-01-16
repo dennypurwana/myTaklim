@@ -2,6 +2,7 @@ package mobile.app.ayotaklim.activity.reminder;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,19 +41,23 @@ public class ReminderListAdapter  extends RecyclerView.Adapter<ReminderListAdapt
 
     @Override
     public void onBindViewHolder(ReminderListAdapter.ReminderListViewHolder holder, final int position) {
+
         formatTanggalIDN = new FormatTanggalIDN();
         holder.txtEvent.setText(dataList.get(position).getEventName());
         holder.txtEventAddress.setText(dataList.get(position).getEventLocation()+"\n"+dataList.get(position).getEventAddress());
         holder.txtEventDateTime.setText(formatTanggalIDN.formatDate(dataList.get(position).getEventDate()));
-        holder.txtTimeReminder.setText("1 Hari ");
+        FormatTanggalIDN formatTanggalIDN = new FormatTanggalIDN();
+        final String dateDiff =String.valueOf(formatTanggalIDN.dateDiff(dataList.get(position).getEventDate()));
+        holder.txtTimeReminder.setText(dateDiff + " hari lagi");
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onItemClick(dataList.get(position));
+                    listener.onItemClick(dataList.get(position), dateDiff);
                 }
             }
         });
+
     }
 
     @Override
@@ -74,6 +79,6 @@ public class ReminderListAdapter  extends RecyclerView.Adapter<ReminderListAdapt
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Reminder reminder);
+        void onItemClick(Reminder reminder, String dateDiff);
     }
 }

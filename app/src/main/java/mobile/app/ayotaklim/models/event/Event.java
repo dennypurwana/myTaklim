@@ -11,6 +11,46 @@ public class Event implements Serializable {
     private String bannerImage;
     private String namaVenue;
     private String alamatVenue;
+    private String namaUstadz;
+    private String imageUstadz;
+    private String tglMulai;
+    private String tglBerakhir;
+    private String jamMulai;
+    private String jamSelesai;
+
+    public String getNamaUstadz() {
+        return namaUstadz;
+    }
+
+    public void setNamaUstadz(String namaUstadz) {
+        this.namaUstadz = namaUstadz;
+    }
+
+    public String getImageUstadz() {
+        return imageUstadz;
+    }
+
+    public void setImageUstadz(String imageUstadz) {
+        this.imageUstadz = imageUstadz;
+    }
+
+    public String getJamMulai() {
+        return jamMulai;
+    }
+
+    public void setJamMulai(String jamMulai) {
+        this.jamMulai = jamMulai;
+    }
+
+    public String getJamSelesai() {
+        return jamSelesai;
+    }
+
+    public void setJamSelesai(String jamSelesai) {
+        this.jamSelesai = jamSelesai;
+    }
+
+
 
     public String getBannerImage() {
         return bannerImage;
@@ -44,8 +84,6 @@ public class Event implements Serializable {
         this.id = id;
     }
 
-    private String tglMulai;
-    private String tglBerakhir;
 
     public int getVenueId() {
         return venueId;

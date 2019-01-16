@@ -9,8 +9,8 @@
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="5dp"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardElevation="1dp"
         card_view:cardUseCompatPadding="true"
        >
 
@@ -62,7 +62,7 @@
                         android:textColor="@color/black"
                         android:textSize="14dp"
                         android:layout_centerHorizontal="true"
-                        android:text="Event"/>
+                        android:text="Kajian/Taklim"/>
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -89,7 +89,7 @@
                             android:textColor="@color/black"
                             android:textSize="14dp"
                             android:layout_centerHorizontal="true"
-                            android:text="Venue"/>
+                            android:text="Masjid"/>
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -115,7 +115,7 @@
                         android:textColor="@color/black"
                         android:textSize="14dp"
                         android:layout_centerHorizontal="true"
-                        android:text="Pemateri"/>
+                        android:text="Ustadz"/>
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -174,7 +174,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/login_icon"/>
+                        android:src="@drawable/icon_login"/>
                     <TextView
                         android:layout_below="@+id/iconLogin"
                         android:layout_width="wrap_content"

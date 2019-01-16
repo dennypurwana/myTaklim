@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +55,13 @@ public class VenueDetailActivity extends AppCompatActivity  implements OnMapRead
              dkmName,
              dkmPhone,
              phone,
-             deskripsi;
+             deskripsi,
+             namaImamRutin,
+             jumlahJamaahSubuh,
+             noRekBank,
+             noPln,
+             noPam;
+    RelativeLayout lihatKajianLayout;
     SessionManager sessionManager;
     Marker markers;
     private SupportMapFragment supportMapFragment;
@@ -79,6 +86,12 @@ public class VenueDetailActivity extends AppCompatActivity  implements OnMapRead
         dkmName =findViewById(R.id.takmirName);
         phone= findViewById(R.id.phone);
         deskripsi = findViewById(R.id.deskripsi);
+        namaImamRutin = findViewById(R.id.namaImamRutin);
+        jumlahJamaahSubuh = findViewById(R.id.jumlahJamaah);
+        lihatKajianLayout = findViewById(R.id.lihatKajian);
+        noRekBank = findViewById(R.id.noRek);
+        noPln = findViewById(R.id.noPLN);
+        noPam = findViewById(R.id.noPAM);
         imageVenue = findViewById(R.id.imageVenue);
         iconBack = findViewById(R.id.iconBack);
         venueName.setText(venue.getNama());
@@ -87,6 +100,11 @@ public class VenueDetailActivity extends AppCompatActivity  implements OnMapRead
         dkmPhone.setText(venue.getDkmPhone());
         phone.setText(venue.getNoTlp());
         deskripsi.setText(venue.getDeskripsi());
+        namaImamRutin.setText(venue.getNamaImamRutin());
+        jumlahJamaahSubuh.setText(venue.getJmlJamaah()+" orang");
+        noRekBank.setText(venue.getNoRek());
+        noPln.setText(venue.getNoPln());
+        noPam.setText(venue.getNoPam());
         Picasso.get()
                 .load(Config.IMAGE_URL+venue.getImageVenue())
                 .placeholder(R.drawable.placeholder_image)
@@ -95,6 +113,7 @@ public class VenueDetailActivity extends AppCompatActivity  implements OnMapRead
                 .into(imageVenue);
         if (sessionManager.isAdmin()) {
             btnEdit = findViewById(R.id.iconEdit);
+            btnEdit.setVisibility(View.VISIBLE);
             btnEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -110,6 +129,14 @@ public class VenueDetailActivity extends AppCompatActivity  implements OnMapRead
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        lihatKajianLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(VenueDetailActivity.this,EventDetailActivity.class);
+                intent.putExtra("Venue", venue);
+                startActivity(intent);
             }
         });
         loadMaps();

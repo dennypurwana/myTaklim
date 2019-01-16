@@ -39,7 +39,7 @@ public class ListSearchVenueActivity extends AppCompatActivity {
     private ListVenueSearchAdapter adapter;
     private ArrayList<Venue> venueArrayList;
     SessionManager sessionManager;
-    String nama,topik,sDate,eDate,venue,flag;
+    String nama,topik,sDate,eDate,sTime,eTime,pemateriId,pemateri,venue,flag,fileName,fileUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +50,13 @@ public class ListSearchVenueActivity extends AppCompatActivity {
             topik = getIntent().getStringExtra("topik");
             sDate = getIntent().getStringExtra("startDate");
             eDate = getIntent().getStringExtra("endDate");
+            sTime = getIntent().getStringExtra("startTime");
+            eTime = getIntent().getStringExtra("endTime");
             venue = getIntent().getStringExtra("venue");
+            pemateri = getIntent().getStringExtra("pemateri");
+            fileName = getIntent().getStringExtra("fileName");
+            pemateriId = getIntent().getStringExtra("pemateriId");
+            fileUrl=getIntent().getStringExtra("fileUrl");
         getData();
     }
 
@@ -60,13 +66,21 @@ public class ListSearchVenueActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Venue venue) {
                 Intent intent=new Intent(ListSearchVenueActivity.this,AddEventActivity.class);
+
                 intent.putExtra("nama",nama);
                 intent.putExtra("topik",topik);
                 intent.putExtra("startDate",sDate);
                 intent.putExtra("endDate",eDate);
+                intent.putExtra("startTime",sTime);
+                intent.putExtra("endTime",eTime);
                 intent.putExtra("venue",venue.getNama());
-                intent.putExtra("id",venue.getId());
-                intent.putExtra("flag","SEARCH");
+                intent.putExtra("venueId",venue.getId());
+                intent.putExtra("pemateri",pemateri);
+                intent.putExtra("pemateriId",pemateriId);
+                intent.putExtra("fileName",fileName);
+                intent.putExtra("fileUrl",fileUrl);
+                intent.putExtra("flag","FROM_EVENT");
+
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);

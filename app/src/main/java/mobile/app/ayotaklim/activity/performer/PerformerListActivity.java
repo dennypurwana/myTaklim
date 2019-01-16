@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -56,13 +57,15 @@ public class PerformerListActivity extends AppCompatActivity {
     SessionManager sessionManager;
     SliderLayout sliderLayout;
     Button btnAdd;
-
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_performer_list);
         sessionManager = new SessionManager(PerformerListActivity.this);
+        progressBar = findViewById(R.id.progressBar);
+        setProgressBarIndeterminateVisibility(true);
         initSlider();
         if (sessionManager.isAdmin()){
             btnAdd = findViewById(R.id.btnAdd);
@@ -111,18 +114,15 @@ public class PerformerListActivity extends AppCompatActivity {
 
 
     private void getData(){
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
+        progressBar.setVisibility(View.VISIBLE);
         String url=Config.GET_USTADZ;
         Log.d("API : ",url);
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                progressDialog.dismiss();
+               progressBar.setVisibility(View.GONE);
                 Log.d("response pemateri : " , response);
                 if (!response.equals(null)) {
-                    progressDialog.hide();
                     Log.e("TAG", "produk response: " + response.toString());
                     try {
                         performerArrayList=new ArrayList<>();
@@ -147,14 +147,12 @@ public class PerformerListActivity extends AppCompatActivity {
                                     ustadz.setDeskripsi(jsonObject.getString("deskripsi"));
                                     ustadz.setYoutube(jsonObject.getString("youtube"));
                                     ustadz.setPendidikan(jsonObject.getString("pendidikan"));
-
-
-                                    progressDialog.dismiss();
                                     performerArrayList.add(ustadz);
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    progressDialog.dismiss();
+                                    progressBar.setVisibility(View.GONE);
+
                                 }
                             }
                             initView();
@@ -174,7 +172,7 @@ public class PerformerListActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 Log.e("error is ", "" + error);
             }
         }) {
@@ -189,74 +187,7 @@ public class PerformerListActivity extends AppCompatActivity {
         MyApplication.getInstance().addToRequestQueue(request);
 
     }
-    /*private void getData(){
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-        String url=Config.GET_USTADZ;
-        Log.d("API : ",url);
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                url, null,
-                new Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        progressDialog.hide();
-                        Log.e("TAG", "ustadz response: " + response.toString());
-                        try {
-                            performerArrayList=new ArrayList<>();
-                            JSONArray vResponse=response.getJSONArray("ustadz");
-                            if(vResponse.length()>0) {
-                                for (int i = 0; i < vResponse.length(); i++) {
-                                    try {
-
-                                        JSONObject jsonObject = vResponse.getJSONObject(i);
-                                        Performer ustadz = new Performer();
-                                        ustadz.setNama(jsonObject.getString("nama"));
-                                        ustadz.setAlamat(jsonObject.getString("alamat"));
-                                        ustadz.setPhone(jsonObject.getString("phone"));
-                                        ustadz.setTglLahir(jsonObject.getString("tgl_lahir"));
-                                        ustadz.setEmail(jsonObject.getString("email"));
-                                        ustadz.setInstagram(jsonObject.getString("instagram"));
-                                        ustadz.setFacebook(jsonObject.getString("facebook"));
-                                        ustadz.setImageUstadz(jsonObject.getString("imageBase64"));
-                                        ustadz.setDeskripsi(jsonObject.getString("deskripsi"));
-                                        ustadz.setYoutube(jsonObject.getString("youtube"));
-                                        ustadz.setPendidikan(jsonObject.getString("pendidikan"));
-
-
-                                        progressDialog.dismiss();
-                                        performerArrayList.add(ustadz);
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        progressDialog.dismiss();
-                                    }
-                                }
-                                initView();
-                                adapter.notifyDataSetChanged();
-                            }else{
-                                recyclerView.setVisibility(View.GONE);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", "Error: " + error.getMessage());
-
-            }
-        });
-
-        MyApplication.getInstance().addToRequestQueue(jsonObjReq);
-
-    }
-    */
     private void setSliderViews() {
 
         for (int i = 0; i <= 3; i++) {

@@ -66,7 +66,6 @@ private void createToken() {
     StringRequest sr = new StringRequest(Request.Method.POST,Config.AUTH_LOGIN, new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
-            Log.d("RESPONSE , ",response.toString());
 
             try {
 
@@ -75,15 +74,18 @@ private void createToken() {
                 String message = jsonObject.getString("message");
                 JSONObject data = jsonObject.getJSONObject("data");
                 String token = data.getString("token");
-                Log.d("token ", token);
+
                 if (success){
                     sessionManager.createAccessToken(token);
                     Intent intent = new Intent(SplashscreenActivity.this, EventActivity.class);
                     startActivity(intent);
                     finish();
                 }else {
+
                     Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
+
                 }
+
             }catch (JSONException e){
 
             }
@@ -112,37 +114,7 @@ private void createToken() {
             return params;
         }
     };
-    /*JSONObject postParam = new JSONObject();
-    try {
-        postParam.put("username", "taklim");
-        postParam.put("password", "t4kl1m345");
-    } catch (JSONException e) {
-        e.printStackTrace();
-    }
-    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Config.AUTH_LOGIN, postParam,
-            new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Log.d("RESPONSE , ",response.toString());
-                    Intent intent = new Intent(SplashscreenActivity.this, EventActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
 
-        }
-    }){
-
-        @Override
-        public Map<String, String> getHeaders() throws AuthFailureError {
-            Map<String,String> params = new HashMap<>();
-            params.put("Content-Type","application/json");
-            return params;
-        }
-    };
-    */
     MyApplication.getInstance().addToRequestQueue(sr);
 
 }

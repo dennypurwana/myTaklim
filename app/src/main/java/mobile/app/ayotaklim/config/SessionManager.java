@@ -15,14 +15,15 @@ public class SessionManager {
     private static final String IS_ADMIN = "IsAdmin";
     public static final String KEY_URL = "url";
     public static final String TOKEN = "token";
+    public static final String TOKEN_UPLOAD = "token_upload";
     public static final String IS_MEMBER = "isMember";
     public static final String MEMBER_ID = "MemberId";
+    public static final String MEMBER_PHONE = "MemberPhone";
+    public static final String MEMBER_EMAIL = "MemberEmail";
     public static final String MEMBER_NAMA = "MemberNama";
     public static final String MEMBER_ALAMAT = "MemberAlamat";
-    public static final String MEMBER_EMAIL= "MemberEmail";
     public static final String MEMBER_IMAGE = "MemberImage";
     public static final String MEMBER_KTP = "MemberKTP";
-    public static final String MEMBER_PHONE = "MemberPhone";
 
 
     public SessionManager(Context context) {
@@ -48,8 +49,26 @@ public class SessionManager {
 
     }
 
+    public void createAccessTokenUpload(String token){
+        editor.putString(TOKEN_UPLOAD, token);
+        editor.commit();
+
+    }
+
     public void createMemberId(int id){
         editor.putInt(MEMBER_ID, id);
+        editor.commit();
+
+    }
+
+    public void createMemberPhone(String phone){
+        editor.putString(MEMBER_PHONE, phone);
+        editor.commit();
+
+    }
+
+    public void createMemberEmail(String mail){
+        editor.putString(MEMBER_EMAIL, mail);
         editor.commit();
 
     }
@@ -73,10 +92,20 @@ public class SessionManager {
     public  String getAksesToken(){
         return pref.getString(TOKEN, null);
    }
+
+
+    public  String getTokenUpload(){
+        return pref.getString(TOKEN, null);
+    }
     public  int getMemberId(){
         return pref.getInt(MEMBER_ID, 0);
     }
-
+    public  String getMemberPhone(){
+        return pref.getString(MEMBER_PHONE, "");
+    }
+    public  String getMemberEmail(){
+        return pref.getString(MEMBER_EMAIL, "");
+    }
     public  boolean checkSession(){
 
         return pref.getBoolean(IS_LOGIN, false);

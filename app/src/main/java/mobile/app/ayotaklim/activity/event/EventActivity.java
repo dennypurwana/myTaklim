@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -102,8 +103,9 @@ public class EventActivity extends AppCompatActivity
     SessionManager sessionManager;
     Marker markers;
    ArrayList<Venue> venueArrayList;
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
-
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,15 +121,16 @@ public class EventActivity extends AppCompatActivity
         markerOptions = new MarkerOptions();
         sessionManager = new SessionManager(EventActivity.this);
         sliderView = new SliderView(EventActivity.this);
-        int MyVersion = Build.VERSION.SDK_INT;
+        progressBar = findViewById(R.id.progressBar);
+        setProgressBarIndeterminateVisibility(true);
+
+        requestPermission();
+
+        /*int MyVersion = Build.VERSION.SDK_INT;
         if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            if (!checkIfAlreadyhavePermission()) {
-                checkLocationPermission();
-            }else{
-                checkLocation();
-                loadMaps();
-            }
+            requestPermission();
         }else{
+            statusCheck();
             if(isGooglePlayServicesAvailable()){
                 loadMaps();
             }
@@ -135,6 +138,8 @@ public class EventActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(),"google play services is not available",Toast.LENGTH_LONG).show();
             }
         }
+        */
+
         initSlider();
         menuEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,8 +214,10 @@ public class EventActivity extends AppCompatActivity
     private boolean checkIfAlreadyhavePermission() {
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (result == PackageManager.PERMISSION_GRANTED) {
+            Log.d("cek","true");
             return true;
         } else {
+            Log.d("cek","false");
             return false;
         }
     }
@@ -238,19 +245,25 @@ public class EventActivity extends AppCompatActivity
         });
     }
 
+    private void requestPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(EventActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            Toast.makeText(getApplicationContext(), "GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
+            showAlert();
+        } else {
+            ActivityCompat.requestPermissions(EventActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+
+        }
+    }
 
     void getDataVenue(){
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
+        progressBar.setVisibility(View.VISIBLE);
         String url=Config.GET_DATA_EVENT_HOME;
         Log.d("API : ",url);
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 if (!response.equals(null)) {
-                    progressDialog.hide();
                     Log.e("TAG", "produk data: " + response.toString());
                     try {
                         venueArrayList=new ArrayList<>();
@@ -269,11 +282,10 @@ public class EventActivity extends AppCompatActivity
                                     venue.setLongitude(jsonObject.getDouble("longitude"));
                                     venue.setLatitude(jsonObject.getDouble("latitude"));
                                     venue.setImageVenue(jsonObject.getString("imagebase64"));
-                                    progressDialog.dismiss();
                                     venueArrayList.add(venue);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    progressDialog.dismiss();
+                                    progressBar.setVisibility(View.GONE);
                                 }
                             }
                             initMarker();
@@ -293,7 +305,7 @@ public class EventActivity extends AppCompatActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 Log.e("error is ", "" + error);
             }
         }) {
@@ -337,6 +349,7 @@ public class EventActivity extends AppCompatActivity
             });
         }
     }
+
     void  loadMaps(){
             FragmentManager fm = EventActivity.this.getSupportFragmentManager();
             supportMapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
@@ -368,6 +381,7 @@ public class EventActivity extends AppCompatActivity
     }
 
     public boolean checkLocationPermission() {
+        Log.d("ko ga msuk sini","ya");
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -376,7 +390,6 @@ public class EventActivity extends AppCompatActivity
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
             } else {
-                // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION);
@@ -390,31 +403,36 @@ public class EventActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
-                    if (ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
-                            loadMaps();
-                    }
 
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-
-                }
-                return;
-            }
-
+        if (requestCode==PERMISSION_REQUEST_CODE){
+            loadMaps();
+        }else{
+            loadMaps();
         }
+       // switch (requestCode) {
+         //   case MY_PERMISSIONS_REQUEST_LOCATION: {
+//
+//                if (grantResults.length > 0
+//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//                    if (ContextCompat.checkSelfPermission(this,
+//                            Manifest.permission.ACCESS_FINE_LOCATION)
+//                            == PackageManager.PERMISSION_GRANTED) {
+//                            loadMaps();
+//                    }
+//
+//                } else {
+//
+//                    loadMaps();
+//
+//                }
+//                return;
+//            }
+
+       // }
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -442,27 +460,23 @@ public class EventActivity extends AppCompatActivity
     }
 
     protected void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(EventActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(EventActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(EventActivity.this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                            cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(10).build();
-                            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                            mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-                                @Override
-                                public void onMapLoaded() {
-                                    getDataVenue();
-                                }
-                            });
+         mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(EventActivity.this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                                cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(10).build();
+                                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                                mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                                    @Override
+                                    public void onMapLoaded() {
+                                        getDataVenue();
+                                    }
+                                });
+                            }
                         }
-                    }
-                });
-
+                    });
     }
 
     @Override
@@ -476,9 +490,14 @@ public class EventActivity extends AppCompatActivity
     @Override
     public void onStop() {
         super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
+        try {
+            if (mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.disconnect();
+            }
+        }catch (Exception e){
+
         }
+
 
     }
 
@@ -497,9 +516,8 @@ public class EventActivity extends AppCompatActivity
                 .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-
                         Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(myIntent);
+                        startActivityForResult(myIntent,2);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -517,35 +535,37 @@ public class EventActivity extends AppCompatActivity
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-    private boolean requestSinglePermission() {
 
-        Dexter.withActivity(EventActivity.this)
-                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        //Single Permission is granted
-                        Toast.makeText(EventActivity.this, "Permission is granted!", Toast.LENGTH_SHORT).show();
-                        isPermission = true;
-                    }
 
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
-                        // check for permanent denial of permission
-                        if (response.isPermanentlyDenied()) {
-                            isPermission = false;
-                        }
-                    }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check();
+    public void statusCheck() {
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        return isPermission;
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
 
+        }
     }
+
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
 
     void initSlider(){
         sliderLayout = findViewById(R.id.imageSlider);
@@ -563,16 +583,16 @@ public class EventActivity extends AppCompatActivity
             switch (i) {
                 case 0:
                     sliderView.setImageDrawable(R.drawable.ustadz_hanan);
-                break;
+                    break;
                 case 1:
                     sliderView.setImageDrawable(R.drawable.ustadz_uas);
-                 break;
+                    break;
                 case 2:
                     sliderView.setImageDrawable(R.drawable.ustadz_zaki);
-            break;
+                    break;
                 case 3:
                     sliderView.setImageDrawable(R.drawable.image_ustadz);
-          break;
+                    break;
             }
 
             sliderView.setImageScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -588,5 +608,6 @@ public class EventActivity extends AppCompatActivity
         }
 
     }
+
 
 }

@@ -75,6 +75,9 @@ public class VenueListAdapter extends RecyclerView.Adapter<VenueListAdapter.Venu
                     }
                 }
             });
+        }else {
+            holder.btnView.setVisibility(View.VISIBLE);
+
         }
 
 
@@ -88,13 +91,14 @@ public class VenueListAdapter extends RecyclerView.Adapter<VenueListAdapter.Venu
     public class VenueListViewHolder extends RecyclerView.ViewHolder{
         private TextView txtVenue, txtVenueAddress, txtEventVenue, txtEventDate, txtEventTime;
         private RelativeLayout card;
-        private ImageView imageView , btnDelete;
+        private ImageView imageView , btnDelete , btnView;
         public VenueListViewHolder(View itemView) {
             super(itemView);
             txtVenue = (TextView) itemView.findViewById(R.id.venueName);
             txtVenueAddress = (TextView) itemView.findViewById(R.id.venueAddress);
             imageView =itemView.findViewById(R.id.imageVenue);
             btnDelete =itemView.findViewById(R.id.iconDelete);
+            btnView =itemView.findViewById(R.id.iconView);
             card=(RelativeLayout) itemView.findViewById(R.id.card);
         }
     }

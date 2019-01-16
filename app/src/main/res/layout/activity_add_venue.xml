@@ -83,7 +83,7 @@
                     android:id="@+id/headerTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Form Venue"
+                    android:text="Form Masjid"
                     android:textColor="@color/colorPrimary"
                     android:layout_toRightOf="@+id/iconBack"
                     android:textSize="18dp"
@@ -174,9 +174,77 @@
 
 
 
-
             <RelativeLayout
                 android:layout_below="@+id/contentInputName"
+                android:id="@+id/contentInputNamaImamRutin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvNamaImamRutin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama Imam Rutin"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+                <RelativeLayout
+                    android:layout_below="@+id/tvNamaImamRutin"
+                    android:id="@+id/cardImam"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextNamaImamRutin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint=""
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutImam"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconImam"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconImam"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputNamaImamRutin"
                 android:id="@+id/contentInputDeskripsi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -510,9 +578,278 @@
 
 
             <RelativeLayout
+                android:layout_below="@+id/contentInputPhoneDKM"
+                android:id="@+id/contentInputNoRekMasjid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvNoRekMasjid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Rekening "
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+                <RelativeLayout
+                    android:id="@+id/cardNoRek"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_below="@+id/tvNoRekMasjid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextNoRek"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint=""
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutNoRek"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconNoRek"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconNoRek"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputNoRekMasjid"
+                android:id="@+id/contentInputNoPln"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvNoPLN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No PLN "
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+                <RelativeLayout
+                    android:id="@+id/cardNoPLN"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_below="@+id/tvNoPLN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextNoPLN"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint=""
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutNoPLN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconNoPLN"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconNoPLN"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputNoPln"
+                android:id="@+id/contentInputNoPam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvNoPAM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No PAM "
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+                <RelativeLayout
+                    android:id="@+id/cardNoPAM"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_below="@+id/tvNoPAM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextNoPAM"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint=""
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutNoPAM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconNoPAM"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconNoPAM"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_below="@+id/contentInputNoPam"
+                android:id="@+id/contentInputJmlJamaah"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvJmlJamaah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jumlah Jamaah Subuh"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/title_color"
+                    android:textSize="12dp"/>
+
+
+                <RelativeLayout
+                    android:id="@+id/cardJmlJamaah"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_below="@+id/tvJmlJamaah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edTextJmlJamaah"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint=""
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/tab_disable"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/iconLayoutJmlJamaah"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/checkIconJmlJamaah"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/check_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/closeIconJmlJamaah"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon"
+                            android:visibility="gone"
+                            android:padding="10dp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+
+
+
+
+            <RelativeLayout
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_below="@+id/contentInputPhoneDKM"
+                android:layout_below="@+id/contentInputJmlJamaah"
                 android:id="@+id/selectMaps"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

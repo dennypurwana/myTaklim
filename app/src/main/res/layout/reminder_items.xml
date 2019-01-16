@@ -58,7 +58,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_history_black_24dp"
-            android:tint="@color/tab_disable"
+            android:tint="@color/colorPrimary"
             />
         <TextView
             android:id="@+id/eventReminderTime"
@@ -68,7 +68,7 @@
             android:text=""
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:textColor="@color/tab_disable"
+            android:textColor="@color/colorPrimary"
             android:textSize="12dp"
             />
     </RelativeLayout>

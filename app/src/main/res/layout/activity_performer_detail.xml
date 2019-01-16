@@ -115,9 +115,19 @@
 
             </RelativeLayout>
 
-
-            <RelativeLayout
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_below="@+id/header"
+                android:background="@color/gray"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                ></LinearLayout>
+            <RelativeLayout
+                android:layout_below="@+id/line1"
                 android:id="@+id/contentAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

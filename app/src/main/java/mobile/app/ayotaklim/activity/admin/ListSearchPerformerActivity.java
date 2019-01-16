@@ -36,19 +36,40 @@ public class ListSearchPerformerActivity extends AppCompatActivity {
     private ListPerformerSearchAdapter adapter;
     private ArrayList<Performer> performerArrayList;
     SessionManager sessionManager;
-    String nama,sTime,eTime,pemateri,flag;
-    int eventId;
+    String sTime,eTime,pemateri,flag;
+    String nama,topik,sDate,eDate,pemateriId,venue,fileName,fileUrl;
+    int eventId,venueId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_search_performer);
         sessionManager = new SessionManager(ListSearchPerformerActivity.this);
         flag = getIntent().getStringExtra("flag");
-        nama = getIntent().getStringExtra("nama");
-        sTime = getIntent().getStringExtra("startTime");
-        eTime = getIntent().getStringExtra("endTime");
-        pemateri = getIntent().getStringExtra("pemateri");
-        eventId = getIntent().getIntExtra("eventId",0);
+        if (flag.equalsIgnoreCase("FROM_EVENT")){
+
+            flag = getIntent().getStringExtra("flag");
+            nama = getIntent().getStringExtra("nama");
+            topik = getIntent().getStringExtra("topik");
+            sDate = getIntent().getStringExtra("startDate");
+            eDate = getIntent().getStringExtra("endDate");
+            sTime = getIntent().getStringExtra("startTime");
+            eTime = getIntent().getStringExtra("endTime");
+            venue = getIntent().getStringExtra("venue");
+            venueId = getIntent().getIntExtra("venueId",0);
+            pemateri = getIntent().getStringExtra("pemateri");
+            fileName = getIntent().getStringExtra("fileName");
+            pemateriId = getIntent().getStringExtra("pemateriId");
+            fileUrl=getIntent().getStringExtra("fileUrl");
+
+        }else {
+
+            nama = getIntent().getStringExtra("nama");
+            sTime = getIntent().getStringExtra("startTime");
+            eTime = getIntent().getStringExtra("endTime");
+            pemateri = getIntent().getStringExtra("pemateri");
+            eventId = getIntent().getIntExtra("eventId", 0);
+
+        }
         getData();
     }
 
@@ -57,18 +78,44 @@ public class ListSearchPerformerActivity extends AppCompatActivity {
         adapter = new ListPerformerSearchAdapter(ListSearchPerformerActivity.this,performerArrayList, new ListPerformerSearchAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Performer performer) {
-                Intent intent=new Intent(ListSearchPerformerActivity.this,AddJadwalEventActivity.class);
-                intent.putExtra("nama",nama);
-                intent.putExtra("startTime",sTime);
-                intent.putExtra("endTime",eTime);
-                intent.putExtra("pemateri",performer.getNama());
-                intent.putExtra("id",performer.getRecord_id());
-                intent.putExtra("eventId",eventId);
-                intent.putExtra("flag","SEARCH");
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+               if (flag.equalsIgnoreCase("FROM_EVENT")){
+
+                   Intent intent = new Intent(ListSearchPerformerActivity.this, AddEventActivity.class);
+
+                   intent.putExtra("pemateri", performer.getNama());
+                   intent.putExtra("pemateriId", performer.getRecord_id());
+                   intent.putExtra("nama",nama);
+                   intent.putExtra("topik",topik);
+                   intent.putExtra("startDate",sDate);
+                   intent.putExtra("endDate",eDate);
+                   intent.putExtra("startTime",sTime);
+                   intent.putExtra("endTime",eTime);
+                   intent.putExtra("venue",venue);
+                   intent.putExtra("venueId",venueId);
+                   intent.putExtra("fileName",fileName);
+                   intent.putExtra("fileUrl",fileUrl);
+                   intent.putExtra("flag","FROM_EVENT");
+                   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                   intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                   startActivity(intent);
+                   finish();
+
+               }else {
+
+                   Intent intent = new Intent(ListSearchPerformerActivity.this, AddJadwalEventActivity.class);
+                   intent.putExtra("nama", nama);
+                   intent.putExtra("startTime", sTime);
+                   intent.putExtra("endTime", eTime);
+                   intent.putExtra("pemateri", performer.getNama());
+                   intent.putExtra("id", performer.getRecord_id());
+                   intent.putExtra("eventId", eventId);
+                   intent.putExtra("flag", "SEARCH");
+                   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                   intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                   startActivity(intent);
+                   finish();
+
+               }
             }
 
         });

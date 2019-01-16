@@ -7,6 +7,7 @@ public class Config {
                             GET_VENUE             =  BASE_URL+  "rest/public/getall/11.json",
                             ADD_VENUE             =  BASE_URL+  "rest/public/create/11.json",
                             EDIT_VENUE            =  BASE_URL+  "rest/public/update/11.json",
+                            UPLOAD_FILE           =  BASE_URL+  "api/form/uploadfile",
                             DELETE_VENUE          =  BASE_URL+  "rest/public/delete/11.json",
                             GET_EVENT             =  BASE_URL+  "rest/public/getall/14.json",
                             GET_EVENT_PEMATERI    =  BASE_URL+  "rest/public/getall/16.json",
@@ -21,9 +22,11 @@ public class Config {
                             REGISTER_MEMBER       =  BASE_URL+  "rest/public/create/17.json",
                             REGISTER_EVENT_MEMBER =  BASE_URL+  "rest/public/create/18.json",
                             CHECK_EVENT_MEMBER    =  BASE_URL+  "rest/public/getall/18.json",
+                            CHECK_EXISTING_MEMBER =  BASE_URL+  "rest/public/getall/17.json",
                             GET_REMINDER          =  BASE_URL+  "api/TemplateData/keluaran/78.json",
                             GET_DATA_EVENT_HOME   =  BASE_URL+  "api/TemplateData/keluaran/75.json",
                             GET_DATA_EVENT_JADWAL =  BASE_URL+  "api/TemplateData/keluaran/77.json",
-                            AUTH_LOGIN            =  BASE_URL + "rest/RestAuth/login";
+                            AUTH_LOGIN            =  BASE_URL + "rest/RestAuth/login",
+                            LOGIN_ADMIN           =  BASE_URL + "api/pengguna/token";
 
 }

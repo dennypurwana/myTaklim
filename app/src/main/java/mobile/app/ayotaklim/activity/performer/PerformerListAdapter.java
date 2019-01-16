@@ -49,7 +49,7 @@ public class PerformerListAdapter extends RecyclerView.Adapter<PerformerListAdap
     public void onBindViewHolder(PerformerListViewHolder holder,final int position) {
 
         holder.txtPerfName.setText(dataList.get(position).getNama());
-        holder.txtPerfAddress.setText(dataList.get(position).getAlamat());
+        holder.txtPerfAddress.setText(dataList.get(position).getDeskripsi());
         Log.d("image url : ",Config.IMAGE_URL+dataList.get(position).getImageUstadz() );
         Picasso.get()
                 .load(Config.IMAGE_URL+dataList.get(position).getImageUstadz())
@@ -79,6 +79,8 @@ public class PerformerListAdapter extends RecyclerView.Adapter<PerformerListAdap
                     }
                 }
             });
+        }else {
+            holder.btnView.setVisibility(View.VISIBLE);
         }
 
 
@@ -94,7 +96,7 @@ public class PerformerListAdapter extends RecyclerView.Adapter<PerformerListAdap
     public class PerformerListViewHolder extends RecyclerView.ViewHolder{
         private TextView txtPerfName, txtPerfAddress;
         private RelativeLayout card;
-        private ImageView imageUstadz , btnDelete;
+        private ImageView imageUstadz , btnDelete, btnView;
 
         public PerformerListViewHolder(View itemView) {
             super(itemView);
@@ -102,6 +104,7 @@ public class PerformerListAdapter extends RecyclerView.Adapter<PerformerListAdap
             txtPerfAddress = (TextView) itemView.findViewById(R.id.performerAddress);
             imageUstadz = (ImageView) itemView.findViewById(R.id.imagePerformer);
             btnDelete =itemView.findViewById(R.id.iconDelete);
+            btnView =itemView.findViewById(R.id.iconView);
             card=(RelativeLayout) itemView.findViewById(R.id.card);
         }
     }

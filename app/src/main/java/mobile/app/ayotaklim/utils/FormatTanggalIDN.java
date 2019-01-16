@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class FormatTanggalIDN {
+
     public String formatDate(String dateString){
     SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
@@ -42,5 +43,46 @@ public class FormatTanggalIDN {
         return tanggalDate;
     }
 
+
+
+    public long dateDiff(String eventDateParam){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("MM/dd/yyyy ");
+        String currentDate = mdformat.format(calendar.getTime());
+        String date  = eventDateParam.substring(8,10);
+        String month = eventDateParam.substring(5,7);
+        String year  = eventDateParam.substring(0,4);
+        String eDate = month+"/"+date+"/"+year;
+        Date d1 = new Date(currentDate);
+        Date d2 = new Date(eDate);
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(d1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(d2);
+        return daysBetween(d1,d2);
+
+    }
+    public static long daysBetween(Date startDate, Date endDate) {
+        Calendar sDate = getDatePart(startDate);
+        Calendar eDate = getDatePart(endDate);
+
+        long daysBetween = 0;
+        while (sDate.before(eDate)) {
+            sDate.add(Calendar.DAY_OF_MONTH, 1);
+            daysBetween++;
+        }
+        return daysBetween;
+    }
+
+    public static Calendar getDatePart(Date date){
+        Calendar cal = Calendar.getInstance();       // get calendar instance
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);            // set hour to midnight
+        cal.set(Calendar.MINUTE, 0);                 // set minute in hour
+        cal.set(Calendar.SECOND, 0);                 // set second in minute
+        cal.set(Calendar.MILLISECOND, 0);            // set millisecond in second
+
+        return cal;                                  // return the date part
+    }
 
 }

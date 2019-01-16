@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,10 +24,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -62,6 +66,8 @@ import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;
 import mobile.app.ayotaklim.models.performer.Performer;
+import mobile.app.ayotaklim.utils.ConvertImageBase64;
+import mobile.app.ayotaklim.utils.VolleyMultipartRequest;
 
 public class AddPerformerActivity  extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -83,6 +89,13 @@ public class AddPerformerActivity  extends AppCompatActivity implements GoogleAp
     private int PLACE_PICKER_REQUEST = 1;
     private GoogleApiClient mGoogleApiClient;
     ImageView iconMaps, iconCalender;
+    private  int MY_SOCKET_TIMEOUT_MS= 10000;
+    String fileName;
+    String fileUrl;
+    String [] months = {"01","02","03","04","05","06","07","08","09","10","11","12"};
+    String [] dates = {"01","02","03","04","05","06","07","08","09","10","11","12","13","14",
+                       "15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,6 +141,8 @@ private void initView(){
     btnCancel = findViewById(R.id.btnCancel);
     btnUpload = findViewById(R.id.btnUpload);
     btnSubmit = findViewById(R.id.btnSubmit);
+    eTextTglLahir.setEnabled(false);
+    eTextTglLahir.setTextColor(Color.BLACK);
     btnSubmit.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -159,7 +174,7 @@ private void initView(){
                         @Override
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
-                            eTextTglLahir.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            eTextTglLahir.setText(months[monthOfYear] + "-" + dayOfMonth + "-" + year);
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
@@ -229,7 +244,7 @@ private void initViewEdit(){
             inputJson.put("instagram", eTextIG.getText().toString());
             inputJson.put("facebook", eTextFB.getText().toString());
             inputJson.put("youtube", eTextYoutube.getText().toString());
-            inputJson.put("imagebase64", "test");
+            inputJson.put("imagebase64", fileName);
             dataJson.put("data", inputJson);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -333,6 +348,7 @@ private void initViewEdit(){
                     String path = saveImage(bitmap);
                     Toast.makeText(AddPerformerActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                     imageUstadz.setImageBitmap(bitmap);
+                    uploadBitmap(ConvertImageBase64.getResizedBitmap(bitmap,1000,1000));
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -344,6 +360,7 @@ private void initViewEdit(){
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             imageUstadz.setImageBitmap(thumbnail);
             saveImage(thumbnail);
+            uploadBitmap(ConvertImageBase64.getResizedBitmap(thumbnail,1000,1000));
             Toast.makeText(AddPerformerActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         }
         else if (requestCode == PLACE_PICKER_REQUEST) {
@@ -385,6 +402,7 @@ private void initViewEdit(){
         }
         return "";
     }
+
     private void  requestMultiplePermissions(){
         Dexter.withActivity(this)
                 .withPermissions(
@@ -417,6 +435,80 @@ private void initViewEdit(){
                 })
                 .onSameThread()
                 .check();
+    }
+
+
+
+
+    private void uploadBitmap(final Bitmap bitmap) {
+        progressDialog.setMessage("Uploading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, Config.UPLOAD_FILE,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        progressDialog.dismiss();
+                        try {
+                            JSONObject obj = new JSONObject(new String(response.data));
+                            Log.d("response ", obj.toString());
+                            JSONObject dataObj = obj.getJSONObject("data");
+                            fileName = dataObj.getString("file_name");
+                            fileUrl = dataObj.getString("file_url");
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Upload Gagal, Silahkan upload ulang.", Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "bearer "+sessionManager.getTokenUpload());
+                //headers.put("Content-Type", "application/x-www-form-urlencoded");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                long imagename = System.currentTimeMillis();
+                params.put("file", new DataPart(imagename + ".png", getFileDataFromDrawable(bitmap)));
+                Log.d("data part : ",getFileDataFromDrawable(bitmap).toString());
+                Log.d("data : ","bitmap");
+                return params;
+            }
+        };
+
+        volleyMultipartRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(volleyMultipartRequest);
+    }
+
+
+
+    public  byte[] getFileDataFromDrawable(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
     }
 
     @Override

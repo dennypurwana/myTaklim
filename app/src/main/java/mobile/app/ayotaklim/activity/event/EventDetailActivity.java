@@ -39,6 +39,7 @@ import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.event.Jadwal;
 import mobile.app.ayotaklim.models.venue.Venue;
 import mobile.app.ayotaklim.utils.CheckDistanceLocations;
+import mobile.app.ayotaklim.utils.FormatTanggalIDN;
 
 public class EventDetailActivity  extends AppCompatActivity {
 
@@ -125,14 +126,23 @@ public class EventDetailActivity  extends AppCompatActivity {
                                     event.setAlamatVenue(jsonObject.getString("alamat"));
                                     event.setNamaVenue(jsonObject.getString("nama"));
                                     event.setVenueId(jsonObject.getInt("c_venue_id"));
+                                    event.setPerformerId(jsonObject.getInt("c_pemateri_id"));
                                     event.setBannerImage(jsonObject.getString("banner_image"));
                                     event.setTglMulai(jsonObject.getString("tgl_mulai"));
                                     event.setTglBerakhir(jsonObject.getString("tgl_berakhir"));
+                                    event.setJamMulai(jsonObject.getString("jam_mulai"));
+                                    event.setJamSelesai(jsonObject.getString("jam_selesai"));
+                                    event.setNamaUstadz(jsonObject.getString("nama_ustadz"));
+                                    event.setImageUstadz(jsonObject.getString("image_ustadz"));
                                     progressDialog.dismiss();
 
                                     if (event.getVenueId()==venueId){
                                         Log.d("kajian : ",event.getNamaEvent());
-                                        eventArrayList.add(event);
+                                        FormatTanggalIDN formatTanggalIDN = new FormatTanggalIDN();
+                                        final long dateDiff =formatTanggalIDN.dateDiff(event.getTglMulai());
+                                        if (dateDiff>0){
+                                            eventArrayList.add(event);
+                                        }
                                     }
 
                                 } catch (JSONException e) {
@@ -141,9 +151,11 @@ public class EventDetailActivity  extends AppCompatActivity {
                                 }
                             }
 
-                            initEvent();
-                            adapter.notifyDataSetChanged();
-                           // getDataEventJadwal();
+                            if (eventArrayList.size()>0){
+                                initEvent();
+                                adapter.notifyDataSetChanged();
+                            }
+
                         }else{
 
                         }

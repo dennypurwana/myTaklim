@@ -23,9 +23,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +56,10 @@ public class RegisterEventActivity extends AppCompatActivity {
     ;
      SessionManager sessionManager;
      ProgressDialog progressDialog;
+     boolean isMember = false;
+     boolean isAlreadyFollowEvent = false;
+     int memberId;
+    int flagEvent, flagMember;
      Event event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -244,63 +250,196 @@ public class RegisterEventActivity extends AppCompatActivity {
 
     }
 
-
-    private void submit(){
-
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-        JSONObject dataJson  = new JSONObject();
-        JSONObject memberJson  = new JSONObject();
-
-        try {
-            memberJson.put("nama", _edTextNama.getText().toString());
-            memberJson.put("alamat", _edTextAddress.getText().toString());
-            memberJson.put("no_ktp", _edTextIdCard.getText().toString());
-            memberJson.put("no_telepon", _edTextPhone.getText().toString());
-            memberJson.put("email", _edTextEmail.getText().toString());
-            memberJson.put("image_profile", "dadasd");
-            dataJson.put("data", memberJson);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.d("data req : ",dataJson.toString());
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Config.REGISTER_MEMBER, dataJson, new Response.Listener<JSONObject>() {
+    private  void checkExistingMember(){
+        String url=Config.CHECK_EXISTING_MEMBER;
+        Log.d("API : ",url);
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
-                Log.d("TAG",response.toString());
-                Log.d("TAG","====================== SUCCESS ========================");
-                try {
-                    Boolean success  = response.getBoolean("success");
-                    String message   = response.getString("message");
-                    JSONObject data  = response.getJSONObject("data");
-                    int member_id    = data.getInt("id");
-                    if (success){
-                        sessionManager.createMemberSession();
-                        sessionManager.createMemberId(member_id);
-                        registerToEvent(event.getId(),member_id);
+            public void onResponse(String response) {
+                if (!response.equals(null)) {
+                    Log.e("TAG", "CHECK MEMBER EXIST: " + response.toString());
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        JSONObject responseObj = jsonResponse.getJSONObject("data");
+                        JSONArray venueResponse=responseObj.getJSONArray("items");
+                        if(venueResponse.length()>0) {
+
+                            for (int i = 0; i < venueResponse.length(); i++) {
+                                try {
+                                    JSONObject jsonObject = venueResponse.getJSONObject(i);
+                                    String phone = jsonObject.getString("no_telepon");
+                                    String email = jsonObject.getString("email");
+                                    memberId = jsonObject.getInt("id");
+
+                                    if (phone.equals(_edTextPhone.getText().toString())){
+                                        isMember = true;
+                                        sessionManager.createMemberSession();
+                                        sessionManager.createMemberId(memberId);
+                                        sessionManager.createMemberPhone(phone);
+                                        sessionManager.createMemberEmail(email);
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+
+                                }
+                            }
+                        Log.d("isMember" ,String.valueOf(isMember));
+                            if (isMember){
+                                checkMember();
+                                //registerToEvent(event.getId(),memberId);
+                            }else{
+                               submit();
+                            }
+                        }else{
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+                } else {
+
                 }
-
-
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
-                error.printStackTrace();
+               submit();
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", "bearer "+sessionManager.getAksesToken());
-                return headers;
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer "+sessionManager.getAksesToken());
+                return params;
             }
-        };
 
-        MyApplication.getInstance().addToRequestQueue(jsonRequest);
+        };
+        MyApplication.getInstance().addToRequestQueue(request);
+    }
+    void checkMember(){
+        String url=Config.CHECK_EVENT_MEMBER;
+        Log.d("API : ",url);
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (!response.equals(null)) {
+                    try {
+                        progressDialog.dismiss();
+                        JSONObject jsonResponse = new JSONObject(response);
+                        JSONObject responseObj = jsonResponse.getJSONObject("data");
+                        JSONArray vResponse=responseObj.getJSONArray("items");
+                        if(vResponse.length()>0) {
+                            for (int i = 0; i < vResponse.length(); i++) {
+                                try {
+                                    JSONObject jsonObject = vResponse.getJSONObject(i);
+                                    int eventId = jsonObject.getInt("c_event_id");
+                                    int memberId = jsonObject.getInt("c_member_id");
+                                    if (event.getId()==eventId&&sessionManager.getMemberId()== memberId){
+                                       isAlreadyFollowEvent = true;
+                                    }
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+
+                                }
+                            }
+                            if (isAlreadyFollowEvent){
+                                dialogMessage("Anda telah terdaftar pada event ini sebelumnya.");
+                            }else{
+                                registerToEvent(event.getId(),memberId);
+                            }
+
+                        }else{
+
+                        }
+                    } catch (JSONException e) {
+                        progressDialog.dismiss();
+                        e.printStackTrace();
+                    }
+
+                } else {
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer "+sessionManager.getAksesToken());
+                return params;
+            }
+
+        };
+        MyApplication.getInstance().addToRequestQueue(request);
+
+    }
+
+    private void submit(){
+        JSONObject dataJson  = new JSONObject();
+            JSONObject memberJson  = new JSONObject();
+
+            try {
+                memberJson.put("nama", _edTextNama.getText().toString());
+                memberJson.put("alamat", _edTextAddress.getText().toString());
+                memberJson.put("no_ktp", _edTextIdCard.getText().toString());
+                memberJson.put("no_telepon", _edTextPhone.getText().toString());
+                memberJson.put("email", _edTextEmail.getText().toString());
+                memberJson.put("image_profile", "dadasd");
+                dataJson.put("data", memberJson);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.d("data req : ",dataJson.toString());
+            JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Config.REGISTER_MEMBER, dataJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.d("TAG REGISTER RESPONSE",response.toString());
+                    Log.d("TAG","====================== SUCCESS ========================");
+                    try {
+                        Boolean success  = response.getBoolean("success");
+                        String message   = response.getString("message");
+                        JSONObject data  = response.getJSONObject("data");
+                        int member_id    = data.getInt("id");
+                        String member_phone = data.getString("no_telepon");
+                        String member_email = data.getString("email");
+                        if (success){
+                            sessionManager.createMemberSession();
+                            sessionManager.createMemberId(member_id);
+                            sessionManager.createMemberPhone(member_phone);
+                            sessionManager.createMemberEmail(member_email);
+                            registerToEvent(event.getId(),member_id);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progressDialog.dismiss();
+                    error.printStackTrace();
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Authorization", "bearer "+sessionManager.getAksesToken());
+                    return headers;
+                }
+            };
+
+            MyApplication.getInstance().addToRequestQueue(jsonRequest);
 
     }
 
@@ -328,7 +467,7 @@ public class RegisterEventActivity extends AppCompatActivity {
                     String message   = response.getString("message");
                     JSONObject data  = response.getJSONObject("data");
                     if (success){
-                        dialogMessage();
+                        dialogMessage("Anda telah berhasil mendaftar pada event ini. Silahkan lihat menu reminder pada menu aplikasi.");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -374,17 +513,18 @@ public class RegisterEventActivity extends AppCompatActivity {
             _closeIconEmail.setVisibility(View.VISIBLE);
             Toast.makeText(getApplicationContext(),"Input email tidak boleh kosong.",Toast.LENGTH_LONG).show();
         }else{
-            submit();
+            //submit();
             //dialogMessage();
+            checkExistingMember();
         }
 
     }
 
-    private void dialogMessage() {
+    private void dialogMessage(String message) {
         new AlertDialog.Builder(context,R.style.CustomDialogTheme)
                 .setTitle("Daftar Sukses")
                 .setCancelable(false)
-                .setMessage("Anda telah berhasil mendaftar pada event ini. Silahkan lihat menu reminder pada menu aplikasi.")
+                .setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
