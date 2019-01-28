@@ -11,6 +11,16 @@ public class Jadwal {
     private String imagebase64;
     private String nama_event;
 
+    public int getPemateriId() {
+        return pemateriId;
+    }
+
+    public void setPemateriId(int pemateriId) {
+        this.pemateriId = pemateriId;
+    }
+
+    private  int pemateriId;
+
 
     public int getId() {
         return id;

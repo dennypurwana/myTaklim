@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient">
+    android:background="@color/blue_gray_100">
 
 
     <RelativeLayout
@@ -16,6 +16,7 @@
             android:id="@+id/imageLogo"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:tint="@color/colorPrimaryDark"
             android:src="@drawable/masjidid"/>
         <TextView
             android:layout_below="@+id/imageLogo"
@@ -26,7 +27,7 @@
             android:layout_centerHorizontal="true"
             android:textSize="35dp"
             android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textColor="@color/colorPrimaryDark"/>
         <TextView
 
             android:layout_width="wrap_content"
@@ -36,7 +37,7 @@
             android:textSize="12dp"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="30dp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/blue_gray_400"/>
     </RelativeLayout>
 
     <TextView
@@ -44,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="version 1.0"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimary"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"/>
 

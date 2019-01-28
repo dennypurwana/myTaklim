@@ -33,7 +33,7 @@
                 android:layout_toRightOf="@+id/imageVenue"
                 android:paddingEnd="20dp"
                 android:textSize="20dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/gray_light"
                 android:textStyle="bold"
                 />
 

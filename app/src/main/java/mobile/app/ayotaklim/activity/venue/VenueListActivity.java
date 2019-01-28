@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.admin.AddPerformerActivity;
 import mobile.app.ayotaklim.activity.admin.AddVenueActivity;
 import mobile.app.ayotaklim.activity.event.EventListAdapter;
+import mobile.app.ayotaklim.activity.performer.PerformerDetailActivity;
 import mobile.app.ayotaklim.activity.performer.PerformerListActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
@@ -49,12 +51,18 @@ public class VenueListActivity  extends AppCompatActivity {
     SessionManager sessionManager;
     Button btnAdd;
     ProgressBar progressBar;
+    EditText edTextSearch;
+    ImageView iconSearch;
+    boolean isValidName = false;
+    boolean isValidAddress = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venue_list);
         sessionManager = new SessionManager(VenueListActivity.this);
         progressBar = findViewById(R.id.progressBar);
+        edTextSearch = findViewById(R.id.edTextSearch);
+        iconSearch = findViewById(R.id.iconSearch);
         setProgressBarIndeterminateVisibility(true);
         if (sessionManager.isAdmin()) {
             btnAdd = findViewById(R.id.btnAdd);
@@ -70,8 +78,15 @@ public class VenueListActivity  extends AppCompatActivity {
             btnAdd.setVisibility(View.VISIBLE);
         }
 
+        iconSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String key = edTextSearch.getText().toString();
+                getData("SEARCH",key);
+            }
+        });
         initSlider();
-        getData();
+        getData("ALL","");
 
     }
 
@@ -88,6 +103,8 @@ public class VenueListActivity  extends AppCompatActivity {
             @Override
             public void onItemClick(Venue venue) {
                 Intent intent=new Intent(VenueListActivity.this,VenueDetailActivity.class);
+                intent.putExtra("flag", "FROM_LIST");
+                intent.putExtra("c_venue_id", "");
                 intent.putExtra("Venue", venue);
                 startActivity(intent);
             }
@@ -148,7 +165,7 @@ public class VenueListActivity  extends AppCompatActivity {
     }
 
 
-    private void getData(){
+    private void getData(final String filter, final String key){
        progressBar.setVisibility(View.VISIBLE);
         String url=Config.GET_VENUE;
         Log.d("API : ",url);
@@ -161,11 +178,14 @@ public class VenueListActivity  extends AppCompatActivity {
                     Log.e("TAG", "produk response: " + response.toString());
                     try {
                         venueArrayList=new ArrayList<>();
+
                         JSONObject jsonResponse = new JSONObject(response);
                         JSONObject responseObj = jsonResponse.getJSONObject("data");
                         JSONArray vResponse=responseObj.getJSONArray("items");
                         if(vResponse.length()>0) {
                             for (int i = 0; i < vResponse.length(); i++) {
+                                isValidAddress = false;
+                                isValidName = false;
                                 try {
 
                                     JSONObject jsonObject = vResponse.getJSONObject(i);
@@ -186,7 +206,28 @@ public class VenueListActivity  extends AppCompatActivity {
                                     venue.setDkmPhone(jsonObject.getString("dkm_phone"));
                                     venue.setImageVenue(jsonObject.getString("imagebase64"));
                                     venue.setDeskripsi(jsonObject.getString("deskripsi"));
-                                    venueArrayList.add(venue);
+                                    if (filter.toLowerCase().equalsIgnoreCase("search")){
+
+                                        if(venue.getNama().replace(" ","").toLowerCase().indexOf(key.replace(" ","").toLowerCase()) != -1) {
+                                            isValidName = true;
+                                        }
+                                        else if(venue.getAlamat().replace(" ","").toLowerCase().indexOf(key.replace(" ","").toLowerCase()) != -1) {
+                                            isValidAddress = true;
+                                        }
+                                        else if(venue.getNama().toLowerCase().equalsIgnoreCase(key.toLowerCase())){
+                                            isValidName = true;
+                                        }
+                                        else if(venue.getAlamat().toLowerCase().equalsIgnoreCase(key.toLowerCase())){
+                                            isValidAddress = true;
+                                        }
+
+                                        if (isValidName||isValidAddress){
+                                            venueArrayList.add(venue);
+                                        }
+
+                                    }else{
+                                        venueArrayList.add(venue);
+                                    }
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -245,7 +286,7 @@ public class VenueListActivity  extends AppCompatActivity {
                 try {
                     Boolean success  = response.getBoolean("success");
                     if (success){
-                       getData();
+                       getData("ALL","");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

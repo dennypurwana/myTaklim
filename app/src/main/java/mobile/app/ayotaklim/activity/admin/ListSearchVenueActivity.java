@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -39,6 +40,7 @@ public class ListSearchVenueActivity extends AppCompatActivity {
     private ListVenueSearchAdapter adapter;
     private ArrayList<Venue> venueArrayList;
     SessionManager sessionManager;
+    Button btnAdd;
     String nama,topik,sDate,eDate,sTime,eTime,pemateriId,pemateri,venue,flag,fileName,fileUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,17 @@ public class ListSearchVenueActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setAdapter(adapter);
+
+        btnAdd = findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ListSearchVenueActivity.this,AddVenueActivity.class);
+                intent.putExtra("flag","ADD");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getData(){

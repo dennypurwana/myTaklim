@@ -51,7 +51,7 @@
                     android:id="@+id/iconBack"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:tint="@color/colorPrimary"
+                    android:tint="@color/colorPrimaryDark"
                     android:layout_margin="20dp"
                     android:src="@drawable/ic_chevron_left_black_24dp"/>
 
@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Form Jadwal"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_toRightOf="@+id/iconBack"
                     android:textSize="18dp"
                     android:textStyle="bold"
@@ -76,7 +76,7 @@
                     android:text="Input jadwal kegiatan pada form dibawah."
                     android:paddingEnd="10dp"
                     android:paddingBottom="10dp"
-                    android:textColor="@color/title_color"
+                    android:textColor="@color/blue_gray_400"
                     android:textSize="12dp"
                     android:layout_marginLeft="10dp"/>
 
@@ -198,7 +198,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/calender_iconn"
+                        android:tint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_access_time_black_24dp"
                         android:padding="10dp"/>
                     <RelativeLayout
                         android:id="@+id/iconLayoutStartDate"
@@ -275,7 +276,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/calender_iconn"
+                        android:tint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_access_time_black_24dp"
                         android:padding="10dp"/>
                     <RelativeLayout
                         android:id="@+id/iconLayoutEndDate"
@@ -351,7 +353,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/icon_ustadz_"
+                        android:tint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_person_black_24dp"
                         android:padding="10dp"/>
                     <RelativeLayout
                         android:id="@+id/iconLayoutSearch"
@@ -408,7 +411,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:text="Cancel"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorPrimaryDark"
                         />
                 </LinearLayout>
 

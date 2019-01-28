@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mobile.app.ayotaklim.R;
+import mobile.app.ayotaklim.activity.performer.PerformerListActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;
@@ -39,6 +41,7 @@ public class ListSearchPerformerActivity extends AppCompatActivity {
     String sTime,eTime,pemateri,flag;
     String nama,topik,sDate,eDate,pemateriId,venue,fileName,fileUrl;
     int eventId,venueId;
+    Button btnAdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +49,6 @@ public class ListSearchPerformerActivity extends AppCompatActivity {
         sessionManager = new SessionManager(ListSearchPerformerActivity.this);
         flag = getIntent().getStringExtra("flag");
         if (flag.equalsIgnoreCase("FROM_EVENT")){
-
             flag = getIntent().getStringExtra("flag");
             nama = getIntent().getStringExtra("nama");
             topik = getIntent().getStringExtra("topik");
@@ -125,6 +127,17 @@ public class ListSearchPerformerActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setAdapter(adapter);
+
+        btnAdd = findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ListSearchPerformerActivity.this,AddPerformerActivity.class);
+                intent.putExtra("flag","ADD");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getData(){

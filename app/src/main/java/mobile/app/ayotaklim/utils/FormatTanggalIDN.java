@@ -22,7 +22,7 @@ public class FormatTanggalIDN {
             e.printStackTrace();
         }
 
-         SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MMM-yyyy");
+         SimpleDateFormat fmtOut = new SimpleDateFormat("dd/MMM/yyyy");
          return fmtOut.format(date);
     }
 
@@ -59,14 +59,19 @@ public class FormatTanggalIDN {
         cal1.setTime(d1);
         Calendar cal2 = Calendar.getInstance();
         cal2.setTime(d2);
-        return daysBetween(d1,d2);
+        if(d1.equals(d2)){
+            return 0;
+        }else{
+            return daysBetween(d1,d2);
+        }
+
 
     }
     public static long daysBetween(Date startDate, Date endDate) {
         Calendar sDate = getDatePart(startDate);
         Calendar eDate = getDatePart(endDate);
 
-        long daysBetween = 0;
+        long daysBetween = -1;
         while (sDate.before(eDate)) {
             sDate.add(Calendar.DAY_OF_MONTH, 1);
             daysBetween++;

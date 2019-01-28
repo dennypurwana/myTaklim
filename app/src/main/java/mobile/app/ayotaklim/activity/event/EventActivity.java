@@ -25,6 +25,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -96,31 +97,37 @@ public class EventActivity extends AppCompatActivity
     private FusedLocationProviderClient mFusedLocationClient;
     SliderLayout sliderLayout;
     CameraPosition cameraPosition;
-    LinearLayout menuEvent, menuVenue , menuUstadz, menuReminder, menuAbout, menuLogin ;
+    LinearLayout menuEvent, menuVenue, menuUstadz, menuReminder, menuDonasi, menuLogin;
     RelativeLayout adminLogin, adminLogout;
     MarkerOptions markerOptions;
     SliderView sliderView;
     SessionManager sessionManager;
     Marker markers;
-   ArrayList<Venue> venueArrayList;
+    boolean isValidName = false;
+    boolean isValidAddress = false;
+    ArrayList<Venue> venueArrayList;
     private static final int PERMISSION_REQUEST_CODE = 1;
-
+    EditText edTextSearch;
+    ImageView iconSearch;
     ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        edTextSearch = findViewById(R.id.edTextSearch);
+        iconSearch = findViewById(R.id.iconSearch);
         menuEvent = findViewById(R.id.menuEvent);
         menuVenue = findViewById(R.id.menuVenue);
         menuUstadz = findViewById(R.id.menuUstadz);
         menuReminder = findViewById(R.id.menuReminder);
-//        menuAbout = findViewById(R.id.menuAbout);
+        menuDonasi = findViewById(R.id.menuDonasi);
         menuLogin = findViewById(R.id.menuLogin);
         adminLogin = findViewById(R.id.adminLogin);
         adminLogout = findViewById(R.id.adminLogout);
         markerOptions = new MarkerOptions();
         sessionManager = new SessionManager(EventActivity.this);
-        sliderView = new SliderView(EventActivity.this);
+        // sliderView = new SliderView(EventActivity.this);
         progressBar = findViewById(R.id.progressBar);
         setProgressBarIndeterminateVisibility(true);
 
@@ -140,11 +147,18 @@ public class EventActivity extends AppCompatActivity
         }
         */
 
-        initSlider();
+        iconSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String key = edTextSearch.getText().toString();
+                getDataVenue("search",key);
+            }
+        });
+        // initSlider();
         menuEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(EventActivity.this,EventListActivity.class);
+                Intent intent = new Intent(EventActivity.this, EventListActivity.class);
                 startActivity(intent);
             }
         });
@@ -152,7 +166,7 @@ public class EventActivity extends AppCompatActivity
         menuVenue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(EventActivity.this,VenueListActivity.class);
+                Intent intent = new Intent(EventActivity.this, VenueListActivity.class);
                 startActivity(intent);
             }
         });
@@ -160,7 +174,7 @@ public class EventActivity extends AppCompatActivity
         menuUstadz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(EventActivity.this,PerformerListActivity.class);
+                Intent intent = new Intent(EventActivity.this, PerformerListActivity.class);
                 startActivity(intent);
             }
         });
@@ -171,21 +185,21 @@ public class EventActivity extends AppCompatActivity
                 if (!sessionManager.isAdmin()) {
                     Intent intent = new Intent(EventActivity.this, ReminderListActivity.class);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(getApplicationContext(),"Menu hanya bisa di akses oleh user.",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Menu hanya bisa di akses oleh user.", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
-//        menuAbout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent=new Intent(EventActivity.this,DonasiActivity.class);
-//                startActivity(intent);
-//                     }
-//        });
+        menuDonasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(EventActivity.this,DonasiActivity.class);
+                startActivity(intent);
+                     }
+        });
 
-        if (sessionManager.isAdmin()){
+        if (sessionManager.isAdmin()) {
             adminLogin.setVisibility(View.GONE);
             adminLogout.setVisibility(View.VISIBLE);
             adminLogout.setOnClickListener(new View.OnClickListener() {
@@ -197,13 +211,13 @@ public class EventActivity extends AppCompatActivity
                 }
             });
 
-        }else{
+        } else {
             adminLogin.setVisibility(View.VISIBLE);
             adminLogout.setVisibility(View.GONE);
             adminLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(EventActivity.this,AdminLoginActivity.class);
+                    Intent intent = new Intent(EventActivity.this, AdminLoginActivity.class);
                     startActivity(intent);
                 }
             });
@@ -211,18 +225,19 @@ public class EventActivity extends AppCompatActivity
 
 
     }
+
     private boolean checkIfAlreadyhavePermission() {
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (result == PackageManager.PERMISSION_GRANTED) {
-            Log.d("cek","true");
+            Log.d("cek", "true");
             return true;
         } else {
-            Log.d("cek","false");
+            Log.d("cek", "false");
             return false;
         }
     }
 
-    private void addMarker(LatLng latlng, final String title, final Venue venue ) {
+    private void addMarker(LatLng latlng, final String title, final Venue venue) {
         markerOptions.position(latlng);
         markerOptions.title(title);
         markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.masjid_ijo));
@@ -231,14 +246,14 @@ public class EventActivity extends AppCompatActivity
         mMap.getUiSettings().isCompassEnabled();
         mMap.getUiSettings().isZoomControlsEnabled();
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-         markers =  mMap.addMarker(markerOptions);
-         markers.setTag(venue);
+        markers = mMap.addMarker(markerOptions);
+        markers.setTag(venue);
 
-                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Venue venueTag = ((Venue) markers.getTag());
-                Intent intent=new Intent(EventActivity.this,EventDetailActivity.class);
+                Intent intent = new Intent(EventActivity.this, EventDetailActivity.class);
                 intent.putExtra("Venue", venueTag);
                 startActivity(intent);
             }
@@ -255,24 +270,26 @@ public class EventActivity extends AppCompatActivity
         }
     }
 
-    void getDataVenue(){
+    void getDataVenue(final String filter,final String key) {
         progressBar.setVisibility(View.VISIBLE);
-        String url=Config.GET_DATA_EVENT_HOME;
-        Log.d("API : ",url);
+        String url = Config.GET_DATA_EVENT_HOME;
+        Log.d("API : ", url);
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 progressBar.setVisibility(View.GONE);
                 if (!response.equals(null)) {
-                    Log.e("TAG", "produk data: " + response.toString());
+                    Log.e("TAG", "ALL EVENT: " + response.toString());
                     try {
-                        venueArrayList=new ArrayList<>();
+                        venueArrayList = new ArrayList<>();
                         JSONObject jsonResponse = new JSONObject(response);
                         JSONObject responseObj = jsonResponse.getJSONObject("data");
-                        JSONArray venueResponse=responseObj.getJSONArray("venue");
-                        if(venueResponse.length()>0) {
+                        JSONArray venueResponse = responseObj.getJSONArray("venue");
+                        if (venueResponse.length() > 0) {
 
                             for (int i = 0; i < venueResponse.length(); i++) {
+                                isValidAddress = false;
+                                isValidName = false;
                                 try {
                                     JSONObject jsonObject = venueResponse.getJSONObject(i);
                                     Venue venue = new Venue();
@@ -282,15 +299,40 @@ public class EventActivity extends AppCompatActivity
                                     venue.setLongitude(jsonObject.getDouble("longitude"));
                                     venue.setLatitude(jsonObject.getDouble("latitude"));
                                     venue.setImageVenue(jsonObject.getString("imagebase64"));
-                                    venueArrayList.add(venue);
+                                    if (filter.toLowerCase().equalsIgnoreCase("search")){
+
+                                        if(venue.getNama().replace(" ","").toLowerCase().indexOf(key.replace(" ","").toLowerCase()) != -1) {
+                                            isValidName = true;
+                                        }
+                                        else if(venue.getAlamat().replace(" ","").toLowerCase().indexOf(key.replace(" ","").toLowerCase()) != -1) {
+                                            isValidAddress = true;
+                                        }
+                                        else if(venue.getNama().toLowerCase().equalsIgnoreCase(key.toLowerCase())){
+                                            isValidName = true;
+                                        }
+                                        else if(venue.getAlamat().toLowerCase().equalsIgnoreCase(key.toLowerCase())){
+                                            isValidAddress = true;
+                                        }
+
+                                        if (isValidName||isValidAddress){
+                                            venueArrayList.add(venue);
+                                        }
+
+                                    }else{
+                                        venueArrayList.add(venue);
+                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     progressBar.setVisibility(View.GONE);
                                 }
                             }
-                            initMarker();
+                            if (filter.toLowerCase().equalsIgnoreCase("search")){
+                                initMarker("search");
+                            }else{
+                                initMarker("");
+                            }
 
-                        }else{
+                        } else {
 
                         }
                     } catch (JSONException e) {
@@ -312,7 +354,7 @@ public class EventActivity extends AppCompatActivity
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("Authorization", "bearer "+sessionManager.getAksesToken());
+                params.put("Authorization", "bearer " + sessionManager.getAksesToken());
                 return params;
             }
 
@@ -321,21 +363,23 @@ public class EventActivity extends AppCompatActivity
     }
 
 
-    void initMarker(){
-        Log.d("size venue",String.valueOf(venueArrayList.size()));
+    void initMarker(String filter) {
+        mMap.clear();
         for (final Venue venue : venueArrayList) {
-            Log.d("venue nama ", venue.getNama());
-            markerOptions.position(new LatLng(venue.getLatitude(),venue.getLongitude()));
+            markerOptions.position(new LatLng(venue.getLatitude(), venue.getLongitude()));
             markerOptions.title(venue.getNama());
             markerOptions.snippet(venue.getAlamat());
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.masjid_ijo));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_loc_image));
+            if (filter.toLowerCase().equalsIgnoreCase("search")){
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(venue.getLatitude(), venue.getLongitude())));
+            }
             //mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.setMinZoomPreference(10.0f);
             mMap.getUiSettings().isCompassEnabled();
             mMap.getUiSettings().isZoomControlsEnabled();
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
-            markers =  mMap.addMarker(markerOptions);
+            markers = mMap.addMarker(markerOptions);
             markers.setTag(venue);
             mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                 @Override
@@ -350,22 +394,22 @@ public class EventActivity extends AppCompatActivity
         }
     }
 
-    void  loadMaps(){
-            FragmentManager fm = EventActivity.this.getSupportFragmentManager();
-            supportMapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
-            if (supportMapFragment == null) {
-                supportMapFragment = SupportMapFragment.newInstance();
-                fm.beginTransaction().replace(R.id.map, supportMapFragment).commit();
-            }
-            supportMapFragment.getMapAsync(this);
-            mGoogleApiClient = new GoogleApiClient.Builder(EventActivity.this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-            mLocationManager = (LocationManager) EventActivity.this.getSystemService(Context.LOCATION_SERVICE);
-            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(EventActivity.this);
-            startLocationUpdates();
+    void loadMaps() {
+        FragmentManager fm = EventActivity.this.getSupportFragmentManager();
+        supportMapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
+        if (supportMapFragment == null) {
+            supportMapFragment = SupportMapFragment.newInstance();
+            fm.beginTransaction().replace(R.id.map, supportMapFragment).commit();
+        }
+        supportMapFragment.getMapAsync(this);
+        mGoogleApiClient = new GoogleApiClient.Builder(EventActivity.this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mLocationManager = (LocationManager) EventActivity.this.getSystemService(Context.LOCATION_SERVICE);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(EventActivity.this);
+        startLocationUpdates();
     }
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -381,7 +425,6 @@ public class EventActivity extends AppCompatActivity
     }
 
     public boolean checkLocationPermission() {
-        Log.d("ko ga msuk sini","ya");
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -405,32 +448,11 @@ public class EventActivity extends AppCompatActivity
                                            String permissions[], int[] grantResults) {
 
 
-        if (requestCode==PERMISSION_REQUEST_CODE){
+        if (requestCode == PERMISSION_REQUEST_CODE) {
             loadMaps();
-        }else{
+        } else {
             loadMaps();
         }
-       // switch (requestCode) {
-         //   case MY_PERMISSIONS_REQUEST_LOCATION: {
-//
-//                if (grantResults.length > 0
-//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//
-//                    if (ContextCompat.checkSelfPermission(this,
-//                            Manifest.permission.ACCESS_FINE_LOCATION)
-//                            == PackageManager.PERMISSION_GRANTED) {
-//                            loadMaps();
-//                    }
-//
-//                } else {
-//
-//                    loadMaps();
-//
-//                }
-//                return;
-//            }
-
-       // }
     }
 
     @Override
@@ -438,7 +460,6 @@ public class EventActivity extends AppCompatActivity
         mMap = googleMap;
         startLocationUpdates();
     }
-
 
 
     @Override
@@ -460,23 +481,26 @@ public class EventActivity extends AppCompatActivity
     }
 
     protected void startLocationUpdates() {
-         mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(EventActivity.this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                                cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(10).build();
-                                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                                mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-                                    @Override
-                                    public void onMapLoaded() {
-                                        getDataVenue();
-                                    }
-                                });
-                            }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(EventActivity.this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                            cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(10).build();
+                            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                            mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                                @Override
+                                public void onMapLoaded() {
+                                    getDataVenue("ALL","");
+                                }
+                            });
                         }
-                    });
+                    }
+                });
     }
 
     @Override

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="5dp"
-        card_view:cardElevation="1dp"
+        card_view:cardElevation="5dp"
         card_view:cardUseCompatPadding="true"
        >
 
@@ -20,20 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/titleHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24dp"
-                android:text="Ayo Taklim"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                />
 
             <LinearLayout
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/titleHeader"
                 android:orientation="horizontal"
                 android:id="@+id/menuIcon1"
                 android:layout_width="match_parent"
@@ -54,15 +42,16 @@
                         android:layout_centerHorizontal="true"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/event_icon"/>
+                        android:tint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_playlist_play_black_24dp"/>
                     <TextView
                         android:layout_below="@+id/iconEvent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue_gray_400"
                         android:textSize="14dp"
                         android:layout_centerHorizontal="true"
-                        android:text="Kajian/Taklim"/>
+                        android:text="Kajian"/>
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -81,12 +70,13 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/icon_menu_masjid"/>
+                        android:tint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_location_on_black_24dp"/>
                         <TextView
                             android:layout_below="@+id/iconVenue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
+                            android:textColor="@color/blue_gray_400"
                             android:textSize="14dp"
                             android:layout_centerHorizontal="true"
                             android:text="Masjid"/>
@@ -107,18 +97,116 @@
                         android:id="@+id/iconUstadz"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
+                        android:tint="@color/colorPrimaryDark"
                         android:src="@drawable/icon_ustadz"/>
                     <TextView
                         android:layout_below="@+id/iconUstadz"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue_gray_400"
                         android:textSize="14dp"
                         android:layout_centerHorizontal="true"
                         android:text="Ustadz"/>
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_below="@+id/menuIcon2"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                android:id="@+id/menuIcon3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/menuAbout"
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/iconAbout"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:tint="@color/colorPrimaryDark"
+                        android:src="@drawable/ic_info_black_24dp"/>
+                    <TextView
+                        android:layout_below="@+id/iconAbout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/blue_gray_400"
+                        android:textSize="14dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="Tentang Aplikasi"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/menuHelp"
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/iconHelp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:tint="@color/colorPrimaryDark"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/ic_help_black_24dp"/>
+                    <TextView
+                        android:layout_below="@+id/iconHelp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/blue_gray_400"
+                        android:textSize="14dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="Help"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/menuLain"
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/iconLain"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:tint="@color/colorPrimaryDark"/>
+                    <TextView
+                        android:layout_below="@+id/iconLain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/blue_gray_400"
+                        android:textSize="14dp"
+                        android:layout_centerHorizontal="true"
+                        android:text=""/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            </LinearLayout>
+
 
 
             <LinearLayout
@@ -130,108 +218,115 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:id="@+id/menuReminder"
-                android:layout_width="0dp"
-                android:layout_weight="0.2"
-                android:layout_height="wrap_content">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/menuReminder"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/iconReminder"
-                        android:layout_centerHorizontal="true"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/icon_reminder"/>
-                    <TextView
-                        android:layout_below="@+id/iconReminder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14dp"
-                        android:layout_centerHorizontal="true"
-                        android:text="Reminder"/>
-                </RelativeLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:id="@+id/menuLogin"
-                android:layout_width="0dp"
-                android:layout_weight="0.2"
-                android:layout_height="wrap_content">
-                <RelativeLayout
-                    android:visibility="visible"
-                    android:id="@+id/adminLogin"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <ImageView
-                        android:id="@+id/iconLogin"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/icon_login"/>
-                    <TextView
-                        android:layout_below="@+id/iconLogin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14dp"
-                        android:layout_centerHorizontal="true"
-                        android:text="Admin"/>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/adminLogout"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <ImageView
-                        android:id="@+id/iconLogout"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/logout_icon"/>
-                    <TextView
-                        android:layout_below="@+id/iconLogout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14dp"
-                        android:layout_centerHorizontal="true"
-                        android:text="Logout"/>
-                </RelativeLayout>
-            </LinearLayout>
+                        <ImageView
+                            android:id="@+id/iconReminder"
+                            android:layout_centerHorizontal="true"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:tint="@color/colorPrimaryDark"
+                            android:src="@drawable/ic_notifications_black_24dp"/>
+                        <TextView
+                            android:layout_below="@+id/iconReminder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/blue_gray_400"
+                            android:textSize="14dp"
+                            android:layout_centerHorizontal="true"
+                            android:text="Reminder"/>
+                    </RelativeLayout>
+                </LinearLayout>
 
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:id="@+id/menuLoginn"
-                android:layout_width="0dp"
-                android:layout_weight="0.2"
-                android:layout_height="wrap_content">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <ImageView
-                        android:layout_centerHorizontal="true"
-                        android:id="@+id/iconUstadzzx"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"/>
-                    <TextView
-                        android:layout_below="@+id/iconUstadzzx"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="14dp"
-                        android:layout_centerHorizontal="true"
-                        android:text=""/>
-                </RelativeLayout>
-            </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/menuLogin"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:visibility="visible"
+                        android:id="@+id/adminLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/iconLogin"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:tint="@color/colorPrimaryDark"
+                            android:layout_centerHorizontal="true"
+                            android:src="@drawable/ic_lock_black_24dp"/>
+                        <TextView
+                            android:layout_below="@+id/iconLogin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/blue_gray_400"
+                            android:textSize="14dp"
+                            android:layout_centerHorizontal="true"
+                            android:text="Admin"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/adminLogout"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/iconLogout"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:tint="@color/colorPrimaryDark"
+                            android:layout_centerHorizontal="true"
+                            android:src="@drawable/ic_lock_open_black_24dp"/>
+                        <TextView
+                            android:layout_below="@+id/iconLogout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/blue_gray_400"
+                            android:textSize="14dp"
+                            android:layout_centerHorizontal="true"
+                            android:text="Logout"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/menuDonasi"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:layout_centerHorizontal="true"
+                            android:id="@+id/iconDonasi"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:tint="@color/colorPrimaryDark"
+                            android:src="@drawable/ic_monetization_on_black_24dp"/>
+                        <TextView
+                            android:layout_below="@+id/iconDonasi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/blue_gray_400"
+                            android:textSize="14dp"
+                            android:layout_centerHorizontal="true"
+                            android:text="Donasi"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
+
             </LinearLayout>
 
 

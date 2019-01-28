@@ -47,6 +47,14 @@ public class EventJadwalListAdapter extends RecyclerView.Adapter<EventJadwalList
                 .error(R.drawable.placeholder_image)
                 .fit()
                 .into(holder.imageUstadz);
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(dataList.get(position));
+                }
+            }
+        });
     }
 
     @Override

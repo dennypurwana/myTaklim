@@ -1,6 +1,7 @@
 package mobile.app.ayotaklim.activity.event;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,9 +12,13 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +42,10 @@ import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.admin.AddEventActivity;
 import mobile.app.ayotaklim.activity.admin.AddJadwalEventActivity;
 import mobile.app.ayotaklim.activity.admin.ListSearchVenueActivity;
+import mobile.app.ayotaklim.activity.performer.PerformerDetailActivity;
+import mobile.app.ayotaklim.activity.performer.PerformerListActivity;
 import mobile.app.ayotaklim.activity.reminder.ReminderListActivity;
+import mobile.app.ayotaklim.activity.venue.VenueDetailActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;
@@ -51,7 +59,8 @@ public class EventJadwalActivity extends AppCompatActivity {
     private ArrayList<Jadwal> jadwalArrayList;
     private int c_event_id;
     private EventJadwalListAdapter jadwalListAdapter;
-    TextView eventName,eventDate,eventVenue;
+    RelativeLayout lihatDetailUstadz, lihatDetailMasjid, lihatPoster;
+    TextView eventName,eventDate,eventVenue,namaUstadz,venueAddress,waktuEvent;
     ImageView bannerImage, iconBack;
     RecyclerView recyclerViewJadwal;
     SessionManager sessionManager;
@@ -60,6 +69,8 @@ public class EventJadwalActivity extends AppCompatActivity {
     Button btnApply , btnAdd;
      ProgressDialog progressDialog;
     int flagEvent, flagMember;
+    Dialog dialog;
+    ImageView imagePoster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,15 +82,24 @@ public class EventJadwalActivity extends AppCompatActivity {
         formatTanggalIDN = new FormatTanggalIDN();
         event = (Event) getIntent().getSerializableExtra("Event");
         eventName = findViewById(R.id.namaEvent);
+        namaUstadz = findViewById(R.id.namaUstadz);
+        venueAddress = findViewById(R.id.venueAddress);
+        waktuEvent = findViewById(R.id.waktuEvent);
         eventDate = findViewById(R.id.tanggalEvent);
         eventVenue = findViewById(R.id.venueEvent);
         bannerImage = findViewById(R.id.bannerEvent);
         iconBack = findViewById(R.id.iconBack);
         btnApply = findViewById(R.id.btnApply);
+        lihatDetailUstadz = findViewById(R.id.lihatDetailUstadz);
+        lihatDetailMasjid = findViewById(R.id.lihatDetailMasjid);
+        lihatPoster = findViewById(R.id.lihatBanner);
         btnAdd = findViewById(R.id.btnAdd);
         eventName.setText(event.getNamaEvent());
         eventVenue.setText(event.getNamaVenue());
-        eventDate.setText("Tanggal : "+formatTanggalIDN.formatDate(event.getTglMulai()));
+        namaUstadz.setText(event.getNamaUstadz());
+        venueAddress.setText(event.getAlamatVenue());
+        waktuEvent.setText("   "+event.getJamMulai()+" - "+event.getJamSelesai());
+        eventDate.setText(formatTanggalIDN.formatDate(event.getTglMulai()));
         Picasso.get()
                 .load(Config.IMAGE_URL+event.getBannerImage())
                 .placeholder(R.drawable.placeholder_image)
@@ -87,7 +107,6 @@ public class EventJadwalActivity extends AppCompatActivity {
                 .fit()
                 .into(bannerImage);;
         getDataEventJadwal();
-
         btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,6 +144,63 @@ public class EventJadwalActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        lihatDetailUstadz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(EventJadwalActivity.this,PerformerDetailActivity.class);
+                intent.putExtra("flag", "FROM_EVENT");
+                intent.putExtra("c_pemateri_id", event.getPerformerId());
+                startActivity(intent);
+
+            }
+        });
+
+        lihatDetailMasjid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(EventJadwalActivity.this,VenueDetailActivity.class);
+                intent.putExtra("flag", "FROM_EVENT");
+                intent.putExtra("c_venue_id", event.getVenueId());
+                startActivity(intent);
+
+            }
+        });
+
+        lihatPoster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDialog();
+            }
+        });
+    }
+
+    private void showPoster(){
+        AlertDialog.Builder alertadd = new AlertDialog.Builder(EventJadwalActivity.this);
+        LayoutInflater factory = LayoutInflater.from(EventJadwalActivity.this);
+        final View view = factory.inflate(R.layout.dialog_image, null);
+        alertadd.setView(view);
+        alertadd.setNeutralButton("CLOSE", null);
+        alertadd.show();
+    }
+    private void createDialog()
+    {
+        //android.R.style.Theme_Black_NoTitleBar_Fullscreen
+        dialog = new Dialog(EventJadwalActivity.this,android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        dialog.setTitle("Poster Kajian");
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT);
+        dialog.setContentView(R.layout.dialog_image);
+        imagePoster= (ImageView) dialog.findViewById(R.id.dialog_imageview);
+        Picasso.get()
+                .load(Config.IMAGE_URL+event.getBannerImage())
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.placeholder_image)
+                .fit()
+                .into(imagePoster);;
+        dialog.show();
     }
     private void registerToEvent(int eventId , int memberId){
         progressDialog.setTitle("sedang mendaftarkan..");
@@ -339,6 +415,7 @@ public class EventJadwalActivity extends AppCompatActivity {
                                     jadwal.setSampai(jsonObject.getString("waktu_selesai"));
                                     jadwal.setImagebase64(jsonObject.getString("imagebase64"));
                                     jadwal.setNama_event(jsonObject.getString("nama_event"));
+                                    jadwal.setPemateriId(jsonObject.getInt("c_pemateri_id"));
                                     progressDialog.dismiss();
                                     Log.d("jadwal id : ",String.valueOf(jadwal.getcEventId()));
                                     if (jadwal.getcEventId()==event.getId()){
@@ -391,7 +468,10 @@ public class EventJadwalActivity extends AppCompatActivity {
             jadwalListAdapter = new EventJadwalListAdapter(jadwalArrayList, new EventJadwalListAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(Jadwal jadwal) {
-
+                    Intent intent=new Intent(EventJadwalActivity.this,PerformerDetailActivity.class);
+                    intent.putExtra("flag", "FROM_EVENT");
+                    intent.putExtra("c_pemateri_id", jadwal.getPemateriId());
+                    startActivity(intent);
                 }
             });
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EventJadwalActivity.this);

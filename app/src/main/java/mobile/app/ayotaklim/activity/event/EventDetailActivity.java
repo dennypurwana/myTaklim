@@ -140,7 +140,7 @@ public class EventDetailActivity  extends AppCompatActivity {
                                         Log.d("kajian : ",event.getNamaEvent());
                                         FormatTanggalIDN formatTanggalIDN = new FormatTanggalIDN();
                                         final long dateDiff =formatTanggalIDN.dateDiff(event.getTglMulai());
-                                        if (dateDiff>0){
+                                        if (dateDiff>=0){
                                             eventArrayList.add(event);
                                         }
                                     }
@@ -191,7 +191,7 @@ public class EventDetailActivity  extends AppCompatActivity {
         labelEvent = findViewById(R.id.labelEvent);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_event);
         if (eventArrayList.size()>0) {
-            adapter = new EventListAdapter(eventArrayList, new EventListAdapter.OnItemClickListener() {
+            adapter = new EventListAdapter("eventDetail",eventArrayList, new EventListAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(Event event) {
                     Intent intent=new Intent(EventDetailActivity.this,EventJadwalActivity.class);

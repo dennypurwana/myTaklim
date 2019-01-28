@@ -33,7 +33,7 @@
                 android:layout_toRightOf="@+id/imageVenue"
                 android:paddingEnd="40dp"
                 android:textSize="18dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/gray_light"
                 android:textStyle="bold"
                 />
 
@@ -69,6 +69,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:visibility="gone"
+                android:tint="@color/gray_light"
                 android:src="@drawable/youtube_play_green"/>
 
         </RelativeLayout>

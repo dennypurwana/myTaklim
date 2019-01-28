@@ -95,6 +95,8 @@ public class PerformerListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Performer performer) {
                 Intent intent=new Intent(PerformerListActivity.this,PerformerDetailActivity.class);
+                intent.putExtra("flag", "FROM_LIST");
+                intent.putExtra("c_performer_id", "");
                 intent.putExtra("Performer", performer);
                 startActivity(intent);
             }

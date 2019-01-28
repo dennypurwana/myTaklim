@@ -30,6 +30,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,11 +90,18 @@ public class EventListActivity extends AppCompatActivity{
     SessionManager sessionManager;
     ProgressBar progressBar;
     Button btnAdd;
-
+    boolean isValidEvent = false;
+    boolean isValidUstadz = false;
+    boolean isValidAddress = false;
+    boolean isValidVenue = false;
+    EditText edTextSearch;
+    ImageView iconSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
+        edTextSearch = findViewById(R.id.edTextSearch);
+        iconSearch = findViewById(R.id.iconSearch);
         StrictMode.ThreadPolicy old = StrictMode.getThreadPolicy();
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder(old)
                 .permitDiskWrites()
@@ -101,7 +110,7 @@ public class EventListActivity extends AppCompatActivity{
         sessionManager= new SessionManager(EventListActivity.this);
         progressBar = findViewById(R.id.progressBar);
         setProgressBarIndeterminateVisibility(true);
-        getDataEvent();
+
         if (sessionManager.isAdmin()) {
 
             btnAdd = findViewById(R.id.btnAdd);
@@ -117,38 +126,36 @@ public class EventListActivity extends AppCompatActivity{
             btnAdd.setVisibility(View.VISIBLE);
         }
 
+        iconSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String key = edTextSearch.getText().toString();
+                getDataEvent("SEARCH",key);
+            }
+        });
+        getDataEvent("ALL","");
     }
 
 
     void initEvent(){
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_event);
         recyclerView.setVisibility(View.VISIBLE);
-        adapter = new EventListAdapter(eventArrayList, new EventListAdapter.OnItemClickListener() {
+        adapter = new EventListAdapter("event",eventArrayList, new EventListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(Event event, String toPage) {
+            public void onItemClick(Event event) {
 
-                if (toPage.equalsIgnoreCase("eventDetail")) {
-                    Intent intent = new Intent(EventListActivity.this, EventJadwalActivity.class);
-                    intent.putExtra("Event", event);
-                    startActivity(intent);
-                }
-                else if (toPage.equalsIgnoreCase("performerDetail")){
-                    Toast.makeText(getApplicationContext(),"ustadz klik",Toast.LENGTH_LONG).show();
-                }
-
-                else if (toPage.equalsIgnoreCase("venueDetail")){
-                    Toast.makeText(getApplicationContext(),"venue klik",Toast.LENGTH_LONG).show();
-                }
-
-
+                Intent intent = new Intent(EventListActivity.this, EventJadwalActivity.class);
+                intent.putExtra("Event", event);
+                startActivity(intent);
             }
+
         });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EventListActivity.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
-    void getDataEvent(){
+    void getDataEvent(final String filter, final  String key){
         progressBar.setVisibility(View.VISIBLE);
         String url=Config.GET_DATA_EVENT_HOME;
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -166,6 +173,10 @@ public class EventListActivity extends AppCompatActivity{
 
                             for (int i = 0; i < venueResponse.length(); i++) {
                                 try {
+                                     isValidEvent = false;
+                                     isValidUstadz = false;
+                                     isValidAddress = false;
+                                     isValidVenue = false;
                                     JSONObject jsonObject = venueResponse.getJSONObject(i);
 
                                     Event event = new Event();
@@ -184,10 +195,46 @@ public class EventListActivity extends AppCompatActivity{
                                     event.setImageUstadz(jsonObject.getString("image_ustadz"));
                                     FormatTanggalIDN formatTanggalIDN = new FormatTanggalIDN();
 
-                                    final long dateDiff =formatTanggalIDN.dateDiff(event.getTglMulai());
+                                    final long dateDiff=formatTanggalIDN.dateDiff(event.getTglMulai());
+                                    Log.d("dateDiff",String.valueOf(dateDiff));
+                                    if (dateDiff>=0){
 
-                                    if (dateDiff>0){
-                                        eventArrayList.add(event);
+
+                                        if (filter.toLowerCase().equalsIgnoreCase("search")){
+
+                                            if(event.getNamaEvent().replace(" ","").toLowerCase().indexOf(key.replace(" ","").toLowerCase()) != -1) {
+                                                isValidEvent = true;
+                                            }
+                                            else if(event.getNamaUstadz().replace(" ","").toLowerCase().indexOf(key.replace(" ","").toLowerCase()) != -1) {
+                                                isValidUstadz = true;
+                                            }
+                                            else if(event.getNamaVenue().replace(" ","").toLowerCase().indexOf(key.replace(" ","").toLowerCase()) != -1) {
+                                                isValidVenue = true;
+                                            }
+                                            else if(event.getAlamatVenue().replace(" ","").toLowerCase().indexOf(key.replace(" ","").toLowerCase()) != -1) {
+                                                isValidAddress = true;
+                                            }
+                                            else if(event.getNamaEvent().toLowerCase().equalsIgnoreCase(key.toLowerCase())){
+                                                isValidEvent = true;
+                                            }
+                                            else if(event.getNamaUstadz().toLowerCase().equalsIgnoreCase(key.toLowerCase())){
+                                                isValidUstadz = true;
+                                            }
+                                            else if(event.getNamaVenue().toLowerCase().equalsIgnoreCase(key.toLowerCase())){
+                                                isValidVenue = true;
+                                            }
+                                            else if(event.getAlamatVenue().toLowerCase().equalsIgnoreCase(key.toLowerCase())){
+                                                isValidAddress = true;
+                                            }
+
+                                            if (isValidEvent||isValidAddress||isValidUstadz||isValidVenue){
+                                                eventArrayList.add(event);
+                                            }
+
+                                        }else{
+                                            eventArrayList.add(event);
+                                        }
+
                                     }
 
                                 } catch (JSONException e) {
@@ -196,6 +243,7 @@ public class EventListActivity extends AppCompatActivity{
                                 }
                             }
                             initEvent();
+                            adapter.notifyDataSetChanged();
                         }else{
 
                         }

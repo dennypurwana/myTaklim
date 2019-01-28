@@ -58,7 +58,6 @@ public class SplashscreenActivity extends AppCompatActivity {
                     createToken();
             }
         },3000);
-
     }
 
 

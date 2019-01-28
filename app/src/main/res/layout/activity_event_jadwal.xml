@@ -56,42 +56,256 @@
                     android:id="@+id/iconBack"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:tint="@color/colorPrimary"
-                    android:layout_margin="20dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
                     android:src="@drawable/ic_chevron_left_black_24dp"/>
+
+
                 <TextView
-                    android:layout_toRightOf="@+id/iconBack"
+
+                    android:layout_below="@+id/iconBack"
+                    android:id="@+id/labelKajian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Detail Kajian"
+                    android:textSize="13dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+                <TextView
+                    android:layout_below="@+id/labelKajian"
+                    android:paddingLeft="20dp"
+                    android:paddingEnd="20dp"
                     android:id="@+id/namaEvent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:layout_marginTop="20dp"
                     android:textSize="20dp"
-                    android:paddingEnd="20dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/gray_light"/>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/lineKajian"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/namaEvent"
+                    android:background="@color/gray"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    ></LinearLayout>
+
 
                 <TextView
-                    android:layout_toRightOf="@+id/iconBack"
-                    android:layout_below="@+id/namaEvent"
+                    android:layout_below="@+id/lineKajian"
+                    android:id="@+id/labelUstadz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ustadz"
+                    android:textSize="13dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+                <TextView
+                    android:layout_below="@+id/labelUstadz"
+                    android:id="@+id/namaUstadz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingLeft="20dp"
+                    android:textColor="@color/gray_light"/>
+
+                <RelativeLayout
+                    android:id="@+id/lihatDetailUstadz"
+                    android:paddingLeft="20dp"
+                    android:layout_below="@+id/namaUstadz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iconView"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:visibility="visible"
+                        android:tint="@color/blue_gray_400"
+                        android:src="@drawable/youtube_play_green"/>
+
+                    <TextView
+                        android:layout_toRightOf="@+id/iconView"
+                        android:id="@+id/lihatJadwalKajian"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lihat Biodata Ustadz"
+                        android:padding="5dp"
+                        android:textColor="@color/blue_gray_400"
+                        android:textSize="12dp"
+                        android:layout_marginLeft="10dp"/>
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/lineUstadz"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/lihatDetailUstadz"
+                    android:background="@color/gray"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    ></LinearLayout>
+
+
+                <TextView
+                    android:layout_below="@+id/lineUstadz"
+                    android:id="@+id/labelMasjid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Masjid dan Alamat"
+                    android:textSize="13dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+                <TextView
+                    android:layout_below="@+id/labelMasjid"
                     android:id="@+id/venueEvent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textSize="16dp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:paddingLeft="20dp"
+                    android:paddingEnd="20dp"
+                    android:textSize="20dp"
+                    android:textColor="@color/gray_light"/>
+
 
                 <TextView
                     android:layout_below="@+id/venueEvent"
+                    android:id="@+id/venueAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:paddingLeft="20dp"
+                    android:paddingEnd="20dp"
+                    android:textSize="14dp"
+                    android:textColor="@color/gray_light"/>
+
+                <RelativeLayout
+                    android:id="@+id/lihatDetailMasjid"
+                    android:paddingLeft="20dp"
+                    android:layout_below="@+id/venueAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iconViewMasjid"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:visibility="visible"
+                        android:tint="@color/blue_gray_400"
+                        android:src="@drawable/youtube_play_green"/>
+
+                    <TextView
+                        android:layout_toRightOf="@+id/iconViewMasjid"
+                        android:id="@+id/lihatJadwalKajianView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lihat Detail Masjid"
+                        android:padding="5dp"
+                        android:textColor="@color/blue_gray_400"
+                        android:textSize="12dp"
+                        android:layout_marginLeft="10dp"/>
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/lineVenue"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/lihatDetailMasjid"
+                    android:background="@color/gray"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    ></LinearLayout>
+
+
+                <TextView
+                    android:layout_below="@+id/lineVenue"
+                    android:id="@+id/labelTanggal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tanggal dan Waktu"
+                    android:textSize="13dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+                <TextView
+                    android:layout_below="@+id/labelTanggal"
                     android:id="@+id/tanggalEvent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textSize="14dp"
-                    android:layout_toRightOf="@+id/iconBack"
-                    android:textColor="@color/title_color"
-                    android:paddingEnd="10dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/gray_light"
+                    />
+
+                <TextView
+                    android:layout_below="@+id/labelTanggal"
+                    android:id="@+id/waktuEvent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/tanggalEvent"
+                    android:textSize="18dp"
+                    android:textColor="@color/gray_light"
+                    />
+
+                <RelativeLayout
+                    android:id="@+id/lihatBanner"
+                    android:paddingLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/tanggalEvent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iconViewBanner"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:visibility="visible"
+                        android:tint="@color/blue_gray_400"
+                        android:src="@drawable/youtube_play_green"/>
+
+                    <TextView
+                        android:layout_toRightOf="@+id/iconViewBanner"
+                        android:id="@+id/lihatBannerView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lihat Poster Kajian"
+                        android:padding="5dp"
+                        android:textColor="@color/blue_gray_400"
+                        android:textSize="12dp"
+                        android:layout_marginLeft="10dp"/>
+
+                </RelativeLayout>
 
                 <Button
                     android:id="@+id/btnApply"
@@ -99,14 +313,13 @@
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:background="@drawable/button_secondary_round_corner"
-                    android:layout_below="@+id/tanggalEvent"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="20dp"
                     android:text="ikuti"
                     android:visibility="gone"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/colorPrimaryDark"/>
 
                 <Button
                     android:id="@+id/btnAdd"
@@ -114,14 +327,13 @@
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:background="@drawable/button_secondary_round_corner"
-                    android:layout_below="@+id/tanggalEvent"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="20dp"
                     android:text="Tambah"
                     android:visibility="gone"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/colorPrimaryDark"/>
 
 
 
@@ -152,7 +364,7 @@
                     android:text="Jadwal"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
+                    android:textColor="@color/blue_gray_400"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"

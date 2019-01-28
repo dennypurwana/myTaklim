@@ -47,19 +47,21 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white">
                 <ImageView
+                    android:layout_below="@+id/cardSearch"
                     android:id="@+id/iconBack"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:tint="@color/colorPrimary"
+                    android:tint="@color/colorPrimaryDark"
                     android:layout_margin="20dp"
                     android:src="@drawable/ic_location_city_black_24dp"/>
 
                 <TextView
+                    android:layout_below="@+id/cardSearch"
                     android:id="@+id/headerTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Masjid"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_toRightOf="@+id/iconBack"
                     android:textSize="18dp"
                     android:textStyle="bold"
@@ -75,11 +77,58 @@
                     android:text="Masjid terdekat dari tempat anda."
                     android:paddingEnd="10dp"
                     android:paddingBottom="10dp"
-                    android:textColor="@color/title_color"
+                    android:textColor="@color/blue_gray_400"
                     android:textSize="12dp"
                     android:layout_marginLeft="10dp"/>
 
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/cardSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardCornerRadius="5dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true"
+                    card_view:cardBackgroundColor="@color/white"
+                    >
 
+
+                    <RelativeLayout
+                        android:id="@+id/search"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:background="#FFFFFF"
+                        >
+
+                        <EditText
+                            android:id="@+id/edTextSearch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/iconSearch"
+                            android:layout_margin="10dp"
+                            android:padding="10dp"
+                            android:hint="Cari Masjid disini "
+                            android:paddingEnd="40dp"
+                            android:background="@drawable/edittext_round_corner"
+                            android:inputType="textMultiLine"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/blue_gray_400"
+                            />
+
+                        <ImageView
+                            android:id="@+id/iconSearch"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/places_ic_search"
+                            android:tint="@color/colorPrimaryDark"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="10dp"/>
+
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
 
             </RelativeLayout>
 
@@ -90,7 +139,7 @@
                 android:layout_height="30dp"
                 android:background="@drawable/button_secondary_round_corner"
                 android:text="Tambah"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimaryDark"
                 android:visibility="gone"
                 android:padding="5dp"
                 android:layout_alignParentEnd="true"
