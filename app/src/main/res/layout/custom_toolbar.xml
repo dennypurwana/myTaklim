@@ -112,100 +112,100 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_below="@+id/menuIcon2"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:orientation="horizontal"
-                android:id="@+id/menuIcon3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <!--<LinearLayout-->
+                <!--android:layout_below="@+id/menuIcon2"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:id="@+id/menuIcon3"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:id="@+id/menuAbout"
-                android:layout_width="0dp"
-                android:layout_weight="0.2"
-                android:layout_height="wrap_content">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            <!--<LinearLayout-->
+                <!--android:orientation="vertical"-->
+                <!--android:id="@+id/menuAbout"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="0.2"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent">-->
 
-                    <ImageView
-                        android:id="@+id/iconAbout"
-                        android:layout_centerHorizontal="true"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:tint="@color/colorPrimaryDark"
-                        android:src="@drawable/ic_info_black_24dp"/>
-                    <TextView
-                        android:layout_below="@+id/iconAbout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/blue_gray_400"
-                        android:textSize="14dp"
-                        android:layout_centerHorizontal="true"
-                        android:text="Tentang Aplikasi"/>
-                </RelativeLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:id="@+id/menuHelp"
-                android:layout_width="0dp"
-                android:layout_weight="0.2"
-                android:layout_height="wrap_content">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <ImageView
-                        android:id="@+id/iconHelp"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:tint="@color/colorPrimaryDark"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/ic_help_black_24dp"/>
-                    <TextView
-                        android:layout_below="@+id/iconHelp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/blue_gray_400"
-                        android:textSize="14dp"
-                        android:layout_centerHorizontal="true"
-                        android:text="Help"/>
-                </RelativeLayout>
-
-            </LinearLayout>
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iconAbout"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_width="50dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:tint="@color/colorPrimaryDark"-->
+                        <!--android:src="@drawable/ic_info_black_24dp"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_below="@+id/iconAbout"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColor="@color/blue_gray_400"-->
+                        <!--android:textSize="14dp"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:text="Tentang Aplikasi"/>-->
+                <!--</RelativeLayout>-->
+            <!--</LinearLayout>-->
 
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:id="@+id/menuLain"
-                android:layout_width="0dp"
-                android:layout_weight="0.2"
-                android:layout_height="wrap_content">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <ImageView
-                        android:layout_centerHorizontal="true"
-                        android:id="@+id/iconLain"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:tint="@color/colorPrimaryDark"/>
-                    <TextView
-                        android:layout_below="@+id/iconLain"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/blue_gray_400"
-                        android:textSize="14dp"
-                        android:layout_centerHorizontal="true"
-                        android:text=""/>
-                </RelativeLayout>
-            </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:orientation="horizontal"-->
+                <!--android:id="@+id/menuHelp"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="0.2"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent">-->
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iconHelp"-->
+                        <!--android:layout_width="50dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:tint="@color/colorPrimaryDark"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:src="@drawable/ic_help_black_24dp"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_below="@+id/iconHelp"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColor="@color/blue_gray_400"-->
+                        <!--android:textSize="14dp"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:text="Help"/>-->
+                <!--</RelativeLayout>-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
+
+
+            <!--<LinearLayout-->
+                <!--android:orientation="horizontal"-->
+                <!--android:id="@+id/menuLain"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="0.2"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent">-->
+                    <!--<ImageView-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:id="@+id/iconLain"-->
+                        <!--android:layout_width="50dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:tint="@color/colorPrimaryDark"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_below="@+id/iconLain"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColor="@color/blue_gray_400"-->
+                        <!--android:textSize="14dp"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:text=""/>-->
+                <!--</RelativeLayout>-->
+            <!--</LinearLayout>-->
+
+            <!--</LinearLayout>-->
 
 
 

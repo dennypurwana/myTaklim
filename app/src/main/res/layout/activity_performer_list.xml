@@ -57,26 +57,61 @@
                     android:id="@+id/headerTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ustadz"
+                    android:text="Daftar"
                     android:textColor="@color/colorPrimaryDark"
                     android:layout_toRightOf="@+id/iconBack"
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="10dp"/>
-
                 <TextView
-                    android:id="@+id/headerSubTitle"
-                    android:layout_toRightOf="@+id/iconBack"
-                    android:layout_below="@+id/headerTitle"
+                    android:id="@+id/headerTitle2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="List Ustadz/Ustadzah"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="10dp"
-                    android:textColor="@color/blue_gray_400"
-                    android:textSize="12dp"
+                    android:text="Ustadz"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_toRightOf="@+id/iconBack"
+                    android:layout_below="@+id/headerTitle"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
                     android:layout_marginLeft="10dp"/>
+
+                <RelativeLayout
+                    android:id="@+id/cardSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_toRightOf="@+id/headerTitle"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="10dp"
+                    >
+
+                    <EditText
+                        android:id="@+id/edTextSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/iconSearch"
+                        android:layout_marginTop="30dp"
+                        android:padding="5dp"
+                        android:hint="Cari Ustadz disini "
+                        android:paddingEnd="40dp"
+                        android:background="@drawable/edittext_round_corner"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/blue_gray_400"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iconSearch"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/places_ic_search"
+                        android:tint="@color/colorPrimaryDark"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="30dp"/>
+
+
+                </RelativeLayout>
 
             </RelativeLayout>
 

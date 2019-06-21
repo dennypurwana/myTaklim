@@ -16,7 +16,7 @@
         android:layout_height="30dp"
         android:visibility="visible"
         android:tint="@color/colorPrimaryDark"
-        android:src="@drawable/youtube_play_green"/>
+        android:src="@drawable/ic_chevron_right_black_24dp"/>
 
         <LinearLayout
             android:id="@+id/content"

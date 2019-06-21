@@ -9,7 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="150dp"
         android:background="@color/white"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -70,7 +70,8 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:tint="@color/colorPrimaryDark"
-                    android:layout_margin="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
                     android:src="@drawable/ic_chevron_left_black_24dp"/>
 
                 <TextView
@@ -80,7 +81,7 @@
                     android:text="Informasi Detail Masjid"
                     android:textColor="@color/colorPrimaryDark"
                     android:layout_toRightOf="@+id/iconBack"
-                    android:textSize="22dp"
+                    android:textSize="18dp"
                     android:textStyle="bold"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="10dp"/>
@@ -93,16 +94,15 @@
                     android:layout_below="@+id/headerTitle"
                     android:layout_toRightOf="@+id/iconBack"
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_height="wrap_content">
 
                     <ImageView
                         android:id="@+id/iconView"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:visibility="visible"
                         android:tint="@color/blue_gray_400"
-                        android:src="@drawable/youtube_play_green"/>
+                        android:src="@drawable/ic_chevron_right_black_24dp"/>
 
                     <TextView
                         android:layout_toRightOf="@+id/iconView"
@@ -111,8 +111,8 @@
                         android:layout_height="wrap_content"
                         android:text="Lihat Jadwal Kajian"
                         android:textColor="@color/blue_gray_400"
-                        android:textSize="16dp"
-                        android:layout_marginLeft="10dp"/>
+                        android:textSize="12dp"
+                        android:layout_marginLeft="5dp"/>
 
                 </RelativeLayout>
 
@@ -138,22 +138,26 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/header"
                 android:background="@color/gray"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 ></LinearLayout>
+
 
             <RelativeLayout
                 android:layout_below="@+id/line1"
                 android:id="@+id/contentLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <ImageView
                     android:id="@+id/iconLocation"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:tint="@color/colorPrimaryDark"
-                    android:layout_margin="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"
                     android:src="@drawable/ic_location_on_black_24dp"/>
 
                 <TextView
@@ -161,8 +165,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Nama dan Alamat"
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconLocation"
-                    android:textSize="14dp"
+                    android:textSize="10dp"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:paddingEnd="20dp"/>
@@ -173,8 +178,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconLocation"
-                    android:textSize="18dp"
+                    android:textSize="14dp"
                     android:textColor="@color/gray_light"
                     android:paddingEnd="20dp"/>
 
@@ -183,6 +189,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconLocation"
                     android:layout_below="@+id/venueName"
                     android:textSize="12dp"
@@ -204,9 +211,6 @@
             </RelativeLayout>
 
 
-
-
-
             <RelativeLayout
                 android:layout_below="@+id/contentLocation"
                 android:id="@+id/contentImamRutin"
@@ -217,7 +221,9 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:tint="@color/colorPrimaryDark"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="20dp"
                     android:src="@drawable/ic_person_black_24dp"/>
 
                 <TextView
@@ -226,7 +232,8 @@
                     android:layout_height="wrap_content"
                     android:text="Nama Imam Rutin"
                     android:layout_toRightOf="@+id/iconImamRutin"
-                    android:textSize="14dp"
+                    android:textSize="10dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:paddingEnd="20dp"/>
@@ -237,8 +244,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconImamRutin"
-                    android:textSize="18dp"
+                    android:textSize="14dp"
                     android:textColor="@color/gray_light"
                     android:paddingEnd="20dp"/>
 
@@ -262,7 +270,6 @@
             <RelativeLayout
                 android:layout_below="@+id/contentImamRutin"
                 android:id="@+id/contentTakmir"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
@@ -270,7 +277,9 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:tint="@color/colorPrimaryDark"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="20dp"
                     android:src="@drawable/ic_person_black_24dp"/>
 
                 <TextView
@@ -278,9 +287,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Nama Takmir"
-                    android:layout_toRightOf="@+id/iconPerson1"
-                    android:textSize="14dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/iconPerson1"
+                    android:textSize="10dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:paddingEnd="20dp"/>
 
@@ -291,7 +301,8 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:layout_toRightOf="@+id/iconPerson1"
-                    android:textSize="18dp"
+                    android:textSize="14dp"
+                    android:layout_marginLeft="20dp"
                     android:textColor="@color/gray_light"
                     android:paddingEnd="20dp"/>
 
@@ -303,6 +314,7 @@
                     android:layout_toRightOf="@+id/iconPerson1"
                     android:layout_below="@+id/takmirName"
                     android:textSize="12dp"
+                    android:layout_marginLeft="20dp"
                     android:paddingEnd="20dp"/>
 
 
@@ -332,17 +344,19 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:tint="@color/colorPrimaryDark"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="20dp"
                     android:src="@drawable/ic_person_black_24dp"/>
 
                 <TextView
                     android:id="@+id/labelJmlJamaah"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
                     android:text="Jumlah Jamaah Subuh"
                     android:layout_toRightOf="@+id/iconJamaah"
-                    android:textSize="14dp"
-                    android:layout_marginTop="10dp"
+                    android:textSize="10dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:paddingEnd="20dp"/>
 
@@ -350,10 +364,11 @@
                     android:layout_below="@+id/labelJmlJamaah"
                     android:id="@+id/jumlahJamaah"
                     android:layout_width="match_parent"
+                    android:layout_marginLeft="20dp"
                     android:layout_height="wrap_content"
                     android:text=""
                     android:layout_toRightOf="@+id/iconJamaah"
-                    android:textSize="18dp"
+                    android:textSize="14dp"
                     android:textColor="@color/gray_light"
                     android:paddingEnd="20dp"/>
 
@@ -384,7 +399,9 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:tint="@color/colorPrimaryDark"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="20dp"
                     android:src="@drawable/ic_phone_black_24dp"/>
 
                 <TextView
@@ -392,9 +409,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="No Telepon Masjid"
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconPhone"
-                    android:textSize="14dp"
-                    android:layout_marginTop="10dp"
+                    android:textSize="10dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:paddingEnd="20dp"/>
 
@@ -404,8 +421,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconPhone"
-                    android:textSize="18dp"
+                    android:textSize="14dp"
                     android:textColor="@color/gray_light"
                     android:paddingEnd="20dp"/>
 
@@ -434,7 +452,9 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:tint="@color/colorPrimaryDark"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:paddingBottom="10dp"
                     android:src="@drawable/ic_location_city_black_24dp"/>
 
                 <TextView
@@ -442,9 +462,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Tentang Masjid"
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconMail"
-                    android:textSize="14dp"
-                    android:layout_marginTop="10dp"
+                    android:textSize="10dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:paddingEnd="20dp"/>
 
@@ -454,8 +474,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconMail"
-                    android:textSize="18dp"
+                    android:textSize="14dp"
                     android:textColor="@color/gray_light"
                     android:paddingEnd="20dp"/>
 
@@ -485,7 +506,9 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:tint="@color/colorPrimaryDark"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="20dp"
                     android:src="@drawable/ic_note_black_24dp"/>
 
                 <TextView
@@ -493,8 +516,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="No Rekening Bank"
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconNoRek"
-                    android:textSize="14dp"
+                    android:textSize="10dp"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:paddingEnd="20dp"/>
@@ -505,8 +529,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconNoRek"
-                    android:textSize="18dp"
+                    android:textSize="14dp"
                     android:textColor="@color/gray_light"
                     android:paddingEnd="20dp"/>
 
@@ -537,7 +562,9 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:tint="@color/colorPrimaryDark"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="20dp"
                     android:src="@drawable/ic_note_black_24dp"/>
 
                 <TextView
@@ -545,8 +572,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="No PLN"
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconNoPLN"
-                    android:textSize="14dp"
+                    android:textSize="10dp"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:paddingEnd="20dp"/>
@@ -557,8 +585,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconNoPLN"
-                    android:textSize="18dp"
+                    android:textSize="14dp"
                     android:textColor="@color/gray_light"
                     android:paddingEnd="20dp"/>
 
@@ -586,7 +615,9 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:tint="@color/colorPrimaryDark"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="20dp"
                     android:src="@drawable/ic_note_black_24dp"/>
 
                 <TextView
@@ -594,8 +625,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="No PAM"
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconNoPAM"
-                    android:textSize="14dp"
+                    android:textSize="10dp"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:paddingEnd="20dp"/>
@@ -606,8 +638,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
+                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/iconNoPAM"
-                    android:textSize="18dp"
+                    android:textSize="14dp"
                     android:textColor="@color/gray_light"
                     android:paddingEnd="20dp"/>
 
@@ -626,7 +659,6 @@
 
             <RelativeLayout
                 android:layout_below="@+id/contentNoPAM"
-                android:layout_marginTop="10dp"
                 android:id="@+id/contentMaps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -635,7 +667,8 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:tint="@color/colorPrimaryDark"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
                     android:src="@drawable/ic_map_black_24dp"/>
 
                 <TextView
@@ -644,7 +677,8 @@
                     android:layout_height="wrap_content"
                     android:text="Alamat pada google maps."
                     android:layout_toRightOf="@+id/iconMaps"
-                    android:textSize="14dp"
+                    android:textSize="10dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:paddingEnd="20dp"/>
@@ -652,6 +686,7 @@
                 <fragment
                     android:layout_below="@+id/labelMaps"
                     android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginBottom="20dp"
                     android:layout_toRightOf="@+id/iconMaps"
                     android:id="@+id/map"

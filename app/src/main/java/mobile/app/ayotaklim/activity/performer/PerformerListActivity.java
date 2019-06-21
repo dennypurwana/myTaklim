@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -58,6 +59,9 @@ public class PerformerListActivity extends AppCompatActivity {
     SliderLayout sliderLayout;
     Button btnAdd;
     ProgressBar progressBar;
+    EditText edTextSearch;
+    ImageView iconSearch;
+    boolean isValidName = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +69,16 @@ public class PerformerListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_performer_list);
         sessionManager = new SessionManager(PerformerListActivity.this);
         progressBar = findViewById(R.id.progressBar);
+        edTextSearch = findViewById(R.id.edTextSearch);
+        iconSearch = findViewById(R.id.iconSearch);
         setProgressBarIndeterminateVisibility(true);
+        iconSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String key = edTextSearch.getText().toString();
+                getData("SEARCH",key);
+            }
+        });
         initSlider();
         if (sessionManager.isAdmin()){
             btnAdd = findViewById(R.id.btnAdd);
@@ -86,7 +99,7 @@ public class PerformerListActivity extends AppCompatActivity {
         sliderLayout.setIndicatorAnimation(SliderLayout.Animations.FILL); //set indicator animation by using SliderLayout.Animations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         sliderLayout.setScrollTimeInSec(1); //set scroll delay in seconds :
         setSliderViews();
-        getData();
+        getData("ALL","");
     }
     void initView(){
 
@@ -115,7 +128,7 @@ public class PerformerListActivity extends AppCompatActivity {
     }
 
 
-    private void getData(){
+    private void getData(final String filter, final String key){
         progressBar.setVisibility(View.VISIBLE);
         String url=Config.GET_USTADZ;
         Log.d("API : ",url);
@@ -133,6 +146,7 @@ public class PerformerListActivity extends AppCompatActivity {
                         JSONArray vResponse=responseObj.getJSONArray("items");
                         if(vResponse.length()>0) {
                             for (int i = 0; i < vResponse.length(); i++) {
+                                isValidName = false;
                                 try {
 
                                     JSONObject jsonObject = vResponse.getJSONObject(i);
@@ -149,7 +163,25 @@ public class PerformerListActivity extends AppCompatActivity {
                                     ustadz.setDeskripsi(jsonObject.getString("deskripsi"));
                                     ustadz.setYoutube(jsonObject.getString("youtube"));
                                     ustadz.setPendidikan(jsonObject.getString("pendidikan"));
-                                    performerArrayList.add(ustadz);
+
+                                    if (filter.toLowerCase().equalsIgnoreCase("search")){
+
+                                        if(ustadz.getNama().replace(" ","").toLowerCase().indexOf(key.replace(" ","").toLowerCase()) != -1) {
+                                            isValidName = true;
+                                        }
+
+                                        else if(ustadz.getNama().toLowerCase().equalsIgnoreCase(key.toLowerCase())){
+                                            isValidName = true;
+                                        }
+
+                                        if (isValidName){
+                                            performerArrayList.add(ustadz);
+                                        }
+
+                                    }else{
+                                        performerArrayList.add(ustadz);
+
+                                    }
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -249,7 +281,7 @@ public class PerformerListActivity extends AppCompatActivity {
                 try {
                     Boolean success  = response.getBoolean("success");
                     if (success){
-                        getData();
+                        getData("ALL","");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
