@@ -2,7 +2,7 @@ package mobile.app.ayotaklim.config;
 
 public class Config {
 //http://157.119.220.138/codeless-api/api/TemplateData/keluaran/75.json
-    public static String    BASE_URL              = "http://157.119.220.138/codeless-api/",
+    public static String    BASE_URL              = "http://api-demo.codeless.id/",
                             IMAGE_URL             =  BASE_URL + "webroot/files/upload/",
                             GET_VENUE             =  BASE_URL+  "rest/public/getall/11.json?limit=10000",
                             ADD_VENUE             =  BASE_URL+  "rest/public/create/11.json",

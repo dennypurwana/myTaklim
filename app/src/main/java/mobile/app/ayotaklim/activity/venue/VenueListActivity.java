@@ -1,11 +1,10 @@
 package mobile.app.ayotaklim.activity.venue;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,15 +31,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mobile.app.ayotaklim.R;
-import mobile.app.ayotaklim.activity.admin.AddPerformerActivity;
 import mobile.app.ayotaklim.activity.admin.AddVenueActivity;
-import mobile.app.ayotaklim.activity.event.EventListAdapter;
-import mobile.app.ayotaklim.activity.performer.PerformerDetailActivity;
-import mobile.app.ayotaklim.activity.performer.PerformerListActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;
-import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.venue.Venue;
 
 public class VenueListActivity  extends AppCompatActivity {

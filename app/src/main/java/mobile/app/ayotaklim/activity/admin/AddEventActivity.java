@@ -13,7 +13,7 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,8 +31,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -48,12 +46,10 @@ import java.util.Map;
 
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.event.EventListActivity;
-import mobile.app.ayotaklim.activity.performer.PerformerListActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;
 import mobile.app.ayotaklim.models.event.Event;
-import mobile.app.ayotaklim.models.performer.Performer;
 import mobile.app.ayotaklim.utils.ConvertImageBase64;
 import mobile.app.ayotaklim.utils.VolleyMultipartRequest;
 
@@ -505,7 +501,7 @@ public class AddEventActivity extends AppCompatActivity implements
                         @Override
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
-                            edTextStartDate.setText(months[monthOfYear] + "-" + dayOfMonth + "-" + year);
+                            edTextStartDate.setText(year+ "-" + months[monthOfYear] + "-" + dayOfMonth);
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
@@ -522,7 +518,7 @@ public class AddEventActivity extends AppCompatActivity implements
                         @Override
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
-                            edTextEndDate.setText(months[monthOfYear] + "-" + dayOfMonth+ "-" + year);
+                            edTextEndDate.setText(year+ "-" + months[monthOfYear] + "-" + dayOfMonth );
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();

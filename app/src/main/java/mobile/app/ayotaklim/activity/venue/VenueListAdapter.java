@@ -1,8 +1,8 @@
 package mobile.app.ayotaklim.activity.venue;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +15,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import mobile.app.ayotaklim.R;
-import mobile.app.ayotaklim.activity.event.EventListAdapter;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.SessionManager;
-import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.venue.Venue;
-import mobile.app.ayotaklim.utils.ConvertImageBase64;
 
 public class VenueListAdapter extends RecyclerView.Adapter<VenueListAdapter.VenueListViewHolder> {
 

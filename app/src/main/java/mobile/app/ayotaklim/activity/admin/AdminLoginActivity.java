@@ -3,11 +3,9 @@ package mobile.app.ayotaklim.activity.admin;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +16,6 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
@@ -29,7 +26,6 @@ import java.util.Map;
 
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.event.EventActivity;
-import mobile.app.ayotaklim.activity.splashscreen.SplashscreenActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;

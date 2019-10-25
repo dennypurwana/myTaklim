@@ -1,23 +1,17 @@
 package mobile.app.ayotaklim.activity.reminder;
 
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import mobile.app.ayotaklim.R;
-import mobile.app.ayotaklim.activity.venue.VenueListAdapter;
 import mobile.app.ayotaklim.models.reminder.Reminder;
-import mobile.app.ayotaklim.models.venue.Venue;
 import mobile.app.ayotaklim.utils.FormatTanggalIDN;
 
 public class ReminderListAdapter  extends RecyclerView.Adapter<ReminderListAdapter.ReminderListViewHolder> {

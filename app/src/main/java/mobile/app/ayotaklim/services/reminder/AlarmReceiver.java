@@ -4,10 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
-import static android.support.v4.content.WakefulBroadcastReceiver.startWakefulService;
+import static androidx.legacy.content.WakefulBroadcastReceiver.startWakefulService;
 
 /**
  * Created by sonu on 09/04/17.

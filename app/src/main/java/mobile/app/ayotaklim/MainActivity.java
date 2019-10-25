@@ -1,16 +1,13 @@
 package mobile.app.ayotaklim;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
-
-import mobile.app.ayotaklim.activity.performer.PerformerListActivity;
-import mobile.app.ayotaklim.activity.reminder.ReminderListActivity;
 
 public class MainActivity extends AppCompatActivity {
 

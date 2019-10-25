@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;

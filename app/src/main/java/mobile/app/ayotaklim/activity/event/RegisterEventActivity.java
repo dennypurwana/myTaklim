@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,14 +27,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import mobile.app.ayotaklim.MainActivity;
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.reminder.ReminderListActivity;
-import mobile.app.ayotaklim.activity.splashscreen.SplashscreenActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;

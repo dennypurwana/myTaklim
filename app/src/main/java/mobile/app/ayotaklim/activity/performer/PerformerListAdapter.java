@@ -1,8 +1,8 @@
 package mobile.app.ayotaklim.activity.performer;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +15,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import mobile.app.ayotaklim.R;
-import mobile.app.ayotaklim.activity.venue.VenueListAdapter;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.SessionManager;
-import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.performer.Performer;
-import mobile.app.ayotaklim.models.venue.Venue;
-import mobile.app.ayotaklim.utils.ConvertImageBase64;
 
 public class PerformerListAdapter extends RecyclerView.Adapter<PerformerListAdapter.PerformerListViewHolder> {
 
@@ -49,7 +45,7 @@ public class PerformerListAdapter extends RecyclerView.Adapter<PerformerListAdap
     public void onBindViewHolder(PerformerListViewHolder holder,final int position) {
 
         holder.txtPerfName.setText(dataList.get(position).getNama());
-        holder.txtPerfAddress.setText(dataList.get(position).getDeskripsi());
+        holder.txtPerfAddress.setText(dataList.get(position).getPendidikan() +"\n"+dataList.get(position).getDeskripsi());
         Log.d("image url : ",Config.IMAGE_URL+dataList.get(position).getImageUstadz() );
         Picasso.get()
                 .load(Config.IMAGE_URL+dataList.get(position).getImageUstadz())

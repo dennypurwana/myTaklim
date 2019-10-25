@@ -1,42 +1,26 @@
 package mobile.app.ayotaklim.activity.splashscreen;
 
-import android.Manifest;
 import android.content.Intent;
-import android.media.session.MediaSessionManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import mobile.app.ayotaklim.MainActivity;
 import mobile.app.ayotaklim.R;
-import mobile.app.ayotaklim.activity.MapsActivity;
 import mobile.app.ayotaklim.activity.event.EventActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;

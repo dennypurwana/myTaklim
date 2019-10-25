@@ -34,14 +34,14 @@
                 android:src="@drawable/image_ustadz"/>
 
             <TextView
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:id="@+id/performerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ustadz Adi Hidayat"
                 android:layout_toRightOf="@+id/imagePerformer"
                 android:paddingEnd="40dp"
-                android:textSize="14dp"
+                android:textSize="20dp"
                 android:textColor="@color/gray_light"
                 android:textStyle="bold"
                 />
@@ -54,10 +54,11 @@
                 android:textColor="#616161"
                 android:paddingTop="3dp"
                 android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="Jalan kawali panjalu no 9. Gatot subroto DKI JAKARTA"
                 android:layout_below="@+id/performerName"
                 android:paddingEnd="40dp"
-                android:textSize="12dp"
+                android:textSize="16dp"
                 />
             <ImageView
                 android:id="@+id/iconDelete"

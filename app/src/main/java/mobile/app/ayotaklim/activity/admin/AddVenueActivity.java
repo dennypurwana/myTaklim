@@ -1,27 +1,18 @@
 package mobile.app.ayotaklim.activity.admin;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -32,22 +23,25 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.Places;
-import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -55,7 +49,7 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
+import com.google.android.libraries.places.api.Places;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -63,28 +57,22 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.internal.Utils;
-import de.hdodenhof.circleimageview.CircleImageView;
-import mobile.app.ayotaklim.Manifest;
 import mobile.app.ayotaklim.R;
-import mobile.app.ayotaklim.activity.performer.PerformerListActivity;
 import mobile.app.ayotaklim.activity.venue.VenueListActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;
-import mobile.app.ayotaklim.models.performer.Performer;
 import mobile.app.ayotaklim.models.venue.Venue;
 import mobile.app.ayotaklim.utils.ConvertImageBase64;
 import mobile.app.ayotaklim.utils.VolleyMultipartRequest;
 
-public class AddVenueActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class AddVenueActivity extends AppCompatActivity  {
 
     EditText eTextNama, eTextAlamat, eTextPhone,
             eTextNoRek, eTextNoPam, eTextNoPln, eTextJmlJamaah, eTextImamRutin,
@@ -107,7 +95,6 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
     String fileUrl;
     Bitmap bitmapImage;
     private int PLACE_PICKER_REQUEST = 1;
-    private GoogleApiClient mGoogleApiClient;
 
 
     @Override
@@ -120,12 +107,34 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
         requestMultiplePermissions();
         flag = getIntent().getStringExtra("flag");
         requestMultiplePermissions();
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .enableAutoManage(this, this)
-                .build();
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), "AIzaSyCt96emScioK47Vcqx5rZgwDz5mtHmUs0U");
+        }
+        PlacesClient placesClient = Places.createClient(AddVenueActivity.this);
+        AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                Log.i("Info place", "Place: " + place.getName() + ", " + place.getId());
+                eTextAlamat.setText(String.valueOf(place.getAddress()));
+                String latLang = place.getLatLng().toString();
+                System.out.println(latLang.substring(latLang.indexOf("("),latLang.indexOf(",")));
+                eTextLatitude.setText(latLang.substring(latLang.indexOf("("),latLang.indexOf(",")));
+                eTextLongitude.setText(latLang.substring(latLang.indexOf(","),latLang.indexOf(")")));
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i("error place", "An error occurred: " + status);
+            }
+        });
+
         if (flag.equalsIgnoreCase("EDIT")){
             venue = (Venue) getIntent().getSerializableExtra("Venue");
             initView();
@@ -136,17 +145,11 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
         iconMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-                try {
-
-                    startActivityForResult(builder.build(AddVenueActivity.this), PLACE_PICKER_REQUEST);
-                    // startActivityForResult(builder.build(AddVenueActivity.this), PLACE_PICKER_REQUEST);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
-                }
+                List<Place.Field> fields = Arrays.asList(Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG);
+                Intent intent = new Autocomplete.IntentBuilder(
+                        AutocompleteActivityMode.FULLSCREEN, fields)
+                        .build(AddVenueActivity.this);
+                startActivityForResult(intent, PLACE_PICKER_REQUEST);
             }
         });
 
@@ -292,14 +295,19 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
         }
         else if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(data, this);
-                String toastMsg = String.format(
-                        "Place: %s \n" +
-                                "Alamat: %s \n" +
-                                "Latlng %s \n", place.getName(), place.getAddress(), place.getLatLng().latitude+" "+place.getLatLng().longitude);
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                Log.i("Place baru : ", "Place: " + place.getName() + ", " + place.getId());
                 eTextAlamat.setText(String.valueOf(place.getAddress()));
-                eTextLongitude.setText(String.valueOf(place.getLatLng().longitude));
-                eTextLatitude.setText(String.valueOf(place.getLatLng().latitude));
+                String latLang = place.getLatLng().toString();
+                System.out.println(latLang);
+                System.out.println(latLang.substring(latLang.indexOf("(")+1,latLang.indexOf(",")));
+                eTextLatitude.setText(latLang.substring(latLang.indexOf("(")+1,latLang.indexOf(",")));
+                eTextLongitude.setText(latLang.substring(latLang.indexOf(",")+1,latLang.indexOf(")")));
+            }
+            else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i("Error place : ", status.getStatusMessage());
             }
     }
     }
@@ -462,6 +470,7 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
+                        Log.d("error upload : ",error.toString());
                         Toast.makeText(getApplicationContext(), "Upload Gagal, Silahkan upload ulang.", Toast.LENGTH_SHORT).show();
                     }
                 }) {
@@ -532,19 +541,5 @@ public class AddVenueActivity extends AppCompatActivity implements GoogleApiClie
                 .check();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-    }
 
-    @Override
-    protected void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
-    }
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 }

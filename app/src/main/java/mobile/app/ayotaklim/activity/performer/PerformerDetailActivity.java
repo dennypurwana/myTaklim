@@ -2,9 +2,9 @@ package mobile.app.ayotaklim.activity.performer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,16 +30,12 @@ import java.util.Map;
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.admin.AddPerformerActivity;
 import mobile.app.ayotaklim.activity.event.EventJadwalActivity;
-import mobile.app.ayotaklim.activity.event.EventListActivity;
 import mobile.app.ayotaklim.activity.event.EventListAdapter;
-import mobile.app.ayotaklim.activity.event.RegisterEventActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;
 import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.performer.Performer;
-import mobile.app.ayotaklim.models.venue.Venue;
-import mobile.app.ayotaklim.utils.ConvertImageBase64;
 import mobile.app.ayotaklim.utils.FormatTanggalIDN;
 
 public class PerformerDetailActivity extends AppCompatActivity {

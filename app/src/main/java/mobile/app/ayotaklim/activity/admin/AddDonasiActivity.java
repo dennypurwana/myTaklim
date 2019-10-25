@@ -1,27 +1,22 @@
 package mobile.app.ayotaklim.activity.admin;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -31,7 +26,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,11 +40,9 @@ import java.util.Map;
 
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.event.DonasiActivity;
-import mobile.app.ayotaklim.activity.event.EventListActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;
-import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.utils.ConvertImageBase64;
 import mobile.app.ayotaklim.utils.VolleyMultipartRequest;
 

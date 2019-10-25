@@ -1,18 +1,14 @@
 package mobile.app.ayotaklim.activity.performer;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,15 +34,10 @@ import java.util.Map;
 
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.admin.AddPerformerActivity;
-import mobile.app.ayotaklim.activity.event.EventActivity;
-import mobile.app.ayotaklim.activity.event.EventListActivity;
-import mobile.app.ayotaklim.activity.venue.VenueDetailActivity;
-import mobile.app.ayotaklim.activity.venue.VenueListAdapter;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;
 import mobile.app.ayotaklim.models.performer.Performer;
-import mobile.app.ayotaklim.models.venue.Venue;
 
 public class PerformerListActivity extends AppCompatActivity {
 

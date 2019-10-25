@@ -1,7 +1,6 @@
 package mobile.app.ayotaklim.activity.event;
 
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.config.Config;
-import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.event.Jadwal;
 
 public class EventJadwalListAdapter extends RecyclerView.Adapter<EventJadwalListAdapter.EventListViewHolder> {

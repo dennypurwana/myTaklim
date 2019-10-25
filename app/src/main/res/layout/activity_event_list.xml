@@ -1,4 +1,4 @@
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     android:id="@+id/main_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,7 +6,7 @@
     android:background="@color/blue_gray_100"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -64,7 +64,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/places_ic_search"
+                            android:src="@drawable/search_icon"
                             android:tint="@color/colorPrimaryDark"
                             android:layout_marginRight="20dp"
                             android:layout_marginLeft="10dp"
@@ -148,7 +148,7 @@
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_below="@+id/line1"
                 android:layout_marginRight="10dp"
@@ -162,6 +162,6 @@
 
         </RelativeLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

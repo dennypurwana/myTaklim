@@ -3,22 +3,20 @@ package mobile.app.ayotaklim.activity.event;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -29,8 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
@@ -38,7 +34,6 @@ import mobile.app.ayotaklim.config.SessionManager;
 import mobile.app.ayotaklim.models.event.Event;
 import mobile.app.ayotaklim.models.event.Jadwal;
 import mobile.app.ayotaklim.models.venue.Venue;
-import mobile.app.ayotaklim.utils.CheckDistanceLocations;
 import mobile.app.ayotaklim.utils.FormatTanggalIDN;
 
 public class EventDetailActivity  extends AppCompatActivity {

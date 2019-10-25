@@ -3,10 +3,9 @@ package mobile.app.ayotaklim.activity.event;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,18 +23,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import mobile.app.ayotaklim.R;
 import mobile.app.ayotaklim.activity.admin.AddDonasiActivity;
-import mobile.app.ayotaklim.activity.admin.AddJadwalEventActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;
 import mobile.app.ayotaklim.models.event.Donasi;
-import mobile.app.ayotaklim.models.venue.Venue;
 
 public class DonasiActivity extends AppCompatActivity {
 

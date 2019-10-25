@@ -7,18 +7,17 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -48,18 +47,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mobile.app.ayotaklim.R;
-import mobile.app.ayotaklim.activity.admin.AddPerformerActivity;
 import mobile.app.ayotaklim.activity.admin.AddVenueActivity;
-import mobile.app.ayotaklim.activity.event.EventActivity;
 import mobile.app.ayotaklim.activity.event.EventDetailActivity;
-import mobile.app.ayotaklim.activity.performer.PerformerDetailActivity;
 import mobile.app.ayotaklim.config.Config;
 import mobile.app.ayotaklim.config.MyApplication;
 import mobile.app.ayotaklim.config.SessionManager;
-import mobile.app.ayotaklim.models.event.Event;
-import mobile.app.ayotaklim.models.performer.Performer;
 import mobile.app.ayotaklim.models.venue.Venue;
-import mobile.app.ayotaklim.utils.ConvertImageBase64;
 
 public class VenueDetailActivity extends AppCompatActivity  implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener{
 
